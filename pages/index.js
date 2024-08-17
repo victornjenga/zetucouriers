@@ -3,7 +3,7 @@ import axios from "axios";
 import { BASE_URL } from "../utils";
 import Hero from "@/sections/Hero";
 import Categories from "../components/Category";
-import {client} from "../utils/client"
+import { client } from "../utils/client";
 const Home = ({ products }) => {
   const slideLeft = () => {
     var slider = document.getElementById("slider");
@@ -36,7 +36,9 @@ const Home = ({ products }) => {
             ))}
           </div>
         ) : (
-          <div>No products found in this category.</div>
+          <div className="px-4">
+            <p className="text-lg">No products found in this category.</p>
+          </div>
         )}
       </div>
     </>
