@@ -5,6 +5,7 @@ import Hero from "@/sections/Hero";
 import Categories from "../components/Category";
 import { client } from "../utils/client";
 const Home = ({ products }) => {
+  console.log(products);
   const slideLeft = () => {
     var slider = document.getElementById("slider");
     slider.scrollLeft = slider.scrollLeft - 500;
@@ -73,7 +74,7 @@ export const getServerSideProps = async ({ query: { category } }) => {
       // Fetch all products from the API
       const response = await axios.get(`${BASE_URL}/api/products`);
       products = response.data; // Get the data from the response
-      console.log("Fetched all products:", products); // Debugging log
+      // console.log("Fetched all products:", products); // Debugging log
     }
 
     return {

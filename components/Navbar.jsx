@@ -108,7 +108,7 @@ function Navbar() {
               <Link href="/contact">contact</Link>
             </p>
             <p>
-              <Link href="/web.docx">Cataloque</Link>
+              <Link href="/categories">Categories</Link>
             </p>
           </div>
           <div className=" flex justify-center items-center space-x-3">
@@ -303,12 +303,12 @@ function Navbar() {
               >
                 <Link href="/contact">Contact</Link>
               </li>
-              {/* <li
+              <li
                 className=" flex border-b  pl-4 py-2 w-full border-gray-200  space-x-3 font-semibold items-center  "
                 onClick={() => setOpen(false)}
               >
-                <Link href="/about">About</Link>
-              </li> */}
+                <Link href="/categories">Categories</Link>
+              </li>
               <li
                 className=" flex   pl-4 py-2  space-x-3 font-semibold items-center  "
                 onClick={() => setOpen(false)}
