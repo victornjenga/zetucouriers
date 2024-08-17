@@ -14,7 +14,7 @@ function Categories() {
       const query = `*[_type == "category"] {
         _id,
         title
-      } | order(title asc)`;
+      } | order(title desc)`;
 
       try {
         const data = await client.fetch(query);
