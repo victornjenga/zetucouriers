@@ -90,12 +90,12 @@ export default function App() {
 
   // Prepare cartItems string with size variations included
   const cartItemsString = cartItems
-    .map(
-      (item) =>
-        `Product Name: ${item.name}, Price: ${item.price}${
-          item.selectedSize ? `, Size: ${item.selectedSize.title}` : ""
-        }`
-    )
+    .map((item) => {
+      // Check if size is available
+      const sizeString = item.size ? `, Size: ${item.size.title}` : "";
+
+      return `Product Name: ${item.name}, Price: ${item.price}${sizeString}`;
+    })
     .join("<br><br>");
 
   return (
