@@ -1,8 +1,8 @@
+// Import necessary hooks and context
 import { useRouter } from "next/router";
 import React, { useState, useEffect, useContext } from "react";
 import { urlFor, client } from "../../utils/client";
 import Image from "next/image";
-// import imageUrl from '@sanity/image-url'
 import axios from "axios";
 import { BASE_URL } from "../../utils";
 import { useStateContext } from "../../context/StateContext";
@@ -13,41 +13,29 @@ import {
   AiFillStar,
   AiOutlineStar,
 } from "react-icons/ai";
-
 import Link from "next/link";
-
 import Products from "@/components/Products";
 import useAuthStore from "@/store/authStore";
 import LikeButton from "@/components/LikeButton";
 import { CurrencyContext } from "../../context/CurrencyProvider";
 
-import kenya from "/public/kenya.png";
-import uk from "/public/uk.png";
-import srilanka from "/public/srilanka.png";
-import canada from "/public/canada.png";
-
 function ProductDetails({ siteDetails, sites }) {
   const [site, setSite] = useState(siteDetails);
-
-  // const { image, name, description, price,specs }=siteDetails
-  // console.log(sites);
-
   const [index, setIndex] = useState(0);
   const router = useRouter();
-  const { decQty, incQty, qty, onAdd, size } = useStateContext();
+  const { decQty, incQty, qty, onAdd, setSize } = useStateContext();
   const { userProfile } = useAuthStore();
-
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleButtonClick = (option) => {
     setSelectedOption(option);
+    setSize(option); // Set the size in StateContext
   };
 
   const { exchangeRate, selectedCurrency, setSelectedCurrency } =
     useContext(CurrencyContext);
 
   const convertCurrency = (price) => {
-    // Convert the price to the selected currency using the exchange rate from the API
     if (exchangeRate[selectedCurrency]) {
       return (price * exchangeRate[selectedCurrency]).toFixed(0);
     } else {
@@ -66,97 +54,124 @@ function ProductDetails({ siteDetails, sites }) {
     }
   };
 
+  const handleAddToCart = () => {
+    if (site.variations?.length > 0 && !selectedOption) {
+      alert("Please select a size variation first.");
+      return;
+    }
+    onAdd(site, qty);
+  };
+
+  const handleBuyNow = () => {
+    if (site.variations?.length > 0 && !selectedOption) {
+      alert("Please select a size variation first.");
+      return;
+    }
+    onAdd(site, qty);
+    router.push("/checkout");
+  };
+
   return (
-    <div className="w-full md:w-[90%] pt-32  mb-8 ">
+    <div className="w-full md:w-[90%] pt-32 mb-8 ">
       <style>
         {`#p-wrap {
           white-space: pre-line;
         }`}
       </style>
-      <div className="w-full p-2 md:p-8  h-full  justify-center  pt-16 rounded">
+      <div className="w-full p-2 md:p-8 h-full justify-center pt-16 rounded">
         <h3 className="font-medium md:hidden text-xl">{site.name}</h3>
-        <div className="flex flex-col  md:px-8 w-full justify-center  items-center pb-8 xl:flex-row">
-          <div className="block space-x-3 md:flex  w-full ">
+        <div className="flex flex-col md:px-8 w-full justify-center items-center pb-8 xl:flex-row">
+          <div className="block space-x-3 md:flex w-full ">
             <div className="block md:w-1/2">
               <img
-                className=" w-full  "
+                className="w-full"
                 src={urlFor(site.image && site.image[index]).url()}
                 alt={site.name}
               />
-              {/* <div className="flex gap-2 mt-2">
+              <div className="flex gap-2 mt-2">
                 {site.image?.map((item, i) => (
                   <img
                     key={i}
                     src={urlFor(item)}
                     className={
-                      i === index ? 'small-image selected-image' : 'small-image'
+                      i === index ? "small-image selected-image" : "small-image"
                     }
                     onMouseEnter={() => setIndex(i)}
                   />
                 ))}
-              </div> */}
+              </div>
             </div>
 
-            <div className="flex flex-col md:w-1/2 ">
-              <h3 className=" hidden md:flex py-3 text-center text-4xl">
+            <div className="flex flex-col md:w-1/2">
+              <h3 className="hidden md:flex py-3 text-center text-4xl">
                 {site.name}
               </h3>
-              <div className="flex space-x-2   items-center py-3">
-                {/* <div className="bg-red-600 hidden md:flex h-full p-2">
-                  <TbMessageCircle2Filled className=" text-xl md:text-2xl text-white  " />
-                </div> */}
-              </div>
 
               <div className="border border-gray-400 justify-center items-center flex flex-col w-full p-4">
                 <p className="py-2 text-red-600 text-3xl font-medium">
                   Ksh {site.price}
                 </p>
-
+                {site.variations && site.variations.length > 0 && (
+                  <div className="flex items-center gap-2 my-4 mt-2">
+                    <h2>Variations:</h2>
+                    {site.variations.map((item) => (
+                      <button
+                        className={`${
+                          selectedOption === item
+                            ? "bg-red-600"
+                            : "bg-slate-800"
+                        } px-2 py-1 cursor-pointer text-xl font-bold text-white hover:bg-red-600`}
+                        key={item._id}
+                        onClick={() => handleButtonClick(item)}
+                      >
+                        {item.title}
+                      </button>
+                    ))}
+                  </div>
+                )}
                 <div className="space-x-2 flex">
                   <h3>Quantity:</h3>
-                  <p className="flex space-x-3 items-center  ">
+                  <p className="flex space-x-3 items-center">
                     <span
                       onClick={decQty}
-                      className="bg-slate-800  px-2 py-1 cursor-pointer  text-xl font-bold"
+                      className="bg-slate-800 px-2 py-1 cursor-pointer text-xl font-bold"
                     >
                       <AiOutlineMinus className="text-white" />
                     </span>
                     <span className="text-2xl font-semibold">{qty}</span>
                     <span
                       onClick={incQty}
-                      className="bg-slate-800  px-2 py-1 cursor-pointer text-xl font-bold"
+                      className="bg-slate-800 px-2 py-1 cursor-pointer text-xl font-bold"
                     >
                       <AiOutlinePlus className="text-white" />
                     </span>
                   </p>
                 </div>
 
-                <div className=" hidden md:flex  mt-4  ">
+                <div className="hidden md:flex gap-3 mt-4">
                   <button
                     type="button"
-                    onClick={() => onAdd(site, qty)}
-                    className="px-10 py-2  bg-red-500 border cursor-pointer text-white font-semibold  hover:scale-105 duration-300"
+                    onClick={handleAddToCart}
+                    className="px-3 py-2 bg-red-500 border cursor-pointer text-white font-semibold hover:scale-105 duration-300"
                   >
                     Add To Cart
                   </button>
-                  {/* <Link href="/checkout">
                   <button
-                    onClick={() => onAdd(site, qty)}
+                    onClick={handleBuyNow}
                     type="button"
-                    className="px-3 py-2  bg-yellow-400 border cursor-pointer text-white font-semibold  hover:scale-105 duration-300"
+                    className="px-5 py-2 bg-slate-700 border cursor-pointer text-white font-semibold hover:scale-105 duration-300"
                   >
                     Buy Now
                   </button>
-                </Link> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 pl-2  md:pl-8 py-3">
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 pl-2 md:pl-8 py-3">
           <div>
             <div className="">
-              <h2 className="text-xl  py-2 pl-3 font-semibold">Description</h2>
+              <h2 className="text-xl py-2 pl-3 font-semibold">Description</h2>
             </div>
             <p className="sm:text-lg" id="p-wrap">
               {site.description}
@@ -164,7 +179,7 @@ function ProductDetails({ siteDetails, sites }) {
           </div>
           <div className="flex flex-col md:items-center">
             <div className="">
-              <h2 className="text-xl  py-2 pl-3 font-semibold">Features</h2>
+              <h2 className="text-xl py-2 pl-3 font-semibold">Features</h2>
             </div>
             <p className="sm:text-lg font-medium" id="p-wrap">
               {site.specs}
@@ -177,9 +192,8 @@ function ProductDetails({ siteDetails, sites }) {
         <div className="">
           <h2 className="text-xl py-2 pl-3 font-semibold">Related Products</h2>
         </div>
-
         <div className="marquee">
-          <div className="flex   flex-wrap  w-full">
+          <div className="flex flex-wrap w-full">
             {sites.map((product) => (
               <Products key={product._id} product={product} />
             ))}
@@ -190,15 +204,15 @@ function ProductDetails({ siteDetails, sites }) {
       <div className="flex fixed bottom-0 w-full md:hidden">
         <button
           type="button"
-          onClick={() => onAdd(site, qty)}
-          className="px-3 py-2 bg-slate-700 cursor-pointer text-white font-semibold  w-[50%]"
+          onClick={handleAddToCart}
+          className="px-3 py-2 bg-slate-700 cursor-pointer text-white font-semibold w-[50%]"
         >
           ADD TO CART
         </button>
         <button
-          onClick={() => onAdd(site, qty)}
+          onClick={handleBuyNow}
           type="button"
-          className="px-3 py-2  bg-yellow-700  cursor-pointer text-white font-semibold  w-[50%]"
+          className="px-3 py-2 bg-yellow-700 cursor-pointer text-white font-semibold w-[50%]"
         >
           <Link href="/checkout"> BUY NOW </Link>
         </button>

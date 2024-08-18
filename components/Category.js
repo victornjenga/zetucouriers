@@ -18,7 +18,7 @@ function Categories() {
 
       try {
         const data = await client.fetch(query);
-        console.log("Fetched categories:", data); // Log the fetched categories
+        // console.log("Fetched categories:", data);
         setCategories(data);
       } catch (error) {
         console.error("Error fetching categories:", error);

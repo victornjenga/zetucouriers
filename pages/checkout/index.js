@@ -22,7 +22,6 @@ export default function App() {
   const [showFailureMessage, setShowFailureMessage] = useState(false);
   const [buttonText, setButtonText] = useState("Submit");
 
-  console.log(data);
   const form = useRef();
 
   const router = useRouter();
@@ -31,8 +30,6 @@ export default function App() {
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
   };
-
-  console.log(cartItems);
 
   const handleValidation = () => {
     let tempErrors = {};
@@ -58,65 +55,52 @@ export default function App() {
     }
 
     setError({ ...tempErrors });
-    console.log("errors", error);
     return isValid;
   };
 
   const handleButtonClick = (e) => {
-    e.preventDefault(); // Prevent form submission
+    e.preventDefault();
     let isValidForm = handleValidation();
 
     if (isValidForm) {
       emailjs
         .sendForm(
-          "service_mtuk3ri",
-          "template_t89hry9",
+          "service_l3cll2e",
+          "template_knt44cp",
           form.current,
-          "ZJM2P03DwQZKw07FP"
+          "Ewe0bF4Zsv6KD7MqD"
         )
         .then((result) => {
-          console.log(result.text);
           setShowSuccessMessage(true);
           setShowFailureMessage(false);
-          // Navigate to the selected route
           router.push(selectedOption);
         })
         .catch((error) => {
-          console.log(error);
           setShowSuccessMessage(false);
           setShowFailureMessage(true);
           setButtonText("error");
-
-          // Reset form fields
-          // setFirstName('')
-          // setMiddle('')
-          // setSurName('')
-          // setEmail('')
-          // setOccupation('')
-          // setPhone('')
-          // setDate('')
 
           return;
         });
       setShowSuccessMessage(true);
       setShowFailureMessage(false);
       setButtonText("Submit");
-      // Reset form fields
-
-      // setFirstName('')
-      // setDate('')
-      // setEmail('')
-      // setPhone('')
     }
   };
 
+  // Prepare cartItems string with size variations included
   const cartItemsString = cartItems
-    .map((item) => `Product Name: ${item.name}, Price: ${item.price}`)
+    .map(
+      (item) =>
+        `Product Name: ${item.name}, Price: ${item.price}${
+          item.selectedSize ? `, Size: ${item.selectedSize.title}` : ""
+        }`
+    )
     .join("<br><br>");
 
   return (
-    <div className="flex relative pt-56 items-center z-0 flex-col">
-      <h3 className="text-2xl">Make payment for your order</h3>
+    <div className="flex relative pt-32 md:pt-56 items-center z-0 flex-col">
+      <h3 className="text-2xl">Make payment for your Booking</h3>
       <div className="px-10  gap-10 space-y- my-6 justify-around items-center block  md:flex ">
         <form
           onSubmit={handleButtonClick}
@@ -194,7 +178,7 @@ export default function App() {
                 <div className="px-5 py-2 border border-gray-500 rounded-sm">
                   <img src="/cash.png" className="w-20 " alt="" />
                 </div>
-                <p>Cash on delivery</p>
+                <p>Cash on Delivery</p>
               </div>
             </div>
           </div>
@@ -208,7 +192,7 @@ export default function App() {
             <button
               disabled={selectedOption ? false : true}
               // onClick={handleButtonClick}
-              className="bg-yellow-700 my-2 disabled:bg-red-300 rounded-md text-white px-3 py-2 "
+              className="bg-blue-500 my-2 disabled:bg-blue-300 rounded-md text-white px-3 py-2 "
             >
               Make Payment
             </button>

@@ -5,7 +5,7 @@ import Hero from "@/sections/Hero";
 import Categories from "../components/Category";
 import { client } from "../utils/client";
 const Home = ({ products }) => {
-  console.log(products);
+  // console.log(products);
   const slideLeft = () => {
     var slider = document.getElementById("slider");
     slider.scrollLeft = slider.scrollLeft - 500;

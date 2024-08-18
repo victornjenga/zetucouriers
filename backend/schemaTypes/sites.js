@@ -34,6 +34,12 @@ export default {
       of: [{type: 'reference', to: [{type: 'category'}]}],
     },
     {
+      name: 'variations',
+      title: 'Variations',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'variations'}]}],
+    },
+    {
       name: 'brand',
       title: 'Brand',
       type: 'string',

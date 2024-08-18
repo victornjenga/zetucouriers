@@ -7,6 +7,10 @@ export const allPostsQuery = () => {
       _id,
       title
     },
+    variations[]->{
+      _id,
+      title
+    },
     description,
     price,
     brand,
@@ -27,6 +31,10 @@ export const postDetailQuery = (postId) => {
       }
     },
     category[]->{
+      _id,
+      title
+    },
+    variations[]->{
       _id,
       title
     },
@@ -53,6 +61,10 @@ export const searchPostsQuery = (searchTerm) => {
       _id,
       title
     },
+    variations[]->{
+      _id,
+      title
+    },
     description,
     price,
     brand,
@@ -73,6 +85,10 @@ export const categoryPostsQuery = (category) => {
       }
     },
     category[]->{
+      _id,
+      title
+    },
+    variations[]->{
       _id,
       title
     },
@@ -99,6 +115,10 @@ export const brandPostsQuery = (brand) => {
       _id,
       title
     },
+    variations[]->{
+      _id,
+      title
+    },
     description,
     price,
     specs
@@ -118,6 +138,10 @@ export const AllCategoryPostsQuery = () => {
       }
     },
     category[]->{
+      _id,
+      title
+    },
+    variations[]->{
       _id,
       title
     },
