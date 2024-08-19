@@ -99,8 +99,8 @@ export default function App() {
     .join("<br><br>");
 
   return (
-    <div className="flex relative pt-32 md:pt-56 items-center z-0 flex-col">
-      <h3 className="text-2xl">Make payment for your Booking</h3>
+    <div className="flex relative pt-56 items-center z-0 flex-col">
+      <h3 className="text-2xl">Make payment for your order</h3>
       <div className="px-10  gap-10 space-y- my-6 justify-around items-center block  md:flex ">
         <form
           onSubmit={handleButtonClick}
