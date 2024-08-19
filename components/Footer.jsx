@@ -24,9 +24,9 @@ const Footer = () => {
         </div>
         <div className="flex flex-col  my-3">
           <p className="text-xl font-bold">Top Products</p>
-          <p className="">Treadmills </p>
-          <p>Spining Bikes</p>
-          <p>Dumbbells</p>
+          <p className="">Phones </p>
+          <p>Laptops</p>
+          <p>Tablets</p>
         </div>
         <div className="flex flex-col  my-3">
           <p className="text-xl font-bold">Call Us Here</p>
