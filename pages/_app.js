@@ -23,6 +23,7 @@ import Footer from "@/components/Footer";
 import Image from "next/image";
 import { CurrencyProvider } from "../context/CurrencyProvider";
 import { ThemeProvider } from "next-themes";
+import { useRouter } from "next/router";
 
 NProgress.configure({ showSpinner: false });
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -30,6 +31,8 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 const MyApp = ({ Component, pageProps }) => {
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -49,42 +52,32 @@ const MyApp = ({ Component, pageProps }) => {
           >
             <CurrencyProvider>
               <StateContext>
-              {/* <div className="bottom-3  animate-bounce fixed z-10 cursor-pointer left-4 ">
-                  <a
-                    href="tell: +254705079016"
-                  >
-                    <Image
-                      width={60}
-                      height={60}
-                      className="py-2"
-                      src={call}
-                      alt="/"
-                    />
-                  </a>
-                </div> */}
                 <div className="w-full bg-gray-50 dark:bg-gray-950">
-                  <Navbar />
+                  {!router.pathname.startsWith("/dashboard") && <Navbar />}
                   <Toaster />
                   <div className="w-full flex flex-col justify-center items-center ">
                     <Component {...pageProps} />
                   </div>
-                  <Footer />
+                  {!router.pathname.startsWith("/dashboard") && <Footer />}
                 </div>
-                <div className="bottom-3 animate-bounce fixed z-10 cursor-pointer right-4 ">
-                  <a
-                    href="https://wa.me/+254705079016?text=Hello,+There"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Image
-                      width={100}
-                      height={100}
-                      className="py-2"
-                      src={whatsapp}
-                      alt="/"
-                    />
-                  </a>
-                </div>
+
+                {!router.pathname.startsWith("/dashboard") && (
+                  <div className="bottom-10 animate-bounce fixed cursor-pointer right-4 ">
+                    <a
+                      href="https://wa.me/message/L3HS2URJOXMCH1"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <Image
+                        width={100}
+                        height={100}
+                        className="py-2"
+                        src={whatsapp}
+                        alt="/"
+                      />
+                    </a>
+                  </div>
+                )}
               </StateContext>
             </CurrencyProvider>
           </GoogleOAuthProvider>

@@ -1,5 +1,5 @@
 export const allPostsQuery = () => {
-  const query = `*[_type == "sites"] | order(_createdAt desc){
+  const query = `*[_type == "products"] | order(_createdAt desc){
     _id,
     name,
     image,
@@ -12,8 +12,13 @@ export const allPostsQuery = () => {
       title
     },
     description,
-    price,
-    brand,
+    price,slug,
+    brand,postedBy->{
+        _id,
+        name,
+        email,
+        image
+      },
     specs
   }`;
 
@@ -21,7 +26,7 @@ export const allPostsQuery = () => {
 };
 
 export const postDetailQuery = (postId) => {
-  const query = `*[_type == "sites" && _id == '${postId}']{
+  const query = `*[_type == "products" && _id == '${postId}']{
     _id,
     name,
     image[]{
@@ -39,8 +44,13 @@ export const postDetailQuery = (postId) => {
       title
     },
     description,
-    price,
-    brand,
+    price,slug,
+    brand,postedBy->{
+        _id,
+        name,
+        email,
+        image
+      },
     specs,
   }`;
 
@@ -48,7 +58,7 @@ export const postDetailQuery = (postId) => {
 };
 
 export const searchPostsQuery = (searchTerm) => {
-  const query = `*[_type == "sites" && (name match '${searchTerm}*' || categories[]->title match '${searchTerm}*')] {
+  const query = `*[_type == "products" && (name match '${searchTerm}*' || categories[]->title match '${searchTerm}*')] {
     _id,
     name,
     image[]{
@@ -66,8 +76,13 @@ export const searchPostsQuery = (searchTerm) => {
       title
     },
     description,
-    price,
-    brand,
+    price,slug,
+    brand,postedBy->{
+        _id,
+        name,
+        email,
+        image
+      },
     specs
   }`;
 
@@ -75,7 +90,7 @@ export const searchPostsQuery = (searchTerm) => {
 };
 
 export const categoryPostsQuery = (category) => {
-  const query = `*[_type == "sites" && '${category}' in categories[]->title] {
+  const query = `*[_type == "products" && '${category}' in categories[]->title] {
     _id,
     name,
     image[]{
@@ -93,8 +108,13 @@ export const categoryPostsQuery = (category) => {
       title
     },
     description,
-    price,
-    brand,
+    price,slug,
+    brand,postedBy->{
+        _id,
+        name,
+        email,
+        image
+      },
     specs
   }`;
 
@@ -102,7 +122,7 @@ export const categoryPostsQuery = (category) => {
 };
 
 export const brandPostsQuery = (brand) => {
-  const query = `*[_type == "sites" && brand match '${brand}*'] {
+  const query = `*[_type == "products" && brand match '${brand}*'] {
     _id,
     name,
     image[]{
@@ -120,7 +140,7 @@ export const brandPostsQuery = (brand) => {
       title
     },
     description,
-    price,
+    price,slug,
     specs
   }`;
 
@@ -128,7 +148,7 @@ export const brandPostsQuery = (brand) => {
 };
 
 export const AllCategoryPostsQuery = () => {
-  const query = `*[_type == "sites" && defined(categories)] {
+  const query = `*[_type == "products" && defined(categories)] {
     _id,
     name,
     image[]{
@@ -146,8 +166,13 @@ export const AllCategoryPostsQuery = () => {
       title
     },
     description,
-    price,
-    brand,
+    price,slug,
+    brand,postedBy->{
+        _id,
+        name,
+        email,
+        image
+      },
     specs
   }`;
 
@@ -155,7 +180,7 @@ export const AllCategoryPostsQuery = () => {
 };
 
 export const allCategoriesQuery = () => {
-  const query = `*[_type == "category" && _id in *[_type == "sites"].categories[]._ref] | order(title asc) {
+  const query = `*[_type == "category" && _id in *[_type == "products"].categories[]._ref] | order(title asc) {
     _id,
     title
   }`;
