@@ -49,12 +49,12 @@ function SideBar() {
             <p className="font-semibold text-xl">Products</p>
           </li>
           <li
-            onClick={() => router.push("/dashboard/portfolio")}
+            onClick={() => router.push("/dashboard/categories")}
             className="sidebar-link"
           >
             <FcPositiveDynamic className="text-xl" />
 
-            <p className="font-semibold text-xl">Portfolio</p>
+            <p className="font-semibold text-xl">Categories</p>
           </li>
           <li onClick={handleLogout} className="sidebar-link">
             <IoMdLogOut className="text-xl" />

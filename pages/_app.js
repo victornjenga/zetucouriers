@@ -24,7 +24,8 @@ import Image from "next/image";
 import { CurrencyProvider } from "../context/CurrencyProvider";
 import { ThemeProvider } from "next-themes";
 import { useRouter } from "next/router";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import the
 NProgress.configure({ showSpinner: false });
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -53,6 +54,8 @@ const MyApp = ({ Component, pageProps }) => {
             <CurrencyProvider>
               <StateContext>
                 <div className="w-full bg-gray-50 dark:bg-gray-950">
+                  <ToastContainer />
+
                   {!router.pathname.startsWith("/dashboard") && <Navbar />}
                   <Toaster />
                   <div className="w-full flex flex-col justify-center items-center ">

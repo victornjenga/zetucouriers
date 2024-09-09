@@ -4,14 +4,15 @@ import { client } from "../../../utils/client";
 import useAuthStore from "../../../store/authStore";
 import DashboardLayout from "../../../components/dashboard/Layout";
 import { v4 as uuidv4 } from "uuid"; // Import uuid to generate unique keys
+import Link from "next/link";
 
-const AddProduct = () => {
+const AddProduct = ({ categories = [] }) => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
-    category: "",
-    image: null, // Change to store image as a file
+    categories: [], // Multiple category selection
+    image: null,
     slug: "",
   });
   const [imageFiles, setImageFiles] = useState([]); // For handling multiple image uploads
@@ -25,6 +26,15 @@ const AddProduct = () => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const handleCategoryChange = (e) => {
+    const selectedOptions = Array.from(e.target.selectedOptions);
+    const selectedCategories = selectedOptions.map((option) => option.value);
+    setFormData((prev) => ({
+      ...prev,
+      categories: selectedCategories,
     }));
   };
 
@@ -55,12 +65,14 @@ const AddProduct = () => {
           _key: uuidv4(), // Add a unique key for each image
         });
       }
+
       // Generate the slug if not provided
       const slug =
         formData.slug || formData.name.toLowerCase().replace(/ /g, "-");
 
+      // Prepare the new product data
       const newProduct = {
-        _type: "products",
+        _type: "products", // Ensure this matches your product document type
         name: formData.name,
         description: formData.description,
         slug: {
@@ -68,7 +80,11 @@ const AddProduct = () => {
           current: slug,
         },
         price: formData.price,
-        category: formData.category,
+        category: formData.categories.map((categoryId) => ({
+          _type: "reference",
+          _ref: categoryId, // Reference to the category document ID
+          _key: uuidv4(), // Add a unique key for each category reference
+        })),
         image: imageAssets, // Array of uploaded image assets with unique keys
         postedBy: {
           _type: "postedBy",
@@ -90,6 +106,19 @@ const AddProduct = () => {
   return (
     <DashboardLayout>
       <div className="container mx-auto">
+        <nav className="flex py-3 justify-start w-full">
+          <Link href="/dashboard">
+            <p className="hover:text-blue-600 text-lg">Home</p>
+          </Link>
+          &nbsp;&gt;&nbsp;
+          <Link href="/dashboard/products">
+            <p className="hover:text-blue-600 text-lg">Products</p>
+          </Link>
+          &nbsp;&gt;&nbsp;
+          <Link href="/dashboard/products/add">
+            <span className="hover:text-blue-600 text-lg">Add</span>
+          </Link>
+        </nav>
         <h1 className="text-2xl font-bold mb-6">Add New Product</h1>
 
         <form onSubmit={handleSubmit}>
@@ -125,34 +154,30 @@ const AddProduct = () => {
               className="border px-4 py-2 rounded w-full"
             />
           </div>
-          <div>
-            <label className="block font-medium mb-1">Slug</label>
-            <input
-              type="text"
-              name="slug"
-              value={formData.slug}
-              onChange={handleInputChange}
-              className="border px-4 py-2 rounded w-full"
-              placeholder="Enter slug (URL-friendly name)"
-              required
-            />
-          </div>
+
           <div className="mb-4">
-            <label className="block text-gray-700">Category</label>
-            <input
-              type="text"
-              name="category"
-              value={formData.category}
-              onChange={handleInputChange}
+            <label className="block text-gray-700">Categories</label>
+            <select
+              name="categories"
+              multiple
+              value={formData.categories}
+              onChange={handleCategoryChange}
               className="border px-4 py-2 rounded w-full"
-            />
+              required
+            >
+              {categories.map((category) => (
+                <option key={category._id} value={category._id}>
+                  {category.title}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="mb-4">
             <label className="block text-gray-700">Product Images</label>
             <input
               type="file"
-              multiple // Allow multiple file selection
+              multiple
               accept="image/*"
               onChange={handleImageChange}
               className="border px-4 py-2 rounded w-full"
@@ -173,3 +198,24 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
+
+// Fetch categories from Sanity
+export const getServerSideProps = async () => {
+  try {
+    const query = `*[_type == "category"]{_id, title}`;
+    const categories = await client.fetch(query);
+
+    return {
+      props: {
+        categories: categories || [],
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return {
+      props: {
+        categories: [],
+      },
+    };
+  }
+};

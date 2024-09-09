@@ -5,6 +5,9 @@ import SideBar from "./SideBar";
 import axios from "axios";
 import jwt_decode from "jwt-decode"; // Import the jwt-decode library
 import useAuthStore from "../../store/authStore"; // Import your Zustand store
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
+
 const DashboardLayout = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { userProfile, addUser, removeUser } = useAuthStore(); // Zustand store hooks
@@ -26,8 +29,10 @@ const DashboardLayout = ({ children }) => {
       const decoded = jwt_decode(response.credential);
       addUser(decoded);
       saveUserToSanity(decoded);
+      toast.success("Logged in successfully with Google!");
     } catch (error) {
       console.error("Error decoding JWT:", error);
+      toast.error("Failed to decode Google login response.");
     }
   };
 
@@ -39,13 +44,16 @@ const DashboardLayout = ({ children }) => {
         type: "google",
       });
       console.log("User saved to Sanity:", response.data);
+      toast.success("Google account linked successfully!");
     } catch (error) {
       console.error("Error saving user to Sanity:", error);
+      toast.error("Failed to save user to database.");
     }
   };
 
   const handleLoginFailure = (error) => {
-    console.error("Login Failed:", error);
+    console.error("Google Login Failed:", error);
+    toast.error("Google login failed. Please try again.");
   };
 
   // Email/password login/register handler
@@ -64,22 +72,24 @@ const DashboardLayout = ({ children }) => {
 
       if (response.status === 200 && response.data.user) {
         addUser(response.data.user); // Add user to Zustand store
+        toast.success(isRegisterMode ? "Registered successfully!" : "Logged in successfully!");
       } else {
         setError(
           response.data.error || "An error occurred during authentication"
         );
+        toast.error(response.data.error || "An error occurred. Please try again.");
       }
     } catch (err) {
       setError("An error occurred during login/register");
+      toast.error("Login or registration failed. Please try again.");
     }
   };
 
   return (
-    <GoogleOAuthProvider
-      clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
-    >
+    <GoogleOAuthProvider clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}>
       {userProfile ? (
         <>
+          {/* <ToastContainer /> */}
           <Navbar />
           <div className="flex flex-row justify-between w-full">
             <SideBar />
@@ -132,11 +142,7 @@ const DashboardLayout = ({ children }) => {
                 </div>
 
                 <div className="mb-4 relative">
-                  <div className="flex items-center"></div>
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium"
-                  >
+                  <label htmlFor="password" className="block text-sm font-medium">
                     Password
                   </label>
                   <button
@@ -155,7 +161,6 @@ const DashboardLayout = ({ children }) => {
                     required
                     className="input mt-1 block w-full px-4 py-2 border rounded-md"
                   />
-                  {/* Toggle button to show/hide password */}
                 </div>
 
                 {error && <p className="text-red-500">{error}</p>}

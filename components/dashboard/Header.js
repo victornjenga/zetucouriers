@@ -135,7 +135,7 @@ const Navbar = () => {
                   className="font-sm  hover:text-orange-600 flex text-lg space-x-2 items-center"
                 >
                   <FcMultipleInputs />
-                  <Link href="/dashboard/portfolio">Portfolio</Link>
+                  <Link href="/dashboard/categories">Categories</Link>
                 </li>
                 <li
                   onClick={handleLogout}
