@@ -130,7 +130,7 @@ const Orders = () => {
           </button>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto sites scrollbar-hide">
           <table className="min-w-full bg-white dark:bg-gray-800">
             <thead>
               <tr>
