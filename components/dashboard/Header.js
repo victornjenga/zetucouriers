@@ -138,6 +138,13 @@ const Navbar = () => {
                   <Link href="/dashboard/categories">Categories</Link>
                 </li>
                 <li
+                  onClick={() => setOpen(false)}
+                  className="font-sm  hover:text-orange-600 flex text-lg space-x-2 items-center"
+                >
+                  <FcMultipleInputs />
+                  <Link href="/dashboard/orders">Orders</Link>
+                </li>
+                <li
                   onClick={handleLogout}
                   className=" font-sm cursor-pointer hover:text-orange-600 flex text-lg space-x-2 items-center"
                 >
