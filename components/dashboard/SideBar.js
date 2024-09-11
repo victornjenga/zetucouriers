@@ -4,7 +4,13 @@ import { FaHome } from "react-icons/fa";
 import { IoMdPerson, IoMdLogOut } from "react-icons/io";
 import { IoDocument } from "react-icons/io5";
 import useAuthStore from "../../store/authStore"; // Import your Zustand store
-import { FcPositiveDynamic, FcMultipleInputs, FcHome } from "react-icons/fc";
+import {
+  FcPositiveDynamic,
+  FcMultipleInputs,
+  FcHome,
+  FcNews,
+  FcMindMap,
+} from "react-icons/fc";
 
 function SideBar() {
   const router = useRouter();
@@ -32,14 +38,14 @@ function SideBar() {
             <p className="font-semibold text-xl">Home</p>
           </li>
 
-          <li
+          {/* <li
             onClick={() => router.push("/dashboard/users")}
             className="sidebar-link"
           >
             <IoMdPerson className="text-xl" />
 
             <p className="font-semibold text-xl">users</p>
-          </li>
+          </li> */}
           <li
             onClick={() => router.push("/dashboard/products")}
             className="sidebar-link"
@@ -52,7 +58,7 @@ function SideBar() {
             onClick={() => router.push("/dashboard/categories")}
             className="sidebar-link"
           >
-            <FcPositiveDynamic className="text-xl" />
+            <FcMindMap className="text-xl" />
 
             <p className="font-semibold text-xl">Categories</p>
           </li>
@@ -60,7 +66,7 @@ function SideBar() {
             onClick={() => router.push("/dashboard/orders")}
             className="sidebar-link"
           >
-            <FcPositiveDynamic className="text-xl" />
+            <FcNews className="text-xl" />
 
             <p className="font-semibold text-xl">Orders</p>
           </li>

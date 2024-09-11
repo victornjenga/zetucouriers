@@ -13,6 +13,7 @@ export default function Checkout() {
   const [location, setLocation] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
 
+  const [loading, setLoading] = useState(false); // New loading state
   const [error, setError] = useState({});
   const form = useRef();
   const router = useRouter();
@@ -62,6 +63,8 @@ export default function Checkout() {
 
     if (!isValid) return;
 
+    setLoading(true); // Set loading to true when starting form submission
+
     const orderData = {
       _type: "orders",
       firstName,
@@ -94,6 +97,9 @@ export default function Checkout() {
         "Ewe0bF4Zsv6KD7MqD"
       );
 
+      // Clear the cart and reset the loading state
+      setLoading(false);
+
       // Navigate based on the selected payment method
       if (paymentMethod === "mpesa") {
         router.push("/checkout/mpesa");
@@ -102,8 +108,17 @@ export default function Checkout() {
       }
     } catch (err) {
       console.error("Error submitting order:", err);
+      setLoading(false); // Reset loading if there's an error
     }
   };
+
+  // Prepare cartItems string with size variations included
+  const cartItemsString = cartItems
+    .map((item) => {
+      const sizeString = item.size ? `, Size: ${item.size.title}` : "";
+      return `Product Name: ${item.name}, Price: ${item.price}${sizeString}`;
+    })
+    .join("<br><br>");
 
   return (
     <div className="flex relative pt-56 items-center z-0 flex-col">
@@ -176,6 +191,7 @@ export default function Checkout() {
             />
             {error.location && <p className="text-red-500">{error.location}</p>}
           </div>
+          <input type="hidden" name="cartItems" value={cartItemsString} />
 
           <div>
             <h4 className="text-lg font-semibold mb-2">
@@ -220,9 +236,13 @@ export default function Checkout() {
 
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            className={`bg-blue-600 text-white px-4 py-2 rounded ${
+              loading ? "cursor-not-allowed opacity-50" : ""
+            }`}
+            disabled={loading} // Disable button when loading
           >
-            Place Order
+            {loading ? "Processing..." : "Place Order"}{" "}
+            {/* Change text when loading */}
           </button>
         </form>
       </div>

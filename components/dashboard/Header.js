@@ -115,13 +115,13 @@ const Navbar = () => {
                   <Link href="/dashboard">Home</Link>
                 </li>
 
-                <li
+                {/* <li
                   onClick={() => setOpen(false)}
                   className=" font-sm cursor-pointer hover:text-orange-600 flex text-lg space-x-2 items-center"
                 >
                   <IoMdPerson />
                   <Link href="/dashboard/users">Users</Link>
-                </li>
+                </li> */}
 
                 <li
                   onClick={() => setOpen(false)}
