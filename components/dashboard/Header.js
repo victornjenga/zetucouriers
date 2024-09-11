@@ -3,9 +3,9 @@
 import {
   FcAbout,
   FcHome,
-  FcBusinessContact,
-  FcBiotech,
-  FcQuestions,
+  FcNews,
+  FcMindMap,
+  FcEngineering,
 } from "react-icons/fc";
 
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
@@ -19,7 +19,7 @@ import { IoMdLogOut, IoMdPerson } from "react-icons/io";
 import { IoDocument } from "react-icons/io5";
 import useAuthStore from "../../store/authStore"; // Import your Zustand store
 import { useRouter } from "next/navigation";
-import { FcPositiveDynamic,FcMultipleInputs } from "react-icons/fc";
+import { FcPositiveDynamic, FcMultipleInputs } from "react-icons/fc";
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState();
@@ -127,22 +127,30 @@ const Navbar = () => {
                   onClick={() => setOpen(false)}
                   className="font-sm  hover:text-orange-600 flex text-lg space-x-2 items-center"
                 >
-                  <FcPositiveDynamic />
+                  <FcMultipleInputs />
                   <Link href="/dashboard/products">Products</Link>
                 </li>
                 <li
                   onClick={() => setOpen(false)}
                   className="font-sm  hover:text-orange-600 flex text-lg space-x-2 items-center"
                 >
-                  <FcMultipleInputs />
+                  <FcMindMap />
                   <Link href="/dashboard/categories">Categories</Link>
                 </li>
                 <li
                   onClick={() => setOpen(false)}
                   className="font-sm  hover:text-orange-600 flex text-lg space-x-2 items-center"
                 >
-                  <FcMultipleInputs />
+                  <FcNews />
                   <Link href="/dashboard/orders">Orders</Link>
+                </li>
+
+                <li
+                  onClick={() => setOpen(false)}
+                  className=" font-sm cursor-pointer hover:text-orange-600 flex text-lg space-x-2 items-center"
+                >
+                  <FcEngineering />
+                  <Link href="/">Setting</Link>
                 </li>
                 <li
                   onClick={handleLogout}
@@ -152,13 +160,6 @@ const Navbar = () => {
 
                   <Link href="/dashboard">Logout</Link>
                 </li>
-                {/* <li
-                  onClick={() => setOpen(false)}
-                  className=" font-sm cursor-pointer hover:text-orange-600 flex text-lg space-x-2 items-center"
-                >
-                  <FcQuestions />
-                  <Link href="/">Setting</Link>
-                </li> */}
               </ul>
             </div>
           </div>

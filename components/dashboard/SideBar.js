@@ -10,6 +10,7 @@ import {
   FcHome,
   FcNews,
   FcMindMap,
+  FcEngineering,
 } from "react-icons/fc";
 
 function SideBar() {
@@ -69,6 +70,14 @@ function SideBar() {
             <FcNews className="text-xl" />
 
             <p className="font-semibold text-xl">Orders</p>
+          </li>
+          <li
+            onClick={() => router.push("/dashboard/settings")}
+            className="sidebar-link"
+          >
+            <FcEngineering className="text-xl" />
+
+            <p className="font-semibold text-xl">Settings</p>
           </li>
           <li onClick={handleLogout} className="sidebar-link">
             <IoMdLogOut className="text-xl" />
