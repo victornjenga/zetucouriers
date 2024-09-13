@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       const doc = req.body;
 
       client.create(doc).then(() => {
-        res.status(200).json("Site created");
+        res.status(200).json("Product created");
       });
     }
 }

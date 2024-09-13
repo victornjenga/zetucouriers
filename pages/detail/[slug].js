@@ -19,8 +19,10 @@ import useAuthStore from "@/store/authStore";
 import LikeButton from "@/components/LikeButton";
 import { CurrencyContext } from "../../context/CurrencyProvider";
 
-function ProductDetails({ siteDetails, sites }) {
-  const [site, setSite] = useState(siteDetails);
+function ProductDetails({ productDetails, products }) {
+  console.log(productDetails);
+  // console.log(products);
+  const [product, setProduct] = useState(productDetails);
   const [index, setIndex] = useState(0);
   const router = useRouter();
   const { decQty, incQty, qty, onAdd, setSize } = useStateContext();
@@ -35,27 +37,8 @@ function ProductDetails({ siteDetails, sites }) {
   const { exchangeRate, selectedCurrency, setSelectedCurrency } =
     useContext(CurrencyContext);
 
-  const convertCurrency = (price) => {
-    if (exchangeRate[selectedCurrency]) {
-      return (price * exchangeRate[selectedCurrency]).toFixed(0);
-    } else {
-      return "N/A";
-    }
-  };
-
-  const handleLike = async (like) => {
-    if (userProfile) {
-      const res = await axios.put(`${BASE_URL}/api/like`, {
-        userId: userProfile._id,
-        siteId: site._id,
-        like,
-      });
-      setSite({ ...site, likes: res.data.likes });
-    }
-  };
-
   const handleAddToCart = () => {
-    if (site.variations?.length > 0 && !selectedOption) {
+    if (product.variations?.length > 0 && !selectedOption) {
       alert("Please select a size variation first.");
       return;
     }
@@ -63,11 +46,11 @@ function ProductDetails({ siteDetails, sites }) {
   };
 
   const handleBuyNow = () => {
-    if (site.variations?.length > 0 && !selectedOption) {
+    if (product.variations?.length > 0 && !selectedOption) {
       alert("Please select a size variation first.");
       return;
     }
-    onAdd(site, qty);
+    onAdd(product, qty);
     router.push("/checkout");
   };
 
@@ -79,17 +62,17 @@ function ProductDetails({ siteDetails, sites }) {
         }`}
       </style>
       <div className="w-full p-2 md:p-8 h-full justify-center pt-16 rounded">
-        <h3 className="font-medium md:hidden text-xl">{site.name}</h3>
+        <h3 className="font-medium md:hidden text-xl">{product.name}</h3>
         <div className="flex flex-col md:px-8 w-full justify-center items-center pb-8 xl:flex-row">
           <div className="block space-x-3 md:flex w-full ">
             <div className="block md:w-1/2">
               <img
                 className="w-full"
-                src={urlFor(site.image && site.image[index]).url()}
-                alt={site.name}
+                src={urlFor(product.image && product.image[index]).url()}
+                alt={product.name}
               />
               <div className="flex gap-2 mt-2">
-                {site.image?.map((item, i) => (
+                {product.image?.map((item, i) => (
                   <img
                     key={i}
                     src={urlFor(item)}
@@ -104,17 +87,17 @@ function ProductDetails({ siteDetails, sites }) {
 
             <div className="flex flex-col md:w-1/2">
               <h3 className="hidden md:flex py-3 text-center text-4xl">
-                {site.name}
+                {product.name}
               </h3>
 
               <div className="border border-gray-400 justify-center items-center flex flex-col w-full p-4">
                 <p className="py-2 text-red-600 text-3xl font-medium">
-                  Ksh {site.price}
+                  Ksh {product.price}
                 </p>
-                {site.variations && site.variations.length > 0 && (
+                {product.variations && product.variations.length > 0 && (
                   <div className="flex items-center gap-2 my-4 mt-2">
                     <h2>Variations:</h2>
-                    {site.variations.map((item) => (
+                    {product.variations.map((item) => (
                       <button
                         className={`${
                           selectedOption === item
@@ -174,7 +157,7 @@ function ProductDetails({ siteDetails, sites }) {
               <h2 className="text-xl py-2 pl-3 font-semibold">Description</h2>
             </div>
             <p className="sm:text-lg" id="p-wrap">
-              {site.description}
+              {product.description}
             </p>
           </div>
           <div className="flex flex-col md:items-center">
@@ -182,7 +165,7 @@ function ProductDetails({ siteDetails, sites }) {
               <h2 className="text-xl py-2 pl-3 font-semibold">Features</h2>
             </div>
             <p className="sm:text-lg font-medium" id="p-wrap">
-              {site.specs}
+              {product.specs}
             </p>
           </div>
         </div>
@@ -194,7 +177,7 @@ function ProductDetails({ siteDetails, sites }) {
         </div>
         <div className="marquee">
           <div className="flex flex-wrap w-full">
-            {sites.map((product) => (
+            {products.map((product) => (
               <Products key={product._id} product={product} />
             ))}
           </div>
@@ -227,6 +210,6 @@ export const getServerSideProps = async ({ params: { slug } }) => {
   const { data } = await axios.get(`${BASE_URL}/api/products/${slug}`);
   let response = await axios.get(`${BASE_URL}/api/products`);
   return {
-    props: { siteDetails: data, sites: response.data },
+    props: { productDetails: data, products: response.data },
   };
 };

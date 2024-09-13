@@ -25,8 +25,8 @@ export const allPostsQuery = () => {
   return query;
 };
 
-export const postDetailQuery = (postId) => {
-  const query = `*[_type == "products" && _id == '${postId}']{
+export const postDetailQuery = (slug) => {
+  const query = `*[_type == "products" && slug.current == '${slug}']{
     _id,
     name,
     image[]{
