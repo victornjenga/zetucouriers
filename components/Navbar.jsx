@@ -82,7 +82,7 @@ function Navbar() {
               </a>{" "}
               <a href="https://twitter.com/" target="_blank" rel="noreferrer">
                 <div className="cursor-pointer w-10 h-10 justify-center items-center flex  r ">
-                  <FaTwitter lassName="text-2xl" />
+                  <FaTwitter className="text-2xl" />
                 </div>
               </a>{" "}
               <a
