@@ -71,7 +71,7 @@ function ProductDetails({ productDetails, products }) {
                 src={urlFor(product.image && product.image[index]).url()}
                 alt={product.name}
               />
-              <div className="flex gap-2 mt-2">
+              {/* <div className="flex gap-2 mt-2">
                 {product.image?.map((item, i) => (
                   <img
                     key={i}
@@ -82,7 +82,7 @@ function ProductDetails({ productDetails, products }) {
                     onMouseEnter={() => setIndex(i)}
                   />
                 ))}
-              </div>
+              </div> */}
             </div>
 
             <div className="flex flex-col md:w-1/2">

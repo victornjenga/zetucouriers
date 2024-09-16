@@ -19,7 +19,7 @@ const Home = ({ products }) => {
   return (
     <>
       <div className="pt-48 md:pt-32 w-full md:w-[90%] justify-center flex-col items-center">
-        <div className="pt-2 md:pt-4 flex overflow-x-scroll py-2 scrollbar-hide mx-4">
+        <div className="pt-2 md:pt-4 flex overflow-x-scroll py-2 scrollbar-hide mx-4 md:ml-12">
           <Categories />
         </div>
         <div className="w-full my-2 px-4 justify-center items-center flex flex-col">

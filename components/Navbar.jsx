@@ -76,27 +76,27 @@ function Navbar() {
           <div className="flex flex-row md:mt-0 mt-6">
             <ul className="flex gap-5 flex-wrap">
               <a href="https://facebook.com/" target="_blank" rel="noreferrer">
-                <div className="cursor-pointer w-10 h-10 justify-center items-center flex  r ">
-                  <FaFacebookF className="" />
+                <div className="cursor-pointer justify-center items-center flex  r ">
+                  <FaFacebookF className="text-xl" />
                 </div>
               </a>{" "}
               <a href="https://twitter.com/" target="_blank" rel="noreferrer">
-                <div className="cursor-pointer w-10 h-10 justify-center items-center flex  r ">
-                  <FaTwitter className="text-2xl" />
+                <div className="cursor-pointer justify-center items-center flex  r ">
+                  <FaTwitter className="text-xl" />
                 </div>
-              </a>{" "}
+              </a>
               <a
                 href="https://www.instagram.com/"
                 target="_blank"
                 rel="noreferrer"
               >
-                <div className="cursor-pointer w-10 h-10 justify-center items-center flex  r ">
-                  <FaInstagram lassName="text-2xl" />
+                <div className="cursor-pointer justify-center items-center flex  r ">
+                  <FaInstagram className="text-xl" />
                 </div>
               </a>
             </ul>
           </div>
-          <div className="items-center flex space-x-4">
+          <div className="items-center flex text-lg space-x-4">
             <p>
               <Link href="/">Home</Link>
             </p>
@@ -105,7 +105,7 @@ function Navbar() {
               <Link href="/about">About</Link>
             </p>
             <p>
-              <Link href="/contact">contact</Link>
+              <Link href="/contact">Contact</Link>
             </p>
             <p>
               <Link href="/categories">Categories</Link>
@@ -113,50 +113,46 @@ function Navbar() {
           </div>
           <div className=" flex justify-center items-center space-x-3">
             <div>
-              <IoCall className="text-3xl text-customBlue" />
+              <IoCall className="text-3xl text-blue-600" />
             </div>
-            <div>
-              <p>Call To +254705079016</p>
+            <div className="text-lg">
+              <p>Call To: +254705079016</p>
               <p>Email : civrotstore@gmail.com</p>
             </div>
           </div>
         </div>
       )}
-      <div className="hidden md:flex  justify-around items-center py-2 bg-gray-50 dark:bg-gray-950">
-        <div>
+      <div className="hidden md:grid grid-cols-3 py-2 bg-gray-50 dark:bg-gray-950">
+        <div className="justify-center items-center flex">
           <Link href="/">
-            {/* <p className="text-3xl cursor-pointer font-extrabold italic">
-              Sherehe Mall
-            </p> */}
             <img className="h-[60px]" src="/logo.png" alt="/" />
           </Link>
         </div>
-        <div className="flex">
+        <div className="flex flex-grow justify-center items-center">
           <form
             onSubmit={handleSearch}
-            className="flex space-x-3 h-[32px] items-center border  border-gray-400 rounded-3xl px-4 py-2 justify-center"
+            className="flex space-x-3 h-[40px] items-center border border-gray-400 rounded-lg px-4 py-2 w-full "
           >
             <BsSearch
               onClick={handleSearch}
               className="text-customBlue text-2xl"
             />
-            {/* <p className="">Search For Events</p> */}
             <input
-              placeholder="Search For Events"
+              placeholder="Search For Products"
               type="text"
               onChange={(e) => setSearchValue(e.target.value)}
-              className="outline-none bg-gray-100 dark:bg-gray-950"
+              className="outline-none bg-gray-50 dark:bg-gray-950 flex-grow w-full"
             />
           </form>
         </div>
         <div className="flex space-x-3 items-center justify-center">
-          {/* <div className="flex space-x-2 items-center">
-            <BsFillPersonFill className="text-2xl text-blue-400 font-bold " />
+          <div className="flex space-x-2 items-center">
+            <BsFillPersonFill className="text-2xl text-blue-600 font-bold " />
             <p>Account</p>
-          </div> */}
+          </div>
 
           <div className="flex space-x-2 items-center">
-            <MdLiveHelp className="text-2xl text-blue-400 font-bold " />
+            <MdLiveHelp className="text-2xl text-blue-600 font-bold " />
             <Link href="/about">
               <p>About</p>
             </Link>
