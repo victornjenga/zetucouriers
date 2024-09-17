@@ -6,7 +6,7 @@ import Image from "next/image";
 import axios from "axios";
 import { BASE_URL } from "../../utils";
 import { useStateContext } from "../../context/StateContext";
-import { TbMessageCircle2Filled } from "react-icons/tb";
+import { TbMessageCircle2Filled, TbTruckDelivery } from "react-icons/tb";
 import {
   AiOutlineMinus,
   AiOutlinePlus,
@@ -19,6 +19,7 @@ import useAuthStore from "@/store/authStore";
 import LikeButton from "@/components/LikeButton";
 import { CurrencyContext } from "../../context/CurrencyProvider";
 import Head from "next/head"; // Import Head for meta tags
+import { IoCheckmarkCircleOutline } from "react-icons/io5";
 
 function ProductDetails({ productDetails, products }) {
   const [product, setProduct] = useState(productDetails);
@@ -94,10 +95,26 @@ function ProductDetails({ productDetails, products }) {
                   {product.name}
                 </h3>
 
-                <div className="border border-gray-400 justify-center items-center flex flex-col w-full p-4">
-                  <p className="py-2 text-red-600 text-3xl font-medium">
-                    Ksh {product.price}
-                  </p>
+                <div className=" justify-start  flex flex-col w-full  md:p-4">
+                  <div className="bg-gray-100 px-3 py-1 my-2">
+                    <p className="py-2 text-red-600 text-3xl font-medium">
+                      Ksh {product.price}
+                    </p>
+                  </div>
+                  <div className="flex my-3 items-center gap-8">
+                    <p>Services:</p>
+                    <div className="flex items-center gap-2">
+                      <IoCheckmarkCircleOutline className="text-red-600 text-xl" />
+                      <p> Fulfilled By Civrot</p>
+                    </div>
+                  </div>
+                  <div className="flex my-3 items-center gap-4">
+                    <p>Delivery Info:</p>
+                    <div className="flex items-center gap-2">
+                      <TbTruckDelivery className="text-green-600 text-xl" />
+                      <p>Arrives within 1-3 workdays.</p>
+                    </div>
+                  </div>
                   {product.variations && product.variations.length > 0 && (
                     <div className="flex items-center gap-2 my-4 mt-2">
                       <h2>Variations:</h2>
@@ -116,7 +133,7 @@ function ProductDetails({ productDetails, products }) {
                       ))}
                     </div>
                   )}
-                  <div className="space-x-2 flex">
+                  <div className=" my-3 gap-8 flex">
                     <h3>Quantity:</h3>
                     <p className="flex space-x-3 items-center">
                       <span
