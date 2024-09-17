@@ -54,6 +54,35 @@ export default {
       type: 'string',
     },
     {
+      name: "reviews",
+      title: "Reviews",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            {
+              name: "rating",
+              title: "Rating",
+              type: "number",
+              validation: (Rule) => Rule.min(1).max(5),
+            },
+            {
+              name: "comment",
+              title: "Comment",
+              type: "text",
+            },
+            {
+              name: "user",
+              title: "User",
+              type: "reference",
+              to: [{ type: "user" }],
+            },
+          ],
+        },
+      ],
+    },
+    {
       name: 'postedBy',
       title: 'Posted By',
       type: 'reference',

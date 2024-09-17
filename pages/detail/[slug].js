@@ -28,6 +28,8 @@ function ProductDetails({ productDetails, products }) {
   const { decQty, incQty, qty, onAdd, setSize } = useStateContext();
   const { userProfile } = useAuthStore();
   const [selectedOption, setSelectedOption] = useState(null);
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
 
   const handleButtonClick = (option) => {
     setSelectedOption(option);
@@ -52,6 +54,14 @@ function ProductDetails({ productDetails, products }) {
     }
     onAdd(product, qty);
     router.push("/checkout");
+  };
+
+  const handleRatingHover = (value) => {
+    setHoverRating(value);
+  };
+
+  const handleRatingClick = (value) => {
+    setRating(value);
   };
 
   // Image URL for sharing (Open Graph and Twitter)
@@ -96,7 +106,7 @@ function ProductDetails({ productDetails, products }) {
                 </h3>
 
                 <div className=" justify-start  flex flex-col w-full  md:p-4">
-                  <div className="bg-gray-100 px-3 py-1 my-2">
+                  <div className="bg-gray-100 px-3 py-1 ">
                     <p className="py-2 text-red-600 text-3xl font-medium">
                       Ksh {product.price}
                     </p>
@@ -173,8 +183,8 @@ function ProductDetails({ productDetails, products }) {
             </div>
           </div>
 
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 pl-2 md:pl-8 py-3">
-            <div>
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 pl-2 md:pl-8 py-3">
+            <div className="flex my-2 px-4 space-y-3  justify-start flex-col py-3 dark:bg-gray-900  shadow-sm shadow-gray-300 dark:shadow-gray-900  mb-4">
               <div className="">
                 <h2 className="text-xl py-2 pl-3 font-semibold">Description</h2>
               </div>
@@ -182,13 +192,44 @@ function ProductDetails({ productDetails, products }) {
                 {product.description}
               </p>
             </div>
-            <div className="flex flex-col md:items-center">
-              <div className="">
-                <h2 className="text-xl py-2 pl-3 font-semibold">Features</h2>
+            <div className="flex my-2 px-4 space-y-3  justify-start flex-col py-3 dark:bg-gray-900  shadow-sm shadow-gray-300 dark:shadow-gray-900  mb-4">
+              <div className="space-y-1">
+                <p className=" text-2xl  mr-4">Your Rating:</p>
+                <div className="flex text-2xl mb-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <span
+                      key={star}
+                      className={`cursor-pointer ${
+                        star <= (hoverRating || rating)
+                          ? "text-yellow-500"
+                          : "text-gray-300"
+                      }`}
+                      onMouseEnter={() => handleRatingHover(star)}
+                      onMouseLeave={() => handleRatingHover(0)}
+                      onClick={() => handleRatingClick(star)}
+                    >
+                      ★
+                    </span>
+                  ))}
+                </div>
+
+                <p className="text-gray-500">
+                  {rating > 0
+                    ? `You rated this Event ${rating} ${
+                        rating > 1 ? "stars" : "star"
+                      }`
+                    : "Please rate this Event"}
+                </p>
               </div>
-              <p className="sm:text-lg font-medium" id="p-wrap">
-                {product.specs}
-              </p>
+              <p>Drrop Your Review</p>
+              <textarea
+                name="message"
+                placeholder="Description"
+                className="bg-gray-100   dark:bg-gray-800 dark:text-gray-100 border-b py-2 pl-4 focus:outline-none focus:rounded-md focus:ring-1 ring-pink-500 font-light text-gray-500"
+              ></textarea>
+              <button className=" px-3 py-2 rounded-xl  bg-slate-700 text-white">
+                Submit
+              </button>
             </div>
           </div>
         </div>
