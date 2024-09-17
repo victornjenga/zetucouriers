@@ -20,16 +20,19 @@ import LikeButton from "@/components/LikeButton";
 import { CurrencyContext } from "../../context/CurrencyProvider";
 import Head from "next/head"; // Import Head for meta tags
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
+import { v4 as uuidv4 } from "uuid"; // Import uuid to generate unique keys
 
 function ProductDetails({ productDetails, products }) {
   const [product, setProduct] = useState(productDetails);
   const [index, setIndex] = useState(0);
   const router = useRouter();
   const { decQty, incQty, qty, onAdd, setSize } = useStateContext();
-  const { userProfile } = useAuthStore();
+  const { userProfile, addUser } = useAuthStore(); // Zustand store hooks
   const [selectedOption, setSelectedOption] = useState(null);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const [reviewText, setReviewText] = useState(""); // Capture review input
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleButtonClick = (option) => {
     setSelectedOption(option);
@@ -64,6 +67,71 @@ function ProductDetails({ productDetails, products }) {
     setRating(value);
   };
 
+  const submitReview = async () => {
+    if (!userProfile) {
+      // Show modal if the user is not logged in
+      setIsModalOpen(true);
+      return;
+    }
+
+    const review = {
+      _key: uuidv4(),
+      rating,
+      comment: reviewText,
+      user: { _type: "reference", _ref: userProfile._id },
+    };
+
+    try {
+      const updatedProduct = await client
+        .patch(product._id)
+        .setIfMissing({ reviews: [] })
+        .insert("after", "reviews[-1]", [review])
+        .commit();
+
+      setProduct(updatedProduct);
+      setRating(0);
+      setReviewText("");
+      toast.success("Review submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      toast.error("Failed to submit review.");
+    }
+  };
+
+  // Google login success handler
+  const handleLoginSuccess = (response) => {
+    try {
+      const decoded = jwt_decode(response.credential);
+      addUser(decoded);
+      saveUserToSanity(decoded);
+      setIsModalOpen(false); // Close modal after successful login
+      toast.success("Logged in successfully with Google!");
+    } catch (error) {
+      console.error("Error decoding JWT:", error);
+      toast.error("Failed to decode Google login response.");
+    }
+  };
+
+  // Save Google user to Sanity
+  const saveUserToSanity = async (userData) => {
+    try {
+      const response = await axios.post("/api/login", {
+        ...userData,
+        type: "google",
+      });
+      console.log("User saved to Sanity:", response.data);
+      toast.success("Google account linked successfully!");
+    } catch (error) {
+      console.error("Error saving user to Sanity:", error);
+      toast.error("Failed to save user to database.");
+    }
+  };
+
+  const handleLoginFailure = (error) => {
+    console.error("Google Login Failed:", error);
+    toast.error("Google login failed. Please try again.");
+  };
+
   // Image URL for sharing (Open Graph and Twitter)
   const imageUrl = urlFor(product.image && product.image[index]).url();
 
@@ -87,6 +155,26 @@ function ProductDetails({ productDetails, products }) {
       </Head>
 
       <div className="w-full md:w-[90%] pt-32 mb-8">
+        {/* Google Login Modal */}
+        {isModalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+              <h2 className="text-lg font-semibold mb-4">
+                Sign in with Google to submit your review
+              </h2>
+              <GoogleLogin
+                onSuccess={handleLoginSuccess}
+                onError={handleLoginFailure}
+              />
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="mt-4 text-red-500 hover:underline"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
         <style>
           {`#p-wrap {
             white-space: pre-line;
@@ -193,7 +281,7 @@ function ProductDetails({ productDetails, products }) {
               </p>
             </div>
             <div className="flex my-2 px-4 space-y-3  justify-start flex-col py-3 dark:bg-gray-900  shadow-sm shadow-gray-300 dark:shadow-gray-900  mb-4">
-              <div className="space-y-1">
+              <div className="space-y-2 flex flex-col ">
                 <p className=" text-2xl  mr-4">Your Rating:</p>
                 <div className="flex text-2xl mb-1">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -204,32 +292,55 @@ function ProductDetails({ productDetails, products }) {
                           ? "text-yellow-500"
                           : "text-gray-300"
                       }`}
-                      onMouseEnter={() => handleRatingHover(star)}
-                      onMouseLeave={() => handleRatingHover(0)}
+                      onMouseEnter={() => setHoverRating(star)}
+                      onMouseLeave={() => setHoverRating(0)}
                       onClick={() => handleRatingClick(star)}
                     >
                       ★
                     </span>
                   ))}
                 </div>
-
-                <p className="text-gray-500">
+                <p>
                   {rating > 0
-                    ? `You rated this Event ${rating} ${
-                        rating > 1 ? "stars" : "star"
-                      }`
-                    : "Please rate this Event"}
+                    ? `You rated this product ${rating} star(s)`
+                    : "Please rate this product"}
                 </p>
+
+                <textarea
+                  name="review"
+                  value={reviewText}
+                  onChange={(e) => setReviewText(e.target.value)}
+                  placeholder="Leave a review..."
+                  className="bg-gray-100   dark:bg-gray-800 dark:text-gray-100 border-b py-2 pl-4 focus:outline-none focus:rounded-md focus:ring-1 ring-pink-500 font-light text-gray-500"
+                />
+
+                <button
+                  onClick={submitReview}
+                  className=" px-3 py-2 rounded-xl  bg-slate-700 text-white"
+                >
+                  Submit
+                </button>
               </div>
-              <p>Drrop Your Review</p>
-              <textarea
-                name="message"
-                placeholder="Description"
-                className="bg-gray-100   dark:bg-gray-800 dark:text-gray-100 border-b py-2 pl-4 focus:outline-none focus:rounded-md focus:ring-1 ring-pink-500 font-light text-gray-500"
-              ></textarea>
-              <button className=" px-3 py-2 rounded-xl  bg-slate-700 text-white">
-                Submit
-              </button>
+
+              {/* Display the reviews */}
+              <div className="reviews-section">
+                <h3 className="text-xl py-2 pl-3 font-semibold">
+                  Customer Reviews
+                </h3>
+                {product.reviews?.length > 0 ? (
+                  product.reviews.map((review, index) => (
+                    <div key={index} className="space-y-3">
+                      <p className="text-lg font-semibold">
+                        Rating: {review.rating}{" "}
+                        <span className="text-yellow-500">★</span>{" "}
+                      </p>
+                      <p>{review.comment}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No reviews yet. Be the first to review this product!</p>
+                )}
+              </div>
             </div>
           </div>
         </div>
