@@ -200,12 +200,12 @@ function ProductDetails({ productDetails, products }) {
                   <img className="w-full" src={imageUrl} alt={product.name} />
                 </div>
 
-                <div className="flex flex-col shadow-sm shadow-gray-300 dark:shadow-gray-900 px-3 py-3 md:w-1/2">
+                <div className="flex flex-col mt-3 mx-1 w-full shadow-sm shadow-gray-300 dark:shadow-gray-900 px-3 py-3 md:w-1/2">
                   <h3 className="hidden md:flex py-3 text-center text-4xl">
                     {product.name}
                   </h3>
 
-                  <div className=" justify-start  flex flex-col w-full  md:p-4">
+                  <div className=" justify-start flex flex-col w-full md:p-4">
                     <div className="bg-gray-100 dark:bg-gray-800 px-3 py-1 ">
                       <p className="py-2 text-red-600 text-3xl font-medium">
                         Ksh {product.price}
