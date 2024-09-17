@@ -21,6 +21,8 @@ import { CurrencyContext } from "../../context/CurrencyProvider";
 import Head from "next/head"; // Import Head for meta tags
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { v4 as uuidv4 } from "uuid"; // Import uuid to generate unique keys
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import toast from "react-hot-toast";
 
 function ProductDetails({ productDetails, products }) {
   const [product, setProduct] = useState(productDetails);
@@ -153,230 +155,238 @@ function ProductDetails({ productDetails, products }) {
         <meta name="twitter:description" content={product.description} />
         <meta name="twitter:image" content={imageUrl} />
       </Head>
-
-      <div className="w-full md:w-[90%] pt-32 mb-8">
-        {/* Google Login Modal */}
-        {isModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-              <h2 className="text-lg font-semibold mb-4">
-                Sign in with Google to submit your review
-              </h2>
-              <GoogleLogin
-                onSuccess={handleLoginSuccess}
-                onError={handleLoginFailure}
-              />
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="mt-4 text-red-500 hover:underline"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        )}
-        <style>
-          {`#p-wrap {
-            white-space: pre-line;
-          }`}
-        </style>
-        <div className="w-full p-2 md:p-8 h-full justify-center pt-16 rounded">
-          <h3 className="font-medium md:hidden text-xl">{product.name}</h3>
-          <div className="flex flex-col md:px-8 w-full justify-center items-center pb-8 xl:flex-row">
-            <div className="block space-x-3 md:flex w-full ">
-              <div className="block md:w-1/2">
-                <img className="w-full" src={imageUrl} alt={product.name} />
-              </div>
-
-              <div className="flex flex-col md:w-1/2">
-                <h3 className="hidden md:flex py-3 text-center text-4xl">
-                  {product.name}
-                </h3>
-
-                <div className=" justify-start  flex flex-col w-full  md:p-4">
-                  <div className="bg-gray-100 px-3 py-1 ">
-                    <p className="py-2 text-red-600 text-3xl font-medium">
-                      Ksh {product.price}
-                    </p>
-                  </div>
-                  <div className="flex my-3 items-center gap-8">
-                    <p>Services:</p>
-                    <div className="flex items-center gap-2">
-                      <IoCheckmarkCircleOutline className="text-red-600 text-xl" />
-                      <p> Fulfilled By Civrot</p>
-                    </div>
-                  </div>
-                  <div className="flex my-3 items-center gap-4">
-                    <p>Delivery Info:</p>
-                    <div className="flex items-center gap-2">
-                      <TbTruckDelivery className="text-green-600 text-xl" />
-                      <p>Arrives within 1-3 workdays.</p>
-                    </div>
-                  </div>
-                  {product.variations && product.variations.length > 0 && (
-                    <div className="flex items-center gap-2 my-4 mt-2">
-                      <h2>Variations:</h2>
-                      {product.variations.map((item) => (
-                        <button
-                          className={`${
-                            selectedOption === item
-                              ? "bg-red-600"
-                              : "bg-slate-800"
-                          } px-2 py-1 cursor-pointer text-xl font-bold text-white hover:bg-red-600`}
-                          key={item._id}
-                          onClick={() => handleButtonClick(item)}
-                        >
-                          {item.title}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  <div className=" my-3 gap-8 flex">
-                    <h3>Quantity:</h3>
-                    <p className="flex space-x-3 items-center">
-                      <span
-                        onClick={decQty}
-                        className="bg-slate-800 px-2 py-1 cursor-pointer text-xl font-bold"
-                      >
-                        <AiOutlineMinus className="text-white" />
-                      </span>
-                      <span className="text-2xl font-semibold">{qty}</span>
-                      <span
-                        onClick={incQty}
-                        className="bg-slate-800 px-2 py-1 cursor-pointer text-xl font-bold"
-                      >
-                        <AiOutlinePlus className="text-white" />
-                      </span>
-                    </p>
-                  </div>
-
-                  <div className="hidden md:flex gap-3 mt-4">
-                    <button
-                      type="button"
-                      onClick={handleAddToCart}
-                      className="px-3 py-2 bg-red-500 border cursor-pointer text-white font-semibold hover:scale-105 duration-300"
-                    >
-                      Add To Cart
-                    </button>
-                    <button
-                      onClick={handleBuyNow}
-                      type="button"
-                      className="px-5 py-2 bg-slate-700 border cursor-pointer text-white font-semibold hover:scale-105 duration-300"
-                    >
-                      Buy Now
-                    </button>
-                  </div>
+      <GoogleOAuthProvider
+        clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
+      >
+        <div className="w-full md:w-[90%] pt-32 mb-8">
+          {/* Google Login Modal */}
+          {isModalOpen && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 className="text-lg font-semibold mb-4">
+                  Sign in with Google to submit your review
+                </h2>
+                <div className="flex justify-center">
+                  <GoogleLogin
+                    onSuccess={handleLoginSuccess}
+                    onError={handleLoginFailure}
+                  />
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 pl-2 md:pl-8 py-3">
-            <div className="flex my-2 px-4 space-y-3  justify-start flex-col py-3 dark:bg-gray-900  shadow-sm shadow-gray-300 dark:shadow-gray-900  mb-4">
-              <div className="">
-                <h2 className="text-xl py-2 pl-3 font-semibold">Description</h2>
-              </div>
-              <p className="sm:text-lg" id="p-wrap">
-                {product.description}
-              </p>
-            </div>
-            <div className="flex my-2 px-4 space-y-3  justify-start flex-col py-3 dark:bg-gray-900  shadow-sm shadow-gray-300 dark:shadow-gray-900  mb-4">
-              <div className="space-y-2 flex flex-col ">
-                <p className=" text-2xl  mr-4">Your Rating:</p>
-                <div className="flex text-2xl mb-1">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <span
-                      key={star}
-                      className={`cursor-pointer ${
-                        star <= (hoverRating || rating)
-                          ? "text-yellow-500"
-                          : "text-gray-300"
-                      }`}
-                      onMouseEnter={() => setHoverRating(star)}
-                      onMouseLeave={() => setHoverRating(0)}
-                      onClick={() => handleRatingClick(star)}
-                    >
-                      ★
-                    </span>
-                  ))}
-                </div>
-                <p>
-                  {rating > 0
-                    ? `You rated this product ${rating} star(s)`
-                    : "Please rate this product"}
-                </p>
-
-                <textarea
-                  name="review"
-                  value={reviewText}
-                  onChange={(e) => setReviewText(e.target.value)}
-                  placeholder="Leave a review..."
-                  className="bg-gray-100   dark:bg-gray-800 dark:text-gray-100 border-b py-2 pl-4 focus:outline-none focus:rounded-md focus:ring-1 ring-pink-500 font-light text-gray-500"
-                />
 
                 <button
-                  onClick={submitReview}
-                  className=" px-3 py-2 rounded-xl  bg-slate-700 text-white"
+                  onClick={() => setIsModalOpen(false)}
+                  className="mt-4 text-red-500 hover:underline"
                 >
-                  Submit
+                  Cancel
                 </button>
               </div>
+            </div>
+          )}
+          <style>
+            {`#p-wrap {
+            white-space: pre-line;
+          }`}
+          </style>
+          <div className="w-full p-2 md:p-8 h-full justify-center pt-16 rounded">
+            <h3 className="font-medium md:hidden text-xl">{product.name}</h3>
+            <div className="flex flex-col md:px-8 w-full justify-center items-center pb-8 xl:flex-row">
+              <div className="block space-x-3 md:flex w-full ">
+                <div className="block md:w-1/2">
+                  <img className="w-full" src={imageUrl} alt={product.name} />
+                </div>
 
-              {/* Display the reviews */}
-              <div className="reviews-section">
-                <h3 className="text-xl py-2 pl-3 font-semibold">
-                  Customer Reviews
-                </h3>
-                {product.reviews?.length > 0 ? (
-                  product.reviews.map((review, index) => (
-                    <div key={index} className="space-y-3">
-                      <p className="text-lg font-semibold">
-                        Rating: {review.rating}{" "}
-                        <span className="text-yellow-500">★</span>{" "}
+                <div className="flex flex-col shadow-sm shadow-gray-300 dark:shadow-gray-900 px-3 py-3 md:w-1/2">
+                  <h3 className="hidden md:flex py-3 text-center text-4xl">
+                    {product.name}
+                  </h3>
+
+                  <div className=" justify-start  flex flex-col w-full  md:p-4">
+                    <div className="bg-gray-100 dark:bg-gray-800 px-3 py-1 ">
+                      <p className="py-2 text-red-600 text-3xl font-medium">
+                        Ksh {product.price}
                       </p>
-                      <p>{review.comment}</p>
                     </div>
-                  ))
-                ) : (
-                  <p>No reviews yet. Be the first to review this product!</p>
-                )}
+                    <div className="flex my-3 items-center gap-8">
+                      <p>Services:</p>
+                      <div className="flex items-center gap-2">
+                        <IoCheckmarkCircleOutline className="text-red-600 text-xl" />
+                        <p> Fulfilled By Civrot</p>
+                      </div>
+                    </div>
+                    <div className="flex my-3 items-center gap-4">
+                      <p>Delivery Info:</p>
+                      <div className="flex items-center gap-2">
+                        <TbTruckDelivery className="text-green-600 text-xl" />
+                        <p>Arrives within 1-3 workdays.</p>
+                      </div>
+                    </div>
+                    {product.variations && product.variations.length > 0 && (
+                      <div className="flex items-center gap-2 my-4 mt-2">
+                        <h2>Variations:</h2>
+                        {product.variations.map((item) => (
+                          <button
+                            className={`${
+                              selectedOption === item
+                                ? "bg-red-600"
+                                : "bg-slate-800"
+                            } px-2 py-1 cursor-pointer text-xl font-bold text-white hover:bg-red-600`}
+                            key={item._id}
+                            onClick={() => handleButtonClick(item)}
+                          >
+                            {item.title}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    <div className=" my-3 gap-8 flex">
+                      <h3>Quantity:</h3>
+                      <p className="flex space-x-3 items-center">
+                        <span
+                          onClick={decQty}
+                          className="bg-slate-800 px-2 py-1 cursor-pointer text-xl font-bold"
+                        >
+                          <AiOutlineMinus className="text-white" />
+                        </span>
+                        <span className="text-2xl font-semibold">{qty}</span>
+                        <span
+                          onClick={incQty}
+                          className="bg-slate-800 px-2 py-1 cursor-pointer text-xl font-bold"
+                        >
+                          <AiOutlinePlus className="text-white" />
+                        </span>
+                      </p>
+                    </div>
+
+                    <div className="hidden md:flex gap-3 mt-4">
+                      <button
+                        type="button"
+                        onClick={handleAddToCart}
+                        className="px-3 py-2 bg-red-500 border cursor-pointer text-white font-semibold hover:scale-105 duration-300"
+                      >
+                        Add To Cart
+                      </button>
+                      <button
+                        onClick={handleBuyNow}
+                        type="button"
+                        className="px-5 py-2 bg-slate-700 border cursor-pointer text-white font-semibold hover:scale-105 duration-300"
+                      >
+                        Buy Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 pl-2 md:pl-8 py-3">
+              <div className="flex my-2 px-4 space-y-3  justify-start flex-col py-3 dark:bg-gray-900  shadow-sm shadow-gray-300 dark:shadow-gray-900  mb-4">
+                <div className="">
+                  <h2 className="text-xl py-2 pl-3 font-semibold">
+                    Description
+                  </h2>
+                </div>
+                <p className="sm:text-lg" id="p-wrap">
+                  {product.description}
+                </p>
+              </div>
+              <div className="flex my-2 px-4 space-y-3  justify-start flex-col py-3 dark:bg-gray-900  shadow-sm shadow-gray-300 dark:shadow-gray-900  mb-4">
+                <div className="space-y-2 flex flex-col ">
+                  <p className=" text-2xl  mr-4">Your Rating:</p>
+                  <div className="flex text-2xl mb-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <span
+                        key={star}
+                        className={`cursor-pointer ${
+                          star <= (hoverRating || rating)
+                            ? "text-yellow-500"
+                            : "text-gray-300"
+                        }`}
+                        onMouseEnter={() => setHoverRating(star)}
+                        onMouseLeave={() => setHoverRating(0)}
+                        onClick={() => handleRatingClick(star)}
+                      >
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                  <p>
+                    {rating > 0
+                      ? `You rated this product ${rating} star(s)`
+                      : "Please rate this product"}
+                  </p>
+
+                  <textarea
+                    name="review"
+                    value={reviewText}
+                    onChange={(e) => setReviewText(e.target.value)}
+                    placeholder="Leave a review..."
+                    className="bg-gray-100   dark:bg-gray-800 dark:text-gray-100 border-b py-2 pl-4 focus:outline-none focus:rounded-md focus:ring-1 ring-pink-500 font-light text-gray-500"
+                  />
+
+                  <button
+                    onClick={submitReview}
+                    className=" px-3 py-2 rounded-xl  bg-slate-700 text-white"
+                  >
+                    Submit
+                  </button>
+                </div>
+
+                {/* Display the reviews */}
+                <div className="reviews-section">
+                  <h3 className="text-xl py-2 pl-3 font-semibold">
+                    Customer Reviews
+                  </h3>
+                  {product.reviews?.length > 0 ? (
+                    product.reviews.map((review, index) => (
+                      <div key={index} className="space-y-3">
+                        <p className="text-lg font-semibold">
+                          Rating: {review.rating}{" "}
+                          <span className="text-yellow-500">★</span>{" "}
+                        </p>
+                        <p>{review.comment}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No reviews yet. Be the first to review this product!</p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="py-4">
-          <div className="">
-            <h2 className="text-xl py-2 pl-3 font-semibold">
-              Related Products
-            </h2>
-          </div>
-          <div className="marquee">
-            <div className="flex flex-wrap w-full">
-              {products.map((product) => (
-                <Products key={product._id} product={product} />
-              ))}
+          <div className="py-4">
+            <div className="">
+              <h2 className="text-xl py-2 pl-3 font-semibold">
+                Related Products
+              </h2>
+            </div>
+            <div className="marquee">
+              <div className="flex flex-wrap w-full">
+                {products.map((product) => (
+                  <Products key={product._id} product={product} />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex fixed bottom-0 w-full md:hidden">
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            className="px-3 py-2 bg-slate-700 cursor-pointer text-white font-semibold w-[50%]"
-          >
-            ADD TO CART
-          </button>
-          <button
-            onClick={handleBuyNow}
-            type="button"
-            className="px-3 py-2 bg-yellow-700 cursor-pointer text-white font-semibold w-[50%]"
-          >
-            <Link href="/checkout"> BUY NOW </Link>
-          </button>
+          <div className="flex fixed bottom-0 w-full md:hidden">
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className="px-3 py-2 bg-slate-700 cursor-pointer text-white font-semibold w-[50%]"
+            >
+              ADD TO CART
+            </button>
+            <button
+              onClick={handleBuyNow}
+              type="button"
+              className="px-3 py-2 bg-yellow-700 cursor-pointer text-white font-semibold w-[50%]"
+            >
+              <Link href="/checkout"> BUY NOW </Link>
+            </button>
+          </div>
         </div>
-      </div>
+      </GoogleOAuthProvider>
     </>
   );
 }
