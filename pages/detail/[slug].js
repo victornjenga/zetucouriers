@@ -23,6 +23,7 @@ import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { v4 as uuidv4 } from "uuid"; // Import uuid to generate unique keys
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import toast from "react-hot-toast";
+import jwt_decode from "jwt-decode"; // Import the jwt-decode library
 
 function ProductDetails({ productDetails, products }) {
   const [product, setProduct] = useState(productDetails);
@@ -35,6 +36,7 @@ function ProductDetails({ productDetails, products }) {
   const [hoverRating, setHoverRating] = useState(0);
   const [reviewText, setReviewText] = useState(""); // Capture review input
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state for the review submission
 
   const handleButtonClick = (option) => {
     setSelectedOption(option);
@@ -75,6 +77,7 @@ function ProductDetails({ productDetails, products }) {
       setIsModalOpen(true);
       return;
     }
+    setLoading(true); // Start loading when the submission begins
 
     const review = {
       _key: uuidv4(),
@@ -97,16 +100,18 @@ function ProductDetails({ productDetails, products }) {
     } catch (error) {
       console.error("Error submitting review:", error);
       toast.error("Failed to submit review.");
+    } finally {
+      setLoading(false); // Stop loading after the process is complete
     }
   };
 
   // Google login success handler
+
   const handleLoginSuccess = (response) => {
     try {
       const decoded = jwt_decode(response.credential);
       addUser(decoded);
       saveUserToSanity(decoded);
-      setIsModalOpen(false); // Close modal after successful login
       toast.success("Logged in successfully with Google!");
     } catch (error) {
       console.error("Error decoding JWT:", error);
@@ -299,7 +304,7 @@ function ProductDetails({ productDetails, products }) {
                         className={`cursor-pointer ${
                           star <= (hoverRating || rating)
                             ? "text-yellow-500"
-                            : "text-gray-300"
+                            : "text-gray-400"
                         }`}
                         onMouseEnter={() => setHoverRating(star)}
                         onMouseLeave={() => setHoverRating(0)}
@@ -325,9 +330,10 @@ function ProductDetails({ productDetails, products }) {
 
                   <button
                     onClick={submitReview}
-                    className=" px-3 py-2 rounded-xl  bg-slate-700 text-white"
+                    className="px-3 py-2 rounded-xl bg-slate-700 text-white"
+                    disabled={loading} // Disable button while loading
                   >
-                    Submit
+                    {loading ? "Submitting..." : "Submit Review"}
                   </button>
                 </div>
 
