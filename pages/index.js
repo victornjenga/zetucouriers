@@ -4,15 +4,16 @@ import { BASE_URL } from "../utils";
 import Hero from "@/sections/Hero";
 import Categories from "../components/Category";
 import { client } from "../utils/client";
-const Home = ({ products }) => {
-  // console.log(products);
+import { MdChevronRight, MdChevronLeft } from "react-icons/md";
+
+const Home = ({ featuredProducts, normalProducts }) => {
   const slideLeft = () => {
-    var slider = document.getElementById("slider");
+    const slider = document.getElementById("slider");
     slider.scrollLeft = slider.scrollLeft - 500;
   };
 
   const slideRight = () => {
-    var slider = document.getElementById("slider");
+    const slider = document.getElementById("slider");
     slider.scrollLeft = slider.scrollLeft + 500;
   };
 
@@ -25,20 +26,60 @@ const Home = ({ products }) => {
         <div className="w-full my-2 px-4 justify-center items-center flex flex-col">
           <Hero />
         </div>
+
+        {/* Featured Products Slider */}
+
+        {featuredProducts.length > 0 && (
+          <>
+            {" "}
+            <div className=" md:mt-4">
+              <h2 className="text-lg md:text-xl py-2 pl-3 font-semibold">
+                Featured Products
+              </h2>
+            </div>
+            <div className="flex mb-4 flex-wrap mx-2 w-full">
+              {featuredProducts.map((product) => (
+                <Products key={product._id} product={product} />
+              ))}
+            </div>
+            {/* <div className="relative pt-4 flex group items-center">
+              <MdChevronLeft
+                onClick={slideLeft}
+                size={40}
+                className="bg-white absolute text-black font-bold cursor-pointer z-10  rounded-full hidden group-hover:block opacity-40 hover:opacity-100"
+              />
+              <div
+                id="slider"
+                className="flex sites overflow-x-scroll w-full h-full whitespace-nowrap scroll-smooth scrollbar-hide relative"
+              >
+                {featuredProducts.map((product) => (
+                  <Products key={product._id} product={product} />
+                ))}
+              </div>
+              <MdChevronRight
+                onClick={slideRight}
+                size={40}
+                className="bg-white right-0 absolute text-black font-bold cursor-pointer z-10  rounded-full hidden group-hover:block opacity-40 hover:opacity-100"
+              />
+            </div> */}
+          </>
+        )}
+
+        {/* All Products Section */}
         <div className="my-3 md:mt-4">
           <h2 className="text-lg md:text-xl py-2 pl-3 font-semibold">
-            FEATURED PRODUCTS
+            All Products
           </h2>
         </div>
-        {products.length > 0 ? (
+        {normalProducts.length > 0 ? (
           <div className="flex mb-4 flex-wrap mx-2 w-full">
-            {products.slice(0, 4).map((product) => (
+            {normalProducts.map((product) => (
               <Products key={product._id} product={product} />
             ))}
           </div>
         ) : (
           <div className="px-4">
-            <p className="text-lg">No products found in this category.</p>
+            <p className="text-lg">No products found.</p>
           </div>
         )}
       </div>
@@ -48,43 +89,46 @@ const Home = ({ products }) => {
 
 export default Home;
 
-export const getServerSideProps = async ({ query: { category } }) => {
+export const getServerSideProps = async () => {
   try {
-    let products;
-
-    if (category) {
-      // Query Sanity for products under the selected category
-      const query = `*[_type == "sites" && "${category}" in category[]->title]{
+    // Fetch all products from Sanity
+    const query = `*[_type == "products"]{
+      _id,
+      name,
+      image,
+      featured,
+      category[]->{
         _id,
-        name,
-        image,
-        category[]->{
-          _id,
-          title
-        },
-        description,
-        price,
-        brand,
-        specs
-      }`;
+        title
+      },
+      slug,
+      description,
+      price,
+      brand,
+      specs
+    }`;
 
-      products = await client.fetch(query);
-      // console.log("Fetched products for category:", category, products); // Debugging log
-    } else {
-      // Fetch all products from the API
-      const response = await axios.get(`${BASE_URL}/api/products`);
-      products = response.data; // Get the data from the response
-      // console.log("Fetched all products:", products); // Debugging log
-    }
+    const products = await client.fetch(query);
+
+    // Separate featured and normal products
+    const featuredProducts = products.filter((product) => product.featured);
+    const normalProducts = products.filter((product) => !product.featured);
 
     return {
-      props: { products: products || [] }, // Ensure products is always an array
+      props: {
+        featuredProducts: featuredProducts || [],
+        normalProducts: normalProducts || [],
+      },
     };
   } catch (error) {
     console.error("Error fetching products:", error);
 
     return {
-      props: { products: [], error: "Failed to fetch products" }, // Add error prop
+      props: {
+        featuredProducts: [],
+        normalProducts: [],
+        error: "Failed to fetch products",
+      },
     };
   }
 };

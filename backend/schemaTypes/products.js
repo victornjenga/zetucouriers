@@ -83,6 +83,12 @@ export default {
       ],
     },
     {
+      name: 'featured',
+      title: 'Featured',
+      type: 'boolean',
+      description: 'Mark this product as featured',
+    },
+    {
       name: 'postedBy',
       title: 'Posted By',
       type: 'reference',

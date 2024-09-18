@@ -11,6 +11,8 @@ import {
   FcNews,
   FcMindMap,
   FcEngineering,
+  FcImport,
+  FcMediumPriority,
 } from "react-icons/fc";
 
 function SideBar() {
@@ -70,6 +72,22 @@ function SideBar() {
             <FcNews className="text-xl" />
 
             <p className="font-semibold text-xl">Orders</p>
+          </li>
+          <li
+            onClick={() => router.push("/dashboard/featured")}
+            className="sidebar-link"
+          >
+            <FcMediumPriority className="text-xl" />
+
+            <p className="font-semibold text-xl">Featured</p>
+          </li>
+          <li
+            onClick={() => router.push("/dashboard/sizes")}
+            className="sidebar-link"
+          >
+            <FcImport className="text-xl" />
+
+            <p className="font-semibold text-xl">Variations</p>
           </li>
           <li
             onClick={() => router.push("/dashboard/settings")}

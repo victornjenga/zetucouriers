@@ -4,58 +4,58 @@ import { client } from "../../../utils/client";
 import Link from "next/link";
 import { toast } from "react-toastify";
 
-function Categories({ categories }) {
+function Variations({ variations }) {
   const [title, setTitle] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedVariation, setSelectedVariation] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
 
   // Open the delete confirmation modal
-  const openDeleteModal = (category) => {
-    setSelectedCategory(category);
+  const openDeleteModal = (variation) => {
+    setSelectedVariation(variation);
     setShowDeleteModal(true);
   };
 
   // Close the delete modal
   const closeDeleteModal = () => {
     setShowDeleteModal(false);
-    setSelectedCategory(null);
+    setSelectedVariation(null);
   };
 
-  // Handle the addition of a new category
-  const handleAddCategory = async (e) => {
+  // Handle the addition of a new variation
+  const handleAddVariation = async (e) => {
     e.preventDefault();
     if (!title) return;
 
     setIsAdding(true);
     try {
-      const newCategory = {
-        _type: "category",
+      const newVariation = {
+        _type: "variations",
         title,
       };
-      await client.create(newCategory); // Add new category to Sanity
+      await client.create(newVariation); // Add new variation to Sanity
       setTitle(""); // Clear input
-      toast.success(`Category Added successfully!`);
+      toast.success(`Variation Added successfully!`);
     } catch (error) {
-      console.error("Error adding category:", error);
+      console.error("Error adding variation:", error);
     } finally {
       setIsAdding(false);
     }
   };
 
-  // Handle the deletion of a category
-  const handleDeleteCategory = async () => {
-    if (selectedCategory) {
+  // Handle the deletion of a variation
+  const handleDeleteVariation = async () => {
+    if (selectedVariation) {
       setIsDeleting(true);
       try {
-        await client.delete(selectedCategory._id); // Delete category from Sanity
+        await client.delete(selectedVariation._id); // Delete variation from Sanity
         closeDeleteModal();
-        toast.success(`Category Deleted successfully!`);
+        toast.success(`Variation Deleted successfully!`);
         window.location.reload(); // Reload page to reflect deletion
       } catch (error) {
-        console.error("Error deleting category:", error);
-        toast.error("Failed to delete category.");
+        toast.error("Failed to delete variation.");
+        console.error("Error deleting variation:", error);
       } finally {
         setIsDeleting(false);
       }
@@ -71,22 +71,22 @@ function Categories({ categories }) {
             <p className="hover:text-blue-600 text-lg">Dashboard</p>
           </Link>
           &nbsp;&gt;&nbsp;
-          <Link href="/dashboard/categories">
-            <p className="hover:text-blue-600 text-lg">Categories</p>
+          <Link href="/dashboard/variations">
+            <p className="hover:text-blue-600 text-lg">variations</p>
           </Link>
         </nav>
 
-        <h1 className="text-2xl font-bold mb-6">Product Categories</h1>
+        <h1 className="text-2xl font-bold mb-6">Product variations</h1>
 
-        {/* Add Category Form */}
-        <form onSubmit={handleAddCategory} className="mb-6">
+        {/* Add variation Form */}
+        <form onSubmit={handleAddVariation} className="mb-6">
           <div className="mb-4">
-            <label className="block py-2">Add New Category</label>
+            <label className="block py-2">Add New variation</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter category title"
+              placeholder="Enter variation title"
               className="border px-4 py-2 rounded w-full"
               required
             />
@@ -98,27 +98,27 @@ function Categories({ categories }) {
             }`}
             disabled={isAdding}
           >
-            {isAdding ? "Adding..." : "Add Category"}
+            {isAdding ? "Adding..." : "Add variation"}
           </button>
         </form>
 
-        {/* Categories List */}
+        {/* variations List */}
         <div className="overflow-x-auto sites scrollbar-hide">
           <table className="min-w-full">
             <thead>
               <tr>
-                <th className="py-2">Category Name</th>
+                <th className="py-2">variation Name</th>
                 <th className="py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {categories && categories.length > 0 ? (
-                categories.map((category) => (
-                  <tr key={category._id}>
-                    <td className="border px-4 py-2">{category.title}</td>
+              {variations && variations.length > 0 ? (
+                variations.map((variation) => (
+                  <tr key={variation._id}>
+                    <td className="border px-4 py-2">{variation.title}</td>
                     <td className="border px-4 py-2">
                       <button
-                        onClick={() => openDeleteModal(category)}
+                        onClick={() => openDeleteModal(variation)}
                         className="bg-red-500 text-white px-4 py-2 rounded"
                       >
                         Delete
@@ -129,7 +129,7 @@ function Categories({ categories }) {
               ) : (
                 <tr>
                   <td colSpan="2" className="text-center py-4">
-                    No categories found.
+                    No variations found.
                   </td>
                 </tr>
               )}
@@ -138,13 +138,13 @@ function Categories({ categories }) {
         </div>
 
         {/* Delete Confirmation Modal */}
-        {showDeleteModal && selectedCategory && (
+        {showDeleteModal && selectedVariation && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
             <div className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg max-w-sm w-[90%] md:w-full">
               <h2 className="text-lg font-bold mb-4">Confirm Deletion</h2>
               <p className="mb-6">
                 Are you sure you want to delete{" "}
-                <strong>{selectedCategory.title}</strong>?
+                <strong>{selectedVariation.title}</strong>?
               </p>
               <div className="flex justify-end space-x-4">
                 <button
@@ -154,7 +154,7 @@ function Categories({ categories }) {
                   Cancel
                 </button>
                 <button
-                  onClick={handleDeleteCategory}
+                  onClick={handleDeleteVariation}
                   className={`bg-red-500 text-white px-4 py-2 rounded ${
                     isDeleting ? "opacity-50 cursor-not-allowed" : ""
                   }`}
@@ -171,24 +171,24 @@ function Categories({ categories }) {
   );
 }
 
-export default Categories;
+export default Variations;
 
-// Fetch categories from Sanity
+// Fetch variations from Sanity
 export const getServerSideProps = async () => {
   try {
-    const query = `*[_type == "category"]{_id, title}`;
-    const categories = await client.fetch(query);
+    const query = `*[_type == "variations"]{_id, title}`;
+    const variations = await client.fetch(query);
 
     return {
       props: {
-        categories,
+        variations,
       },
     };
   } catch (error) {
-    console.error("Error fetching categories:", error);
+    console.error("Error fetching variations:", error);
     return {
       props: {
-        categories: [],
+        variations: [],
       },
     };
   }
