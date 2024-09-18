@@ -5,7 +5,8 @@ import {
   FcHome,
   FcNews,
   FcMindMap,
-  FcEngineering,FcImport,FcMediumPriority
+  FcEngineering,FcImport,FcMediumPriority,
+  FcShop
 } from "react-icons/fc";
 
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
@@ -157,6 +158,13 @@ const Navbar = () => {
                 >
                   <FcImport />
                   <Link href="/dashboard/sizes">Variations</Link>
+                </li>
+                <li
+                  onClick={() => setOpen(false)}
+                  className="font-sm  hover:text-orange-600 flex text-lg space-x-2 items-center"
+                >
+                  <FcShop />
+                  <Link href="/dashboard/flash">Flash Sale</Link>
                 </li>
                 <li
                   onClick={() => setOpen(false)}

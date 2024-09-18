@@ -13,6 +13,7 @@ import {
   FcEngineering,
   FcImport,
   FcMediumPriority,
+  FcShop,
 } from "react-icons/fc";
 
 function SideBar() {
@@ -80,6 +81,14 @@ function SideBar() {
             <FcMediumPriority className="text-xl" />
 
             <p className="font-semibold text-xl">Featured</p>
+          </li>
+          <li
+            onClick={() => router.push("/dashboard/flash")}
+            className="sidebar-link"
+          >
+            <FcShop className="text-xl" />
+
+            <p className="font-semibold text-xl">Flash Sale</p>
           </li>
           <li
             onClick={() => router.push("/dashboard/sizes")}

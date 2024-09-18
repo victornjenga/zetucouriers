@@ -54,29 +54,29 @@ export default {
       type: 'string',
     },
     {
-      name: "reviews",
-      title: "Reviews",
-      type: "array",
+      name: 'reviews',
+      title: 'Reviews',
+      type: 'array',
       of: [
         {
-          type: "object",
+          type: 'object',
           fields: [
             {
-              name: "rating",
-              title: "Rating",
-              type: "number",
+              name: 'rating',
+              title: 'Rating',
+              type: 'number',
               validation: (Rule) => Rule.min(1).max(5),
             },
             {
-              name: "comment",
-              title: "Comment",
-              type: "text",
+              name: 'comment',
+              title: 'Comment',
+              type: 'text',
             },
             {
-              name: "user",
-              title: "User",
-              type: "reference",
-              to: [{ type: "user" }],
+              name: 'user',
+              title: 'User',
+              type: 'reference',
+              to: [{type: 'user'}],
             },
           ],
         },
@@ -87,6 +87,19 @@ export default {
       title: 'Featured',
       type: 'boolean',
       description: 'Mark this product as featured',
+    },
+    {
+      name: 'flashSale',
+      title: 'Flash Sale',
+      type: 'boolean',
+      description: 'Is this product on flash sale?',
+    },
+    {
+      name: 'discountPercentage',
+      title: 'Discount Percentage',
+      type: 'number',
+      description: 'Percentage discount for flash sale items',
+      hidden: ({document}) => !document?.flashSale, // Only show when flashSale is true
     },
     {
       name: 'postedBy',
