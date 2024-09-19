@@ -24,6 +24,7 @@ import { v4 as uuidv4 } from "uuid"; // Import uuid to generate unique keys
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import toast from "react-hot-toast";
 import jwt_decode from "jwt-decode"; // Import the jwt-decode library
+import { FaFacebookF, FaTwitter, FaWhatsapp } from "react-icons/fa";
 
 function ProductDetails({ productDetails, products }) {
   const [product, setProduct] = useState(productDetails);
@@ -167,6 +168,17 @@ function ProductDetails({ productDetails, products }) {
         product.price - (product.price * product.discountPercentage) / 100
       )
     : null;
+
+  const handleClick = () => {
+    const phoneNumber = "+254705079016";
+    const message = `Hello Civrot. Tell me more about this Product`;
+    const currentUrl = window.location.href;
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message + currentUrl
+    )}`;
+    window.open(url, "_blank");
+  };
+
   return (
     <>
       <Head>
@@ -178,7 +190,7 @@ function ProductDetails({ productDetails, products }) {
         <meta property="og:image" content={imageUrl} />
         <meta
           property="og:url"
-          content={`https://yourdomain.com/products/${product.slug}`}
+          content={`https://store.civrot.com/products/${product.slug}`}
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={product.name} />
@@ -318,6 +330,15 @@ function ProductDetails({ productDetails, products }) {
                         Buy Now
                       </button>
                     </div>
+                    <div className="w-full gap-3 pt-4 space-y-2">
+                      <button
+                        onClick={handleClick}
+                        className=" bg-green-500  flex items-center gap-3 px-4 py-3 text-lg rounded-md text-white"
+                      >
+                        <FaWhatsapp className="text-2xl" />
+                        Buy Via WhatsApp
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -335,6 +356,46 @@ function ProductDetails({ productDetails, products }) {
                 </p>
               </div>
               <div className="flex my-2 px-4 space-y-3  justify-start flex-col py-3 dark:bg-gray-900  shadow-sm shadow-gray-300 dark:shadow-gray-900  mb-4">
+                <div className="w-full justify-center  py-4">
+                  <p className="font-bold text-lg">Share this product:</p>
+                  <div className="flex space-x-4 mt-2">
+                    {/* Facebook */}
+                    <a
+                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                        `https://store.civrot.com/detail/${product.slug.current}`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="shadow-lg cursor-pointer w-10 h-10 justify-center items-center flex shadow-gray-400 rounded-full "
+                    >
+                      <FaFacebookF className="text-2xl" />
+                    </a>
+
+                    {/* Twitter */}
+                    <a
+                      href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                        `https://civrot.com/websites/detail/${product.slug.current}`
+                      )}&text=Check%20out%20this%20awesome%20website!`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="shadow-lg cursor-pointer w-10 h-10 justify-center items-center flex shadow-gray-400 rounded-full "
+                    >
+                      <FaTwitter className="text-2xl" />
+                    </a>
+
+                    {/* WhatsApp */}
+                    <a
+                      href={`https://wa.me/?text=Check%20out%20this%20awesome%20website!%20${encodeURIComponent(
+                        `https://civrot.com/websites/detail/${product.slug.current}`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="shadow-lg cursor-pointer w-10 h-10 justify-center items-center flex shadow-gray-400 rounded-full "
+                    >
+                      <FaWhatsapp className="text-2xl" />
+                    </a>
+                  </div>
+                </div>{" "}
                 <div className="space-y-2 flex flex-col ">
                   <p className=" text-2xl  mr-4">Your Rating:</p>
                   <div className="flex text-2xl mb-1">
@@ -376,7 +437,6 @@ function ProductDetails({ productDetails, products }) {
                     {loading ? "Submitting..." : "Submit Review"}
                   </button>
                 </div>
-
                 {/* Display the reviews */}
                 <div className="reviews-section">
                   <h3 className="text-xl py-2 pl-3 font-semibold">
