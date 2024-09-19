@@ -93,13 +93,28 @@ export default {
       title: 'Flash Sale',
       type: 'boolean',
       description: 'Is this product on flash sale?',
+      initialValue: false,
     },
     {
       name: 'discountPercentage',
       title: 'Discount Percentage',
       type: 'number',
-      description: 'Percentage discount for flash sale items',
-      hidden: ({document}) => !document?.flashSale, // Only show when flashSale is true
+      description: 'Discount percentage for flash sale',
+      validation: (Rule) =>
+        Rule.min(0).max(100).error('Discount percentage must be between 0 and 100'),
+      hidden: ({document}) => !document?.flashSale, // Show only if flashSale is true
+    },
+    {
+      name: 'flashSaleEndTime',
+      title: 'Flash Sale End Time',
+      type: 'datetime',
+      description: 'End time for the flash sale',
+      options: {
+        dateFormat: 'YYYY-MM-DD',
+        timeFormat: 'HH:mm',
+        calendarTodayLabel: 'Today',
+      },
+      hidden: ({document}) => !document?.flashSale, // Show only if flashSale is true
     },
     {
       name: 'postedBy',
