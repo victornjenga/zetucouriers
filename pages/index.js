@@ -1,30 +1,21 @@
 import React, { useEffect, useState } from "react";
 import Products from "@/components/Products";
-import axios from "axios";
-import { BASE_URL } from "../utils";
 import Hero from "@/sections/Hero";
 import Categories from "../components/Category";
 import { client } from "../utils/client";
-import { MdChevronRight, MdChevronLeft } from "react-icons/md";
 
 const Home = ({
   featuredProducts = [],
   normalProducts = [],
   flashSaleProducts = [],
+  flashSaleEndTime, // Receive flashSaleEndTime from server-side props
 }) => {
-  const slideLeft = () => {
-    const slider = document.getElementById("slider");
-    slider.scrollLeft = slider.scrollLeft - 500;
-  };
-
-  const slideRight = () => {
-    const slider = document.getElementById("slider");
-    slider.scrollLeft = slider.scrollLeft + 500;
-  };
+  const [timeLeft, setTimeLeft] = useState({}); // Initially empty
+  const [hasMounted, setHasMounted] = useState(false); // Track if component has mounted
 
   // Countdown Timer for Flash Sale
   const calculateTimeLeft = () => {
-    const flashSaleEnd = new Date("2024-09-30T23:59:59"); // Example flash sale end date
+    const flashSaleEnd = new Date(flashSaleEndTime); // Use dynamic flash sale end time
     const now = new Date();
     const difference = flashSaleEnd - now;
 
@@ -42,15 +33,21 @@ const Home = ({
     return timeLeft;
   };
 
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
+  // Only calculate the time left after the component has mounted on the client-side
   useEffect(() => {
+    setHasMounted(true); // Set to true after the component has mounted
+
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [flashSaleEndTime]);
+
+  // If the component hasn't mounted yet, don't render the timer to avoid SSR/client mismatch
+  if (!hasMounted) {
+    return null; // or you can return a loader, or a placeholder countdown
+  }
 
   return (
     <>
@@ -70,9 +67,9 @@ const Home = ({
           <div className="my-6">
             <h2 className="text-lg md:text-xl py-2 pl-3 font-semibold">
               FLASH SALE (Ends in{" "}
-              {`${timeLeft.days || 0}d ${timeLeft.hours || 0}h ${
-                timeLeft.minutes || 0
-              }m ${timeLeft.seconds || 0}s`}
+              <span className="text-orange-600">{`${timeLeft?.days || 0}d ${
+                timeLeft?.hours || 0
+              }h ${timeLeft?.minutes || 0}m ${timeLeft?.seconds || 0}s`}</span>
               )
             </h2>
 
@@ -149,7 +146,13 @@ export const getServerSideProps = async () => {
       specs
     }`;
 
+    // Query to fetch flash sale end time from the settings schema
+    const flashSaleEndTimeQuery = `*[_type == "settings"][0]{ flashSaleEndTime }`;
+
     const products = await client.fetch(query);
+    const settings = await client.fetch(flashSaleEndTimeQuery);
+
+    const flashSaleEndTime = settings?.flashSaleEndTime || null;
 
     // Separate featured, normal, and flash sale products
     const featuredProducts = products.filter((product) => product.featured);
@@ -163,17 +166,19 @@ export const getServerSideProps = async () => {
         featuredProducts: featuredProducts || [],
         normalProducts: normalProducts || [],
         flashSaleProducts: flashSaleProducts || [],
+        flashSaleEndTime, // Pass the flash sale end time to the component
       },
     };
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching products or settings:", error);
 
     return {
       props: {
         featuredProducts: [],
         normalProducts: [],
         flashSaleProducts: [],
-        error: "Failed to fetch products",
+        flashSaleEndTime: null,
+        error: "Failed to fetch products or settings",
       },
     };
   }

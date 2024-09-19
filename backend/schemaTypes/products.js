@@ -96,6 +96,12 @@ export default {
       initialValue: false,
     },
     {
+      name: 'flashSaleEndTime',
+      type: 'datetime',
+      title: 'Flash Sale End Time',
+      description: 'Set the global end time for the flash sale.',
+    },
+    {
       name: 'discountPercentage',
       title: 'Discount Percentage',
       type: 'number',
@@ -104,18 +110,7 @@ export default {
         Rule.min(0).max(100).error('Discount percentage must be between 0 and 100'),
       hidden: ({document}) => !document?.flashSale, // Show only if flashSale is true
     },
-    {
-      name: 'flashSaleEndTime',
-      title: 'Flash Sale End Time',
-      type: 'datetime',
-      description: 'End time for the flash sale',
-      options: {
-        dateFormat: 'YYYY-MM-DD',
-        timeFormat: 'HH:mm',
-        calendarTodayLabel: 'Today',
-      },
-      hidden: ({document}) => !document?.flashSale, // Show only if flashSale is true
-    },
+
     {
       name: 'postedBy',
       title: 'Posted By',
