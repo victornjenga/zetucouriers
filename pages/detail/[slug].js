@@ -29,6 +29,7 @@ function ProductDetails({ productDetails, products }) {
   const [product, setProduct] = useState(productDetails);
   const [index, setIndex] = useState(0);
   const router = useRouter();
+  const { slug } = router.query; // Get the slug from the URL
   const { decQty, incQty, qty, onAdd, setSize } = useStateContext();
   const { userProfile, addUser } = useAuthStore(); // Zustand store hooks
   const [selectedOption, setSelectedOption] = useState(null);
@@ -38,6 +39,24 @@ function ProductDetails({ productDetails, products }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false); // Loading state for the review submission
 
+  console.log(productDetails);
+
+  // Fetch product details when the route (slug) changes
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      if (slug) {
+        try {
+          const { data } = await axios.get(`${BASE_URL}/api/products/${slug}`);
+          setProduct(data);
+        } catch (error) {
+          console.error("Failed to fetch product:", error);
+          toast.error("Failed to load product details.");
+        }
+      }
+    };
+
+    fetchProductDetails();
+  }, [slug]); // Dependency on the route (slug)
   const handleButtonClick = (option) => {
     setSelectedOption(option);
     setSize(option); // Set the size in StateContext
@@ -142,6 +161,12 @@ function ProductDetails({ productDetails, products }) {
   // Image URL for sharing (Open Graph and Twitter)
   const imageUrl = urlFor(product.image && product.image[index]).url();
 
+  // Calculate discounted price outside the JSX
+  const discountedPrice = product.discountPercentage
+    ? Math.round(
+        product.price - (product.price * product.discountPercentage) / 100
+      )
+    : null;
   return (
     <>
       <Head>
@@ -163,7 +188,7 @@ function ProductDetails({ productDetails, products }) {
       <GoogleOAuthProvider
         clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
       >
-        <div className="w-full md:w-[90%] pt-32 mb-8">
+        <div className="w-full md:w-[90%] pt-28 mb-8">
           {/* Google Login Modal */}
           {isModalOpen && (
             <div className="fixed inset-0 mx-3 flex items-center justify-center bg-black bg-opacity-50">
@@ -207,10 +232,25 @@ function ProductDetails({ productDetails, products }) {
 
                   <div className=" justify-start flex flex-col w-full md:p-4">
                     <div className="bg-gray-100 dark:bg-gray-800 px-3 py-1 ">
-                      <p className="py-2 text-red-600 text-3xl font-medium">
-                        Ksh {product.price}
-                      </p>
+                      {product.discountPercentage ? (
+                        <div className="flex gap-3 items-center">
+                          <p className="py-2 text-red-600 text-lg md:text-xl font-medium line-through">
+                            Ksh {product.price}
+                          </p>
+                          <p className="py-2 text-green-600 text-lg md:text-xl font-medium">
+                            Ksh {discountedPrice}
+                          </p>
+                          <p className="text-green-600 text-lg md:text-xl font-medium">
+                            {product.discountPercentage}% off
+                          </p>
+                        </div>
+                      ) : (
+                        <p className="py-2 text-red-600 text-3xl font-medium">
+                          Ksh {product.price}
+                        </p>
+                      )}
                     </div>
+
                     <div className="flex my-3 items-center gap-8">
                       <p>Services:</p>
                       <div className="flex items-center gap-2">

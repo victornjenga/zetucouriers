@@ -18,7 +18,7 @@ export const allPostsQuery = () => {
         name,
         email,
         image
-      },
+      },discountPercentage,
     specs
   }`;
 
@@ -51,6 +51,7 @@ export const postDetailQuery = (slug) => {
         email,
         image
       },
+      discountPercentage,
     specs,
   }`;
 

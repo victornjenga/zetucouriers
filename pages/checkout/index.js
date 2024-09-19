@@ -121,129 +121,139 @@ export default function Checkout() {
     .join("<br><br>");
 
   return (
-    <div className="flex relative pt-56 items-center z-0 flex-col">
-      <h3 className="text-2xl">Make payment for your order</h3>
-      <div className="px-10 gap-10 space-y- my-6 justify-around items-center block md:flex">
-        <form ref={form} onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block mb-2">First Name</label>
-            <input
-              type="text"
-              name="firstName"
-              value={firstName}
-              placeholder="John"
-              onChange={(e) => setFirstName(e.target.value)}
-              className="bg-slate-200 left-0 text-black py-1 px-2 outline-none rounded-xl"
-            />
-            {error.firstName && (
-              <p className="text-red-500">{error.firstName}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block mb-2">Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              value={lastName}
-              placeholder="Doe"
-              onChange={(e) => setLastName(e.target.value)}
-              className="bg-slate-200 left-0 text-black py-1 px-2 outline-none rounded-xl"
-            />
-            {error.lastName && <p className="text-red-500">{error.lastName}</p>}
-          </div>
-
-          <div>
-            <label className="block mb-2">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={email}
-              placeholder="w5jLs@example.com"
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-slate-200 left-0 text-black py-1 px-2 outline-none rounded-xl"
-            />
-            {error.email && <p className="text-red-500">{error.email}</p>}
-          </div>
-
-          <div>
-            <label className="block mb-2">Phone</label>
-            <input
-              type="text"
-              name="phone"
-              value={phone}
-              placeholder="0712345678"
-              onChange={(e) => setPhone(e.target.value)}
-              className="bg-slate-200 left-0 text-black py-1 px-2 outline-none rounded-xl"
-            />
-            {error.phone && <p className="text-red-500">{error.phone}</p>}
-          </div>
-
-          <div>
-            <label className="block mb-2">Location</label>
-            <input
-              type="text"
-              name="location"
-              value={location}
-              placeholder="Nairobi, Kenya"
-              onChange={(e) => setLocation(e.target.value)}
-              className="bg-slate-200 left-0 text-black py-1 px-2 outline-none rounded-xl"
-            />
-            {error.location && <p className="text-red-500">{error.location}</p>}
-          </div>
-          <input type="hidden" name="cartItems" value={cartItemsString} />
-
-          <div>
-            <h4 className="text-lg font-semibold mb-2">
-              Select Payment Method
-            </h4>
-            <div className="flex gap-4 items-center">
-              <label>
+    <div className="flex w-full justify-center pt-40 items-center z-0 flex-col">
+      <h3 className="text-2xl my-6">Make payment for your order</h3>
+      <div className=" justify-center md:flex items-center w-[90%] md:w-[90%]">
+        <form ref={form} onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 md:gap-10">
+            {/* First Column */}
+            <div className="space-y-2 ">
+              <div>
+                <label className="block mb-2">First Name</label>
                 <input
-                  type="radio"
-                  name="paymentMethod"
-                  value="mpesa"
-                  onChange={handlePaymentMethod}
+                  type="text"
+                  name="firstName"
+                  value={firstName}
+                  placeholder="John"
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="bg-slate-200 dark:bg-gray-700 text-black py-2 px-3 outline-none rounded-xl w-full"
                 />
-                <span className="ml-2">Mpesa</span>
-              </label>
-              <label>
+                {error.firstName && (
+                  <p className="text-red-500">{error.firstName}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block mb-2">Last Name</label>
                 <input
-                  type="radio"
-                  name="paymentMethod"
-                  value="cash"
-                  onChange={handlePaymentMethod}
+                  type="text"
+                  name="lastName"
+                  value={lastName}
+                  placeholder="Doe"
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="bg-slate-200 dark:bg-gray-700 text-black py-2 px-3 outline-none rounded-xl w-full"
                 />
-                <span className="ml-2">Cash on Delivery</span>
-              </label>
+                {error.lastName && (
+                  <p className="text-red-500">{error.lastName}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block mb-2">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={email}
+                  placeholder="w5jLs@example.com"
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="bg-slate-200 dark:bg-gray-700 text-black py-2 px-3 outline-none rounded-xl w-full"
+                />
+                {error.email && <p className="text-red-500">{error.email}</p>}
+              </div>
+
+              <div>
+                <label className="block mb-2">Phone</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={phone}
+                  placeholder="0712345678"
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="bg-slate-200 dark:bg-gray-700 text-black py-2 px-3 outline-none rounded-xl w-full"
+                />
+                {error.phone && <p className="text-red-500">{error.phone}</p>}
+              </div>
+
+              <div>
+                <label className="block mb-2">Location</label>
+                <input
+                  type="text"
+                  name="location"
+                  value={location}
+                  placeholder="Nairobi, Kenya"
+                  onChange={(e) => setLocation(e.target.value)}
+                  className="bg-slate-200 dark:bg-gray-700 text-black py-2 px-3 outline-none rounded-xl w-full"
+                />
+                {error.location && (
+                  <p className="text-red-500">{error.location}</p>
+                )}
+              </div>
             </div>
-            {error.paymentMethod && (
-              <p className="text-red-500">{error.paymentMethod}</p>
-            )}
-          </div>
 
-          <div>
-            <h4 className="text-lg font-semibold mb-2">Order Summary</h4>
-            <ul className="space-y-2">
-              {cartItems.map((item, index) => (
-                <li key={index}>
-                  {item.name} - {item.quantity} x Ksh {item.price}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-4 font-bold">Total: Ksh {totalPrice}</p>
-          </div>
+            {/* Second Column */}
+            <div className="space-y-6">
+              <div>
+                <h4 className="text-lg font-semibold mb-2">
+                  Select Payment Method
+                </h4>
+                <div className="flex gap-4 items-center">
+                  <label>
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="mpesa"
+                      onChange={handlePaymentMethod}
+                    />
+                    <span className="ml-2">Mpesa</span>
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="cash"
+                      onChange={handlePaymentMethod}
+                    />
+                    <span className="ml-2">Cash on Delivery</span>
+                  </label>
+                </div>
+                {error.paymentMethod && (
+                  <p className="text-red-500">{error.paymentMethod}</p>
+                )}
+              </div>
 
-          <button
-            type="submit"
-            className={`bg-blue-600 text-white px-4 py-2 rounded ${
-              loading ? "cursor-not-allowed opacity-50" : ""
-            }`}
-            disabled={loading} // Disable button when loading
-          >
-            {loading ? "Processing..." : "Place Order"}{" "}
-            {/* Change text when loading */}
-          </button>
+              <div>
+                <h4 className="text-lg font-semibold mb-2">Order Summary</h4>
+                <ul className="space-y-2">
+                  {cartItems.map((item, index) => (
+                    <li key={index}>
+                      {item.name} - {item.quantity} x Ksh {item.price}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4 font-bold">Total: Ksh {totalPrice}</p>
+              </div>
+
+              <button
+                type="submit"
+                className={`bg-blue-600 text-white px-4 py-2 rounded ${
+                  loading ? "cursor-not-allowed opacity-50" : ""
+                }`}
+                disabled={loading}
+              >
+                {loading ? "Processing..." : "Place Order"}
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     </div>
