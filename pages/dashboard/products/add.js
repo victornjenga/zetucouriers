@@ -11,11 +11,12 @@ const AddProduct = ({ categories = [] }) => {
     name: "",
     description: "",
     price: "",
-    categories: [], // Multiple category selection
+    categories: [], // Multiple category selection with checkboxes
     image: null,
     slug: "",
   });
   const [imageFiles, setImageFiles] = useState([]); // For handling multiple image uploads
+  const [imagePreviews, setImagePreviews] = useState([]); // For image preview
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
@@ -30,17 +31,30 @@ const AddProduct = ({ categories = [] }) => {
   };
 
   const handleCategoryChange = (e) => {
-    const selectedOptions = Array.from(e.target.selectedOptions);
-    const selectedCategories = selectedOptions.map((option) => option.value);
+    const { value, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      categories: selectedCategories,
+      categories: checked
+        ? [...prev.categories, value] // Add the category if checked
+        : prev.categories.filter((category) => category !== value), // Remove the category if unchecked
     }));
   };
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     setImageFiles(files); // Store the selected files
+
+    // Generate image previews
+    const filePreviews = files.map((file) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      return new Promise((resolve) => {
+        reader.onloadend = () => resolve(reader.result);
+      });
+    });
+
+    Promise.all(filePreviews).then((previews) => setImagePreviews(previews));
   };
 
   const handleSubmit = async (e) => {
@@ -157,20 +171,22 @@ const AddProduct = ({ categories = [] }) => {
 
           <div className="mb-4">
             <label className="block text-gray-700">Categories</label>
-            <select
-              name="categories"
-              multiple
-              value={formData.categories}
-              onChange={handleCategoryChange}
-              className="border px-4 py-2 rounded w-full"
-              required
-            >
+            <div>
               {categories.map((category) => (
-                <option key={category._id} value={category._id}>
-                  {category.title}
-                </option>
+                <div key={category._id} className="flex items-center mb-2">
+                  <input
+                    type="checkbox"
+                    id={category._id}
+                    value={category._id}
+                    onChange={handleCategoryChange}
+                    checked={formData.categories.includes(category._id)}
+                  />
+                  <label htmlFor={category._id} className="ml-2">
+                    {category.title}
+                  </label>
+                </div>
               ))}
-            </select>
+            </div>
           </div>
 
           <div className="mb-4">
@@ -183,6 +199,22 @@ const AddProduct = ({ categories = [] }) => {
               className="border px-4 py-2 rounded w-full"
             />
           </div>
+
+          {imagePreviews.length > 0 && (
+            <div className="mb-4">
+              <label className="block text-gray-700">Image Preview</label>
+              <div className="grid grid-cols-3 gap-2">
+                {imagePreviews.map((preview, index) => (
+                  <img
+                    key={index}
+                    src={preview}
+                    alt="Preview"
+                    className="h-24 w-24 object-cover"
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
           <button
             type="submit"

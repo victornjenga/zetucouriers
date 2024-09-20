@@ -25,6 +25,12 @@ import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import toast from "react-hot-toast";
 import jwt_decode from "jwt-decode"; // Import the jwt-decode library
 import { FaFacebookF, FaTwitter, FaWhatsapp } from "react-icons/fa";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper";
+import "swiper/css/autoplay";
+import "swiper/css";
+import "swiper/css/pagination";
 
 function ProductDetails({ productDetails, products }) {
   const [product, setProduct] = useState(productDetails);
@@ -234,11 +240,37 @@ function ProductDetails({ productDetails, products }) {
             <div className="flex flex-col md:px-8 w-full justify-center items-center pb-8 xl:flex-row">
               <div className="block space-x-3 md:flex w-full ">
                 <div className="block md:w-1/2">
-                  <img className="w-full" src={imageUrl} alt={product.name} />
+                  {product.image && product.image.length > 0 ? (
+                    <Swiper
+                      autoplay={{ delay: 3000 }}
+                      loop={true} // Add this
+                      modules={[Autoplay, Pagination, A11y]}
+                      spaceBetween={0}
+                      slidesPerView={1}
+                      pagination={{ clickable: true }} // Enables clickable dots
+                      scrollbar={{ draggable: true }}
+                    >
+                      {product.image.map((img, i) => (
+                        <SwiperSlide key={i}>
+                          <img
+                            className="w-full"
+                            src={urlFor(img).url()}
+                            alt={`Product Image ${i + 1}`}
+                          />
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                  ) : (
+                    <img
+                      className="w-full"
+                      src={urlFor(product.image && product.image[index]).url()}
+                      alt={product.name}
+                    />
+                  )}
                 </div>
 
                 <div className="flex flex-col mt-3 mx-1 w-full shadow-sm shadow-gray-300 dark:shadow-gray-900 px-3 py-3 md:w-1/2">
-                  <h3 className="hidden md:flex py-3 text-center text-4xl">
+                  <h3 className="hidden md:flex py-3  text-4xl">
                     {product.name}
                   </h3>
 
