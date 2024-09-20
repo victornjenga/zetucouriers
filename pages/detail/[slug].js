@@ -46,7 +46,7 @@ function ProductDetails({ productDetails, products }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false); // Loading state for the review submission
 
-  console.log(productDetails);
+  // console.log(productDetails);
 
   // Fetch product details when the route (slug) changes
   useEffect(() => {
@@ -177,7 +177,7 @@ function ProductDetails({ productDetails, products }) {
 
   const handleClick = () => {
     const phoneNumber = "+254705079016";
-    const message = `Hello Civrot. Tell me more about this Product`;
+    const message = `Hello Civrot. Tell me more about this Product {""}`;
     const currentUrl = window.location.href;
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
       message + currentUrl
@@ -196,7 +196,7 @@ function ProductDetails({ productDetails, products }) {
         <meta property="og:image" content={imageUrl} />
         <meta
           property="og:url"
-          content={`https://store.civrot.com/products/${product.slug}`}
+          content={`https://store.civrot.com/detail/${product.slug}`}
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={product.name} />
@@ -318,7 +318,7 @@ function ProductDetails({ productDetails, products }) {
                               selectedOption === item
                                 ? "bg-red-600"
                                 : "bg-slate-800"
-                            } px-2 py-1 cursor-pointer text-xl font-bold text-white hover:bg-red-600`}
+                            } px-1 py-1 cursor-pointer text-xl font-bold text-white hover:bg-red-600`}
                             key={item._id}
                             onClick={() => handleButtonClick(item)}
                           >

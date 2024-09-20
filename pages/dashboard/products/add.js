@@ -69,42 +69,107 @@ const AddProduct = ({ categories = [], variations = [] }) => {
     Promise.all(filePreviews).then((previews) => setImagePreviews(previews));
   };
 
-  const handleSubmit = async (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setIsSubmitting(true);
+
+  //   try {
+  //     let imageAssets = [];
+
+  //     // Upload images logic (same as before)
+
+  //     const newProduct = {
+  //       _type: "products",
+  //       name: formData.name,
+  //       description: formData.description,
+  //       slug: {
+  //         _type: "slug",
+  //         current:
+  //           formData.slug || formData.name.toLowerCase().replace(/ /g, "-"),
+  //       },
+  //       price: formData.price,
+  //       category: formData.categories.map((categoryId) => ({
+  //         _type: "reference",
+  //         _ref: categoryId,
+  //         _key: uuidv4(),
+  //       })),
+  //       variations: formData.variations.map((variationId) => ({
+  //         _type: "reference",
+  //         _ref: variationId,
+  //         _key: uuidv4(),
+  //       })),
+  //       image: imageAssets,
+  //       postedBy: {
+  //         _type: "postedBy",
+  //         _ref: userProfile?._id,
+  //       },
+  //     };
+
+  //     await client.create(newProduct);
+  //     toast.success("Product added successfully!");
+  //     router.push("/dashboard/products");
+  //   } catch (error) {
+  //     console.error("Error adding product:", error);
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
+
+ const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    if (!userProfile) {
+      console.error("No user profile found.");
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       let imageAssets = [];
 
-      // Upload images logic (same as before)
+      // Upload each image and store its asset reference with a unique key
+      for (let file of imageFiles) {
+        const uploadResponse = await client.assets.upload("image", file);
+        imageAssets.push({
+          _type: "image",
+          asset: { _ref: uploadResponse._id },
+          _key: uuidv4(), // Add a unique key for each image
+        });
+      }
 
+      // Generate the slug if not provided
+      const slug =
+        formData.slug || formData.name.toLowerCase().replace(/ /g, "-");
+
+      // Prepare the new product data
       const newProduct = {
-        _type: "products",
+        _type: "products", // Ensure this matches your product document type
         name: formData.name,
         description: formData.description,
         slug: {
           _type: "slug",
-          current:
-            formData.slug || formData.name.toLowerCase().replace(/ /g, "-"),
+          current: slug,
         },
         price: formData.price,
         category: formData.categories.map((categoryId) => ({
           _type: "reference",
-          _ref: categoryId,
-          _key: uuidv4(),
+          _ref: categoryId, // Reference to the category document ID
+          _key: uuidv4(), // Add a unique key for each category reference
         })),
         variations: formData.variations.map((variationId) => ({
           _type: "reference",
           _ref: variationId,
           _key: uuidv4(),
         })),
-        image: imageAssets,
+        image: imageAssets, // Array of uploaded image assets with unique keys
         postedBy: {
           _type: "postedBy",
           _ref: userProfile?._id,
         },
       };
 
+      // Create the new product in Sanity
       await client.create(newProduct);
       toast.success("Product added successfully!");
       router.push("/dashboard/products");
