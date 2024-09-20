@@ -46,7 +46,7 @@ function ProductDetails({ productDetails, products }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false); // Loading state for the review submission
 
-  // console.log(productDetails);
+  console.log(productDetails);
 
   // Fetch product details when the route (slug) changes
   useEffect(() => {
@@ -194,7 +194,10 @@ function ProductDetails({ productDetails, products }) {
         <meta property="og:title" content={product.name} />
         <meta property="og:description" content={product.description} />
         <meta property="og:image" content={imageUrl} />
-        <meta property="og:url" content={window.location.href} />
+        <meta
+          property="og:url"
+          content={`https://store.civrot.com/detail/${product.slug}`}
+        />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={product.name} />
         <meta name="twitter:description" content={product.description} />
@@ -391,7 +394,7 @@ function ProductDetails({ productDetails, products }) {
                     {/* Facebook */}
                     <a
                       href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                        window.location.href
+                        `https://store.civrot.com/detail/${product.slug.current}`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -403,8 +406,8 @@ function ProductDetails({ productDetails, products }) {
                     {/* Twitter */}
                     <a
                       href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-                        window.location.href
-                      )}&text=Check%20out%20this%20awesome%20product!`}
+                        `https://store.civrot.com/detail/${product.slug.current}`
+                      )}&text=Check%20out%20this%20awesome%20website!`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="shadow-lg cursor-pointer w-10 h-10 justify-center items-center flex shadow-gray-400 rounded-full "
@@ -414,8 +417,8 @@ function ProductDetails({ productDetails, products }) {
 
                     {/* WhatsApp */}
                     <a
-                      href={`https://wa.me/?text=Check%20out%20this%20awesome%20product!%20${encodeURIComponent(
-                        window.location.href
+                      href={`https://wa.me/?text=Check%20out%20this%20awesome%20website!%20${encodeURIComponent(
+                        `https://store.civrot.com/detail/${product.slug.current}`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
