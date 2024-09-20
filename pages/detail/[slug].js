@@ -194,10 +194,7 @@ function ProductDetails({ productDetails, products }) {
         <meta property="og:title" content={product.name} />
         <meta property="og:description" content={product.description} />
         <meta property="og:image" content={imageUrl} />
-        <meta
-          property="og:url"
-          content={`https://store.civrot.com/detail/${product.slug}`}
-        />
+        <meta property="og:url" content={window.location.href} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={product.name} />
         <meta name="twitter:description" content={product.description} />
@@ -394,7 +391,7 @@ function ProductDetails({ productDetails, products }) {
                     {/* Facebook */}
                     <a
                       href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                        `https://store.civrot.com/detail/${product.slug.current}`
+                        window.location.href
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -406,8 +403,8 @@ function ProductDetails({ productDetails, products }) {
                     {/* Twitter */}
                     <a
                       href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-                        `https://civrot.com/websites/detail/${product.slug.current}`
-                      )}&text=Check%20out%20this%20awesome%20website!`}
+                        window.location.href
+                      )}&text=Check%20out%20this%20awesome%20product!`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="shadow-lg cursor-pointer w-10 h-10 justify-center items-center flex shadow-gray-400 rounded-full "
@@ -417,8 +414,8 @@ function ProductDetails({ productDetails, products }) {
 
                     {/* WhatsApp */}
                     <a
-                      href={`https://wa.me/?text=Check%20out%20this%20awesome%20website!%20${encodeURIComponent(
-                        `https://civrot.com/websites/detail/${product.slug.current}`
+                      href={`https://wa.me/?text=Check%20out%20this%20awesome%20product!%20${encodeURIComponent(
+                        window.location.href
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

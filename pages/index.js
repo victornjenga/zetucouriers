@@ -51,7 +51,7 @@ const Home = ({
 
   return (
     <>
-      <div className="pt-48 md:pt-32 w-full md:w-[90%] justify-center flex-col items-center">
+      <div className="pt-40 md:pt-32 w-full md:w-[90%] justify-center flex-col items-center">
         {/* Categories */}
         <div className="pt-2 md:pt-4 flex overflow-x-scroll py-2 scrollbar-hide mx-4 md:ml-12">
           <Categories />
