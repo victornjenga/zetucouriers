@@ -177,7 +177,7 @@ function ProductDetails({ productDetails, products }) {
 
   const handleClick = () => {
     const phoneNumber = "+254705079016";
-    const message = `Hello Civrot. Tell me more about this Product {""}`;
+    const message = `Hello Civrot. Tell me more about this Product .`;
     const currentUrl = window.location.href;
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
       message + currentUrl
