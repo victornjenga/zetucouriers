@@ -407,7 +407,7 @@ function ProductDetails({ productDetails, products }) {
                     <a
                       href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
                         `https://store.civrot.com/detail/${product.slug.current}`
-                      )}&text=Check%20out%20this%20awesome%20website!`}
+                      )}&text=Check%20out%20this%20awesome%20product!`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="shadow-lg cursor-pointer w-10 h-10 justify-center items-center flex shadow-gray-400 rounded-full "
@@ -417,7 +417,7 @@ function ProductDetails({ productDetails, products }) {
 
                     {/* WhatsApp */}
                     <a
-                      href={`https://wa.me/?text=Check%20out%20this%20awesome%20website!%20${encodeURIComponent(
+                      href={`https://wa.me/?text=Check%20out%20this%20awesome%20product!%20${encodeURIComponent(
                         `https://store.civrot.com/detail/${product.slug.current}`
                       )}`}
                       target="_blank"
