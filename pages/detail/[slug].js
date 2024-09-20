@@ -242,7 +242,7 @@ function ProductDetails({ productDetails, products }) {
                 <div className="block md:w-1/2">
                   {product.image && product.image.length > 0 ? (
                     <Swiper
-                      autoplay={{ delay: 3000 }}
+                      autoplay={{ delay: 2000 }}
                       loop={true} // Add this
                       modules={[Autoplay, Pagination, A11y]}
                       spaceBetween={0}
