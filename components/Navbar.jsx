@@ -149,7 +149,7 @@ function Navbar() {
           <div className="flex space-x-2 items-center">
             <BsFillPersonFill className="text-2xl text-blue-600 font-bold " />
             <Link href="/account">
-            <p>Account</p>
+              <p>Account</p>
             </Link>
           </div>
 
@@ -311,7 +311,7 @@ function Navbar() {
                 className=" flex   pl-4 py-2  space-x-3 font-semibold items-center  "
                 onClick={() => setOpen(false)}
               >
-                <Link href="/web.docx">Catalogue</Link>
+                <Link href="/account">Account</Link>
               </li>
             </ul>
           </div>
