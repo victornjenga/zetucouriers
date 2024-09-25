@@ -198,7 +198,7 @@ function ProductDetails({ productDetails, products }) {
         <meta property="og:image" content={imageUrl} />
         <meta
           property="og:url"
-          content={`https://store.civrot.com/detail/${product.slug}`}
+          content={`https://store.civrot.com/${product.slug}`}
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={product.name} />
@@ -396,7 +396,7 @@ function ProductDetails({ productDetails, products }) {
                     {/* Facebook */}
                     <a
                       href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                        `https://store.civrot.com/detail/${product.slug.current}`
+                        `https://store.civrot.com/${product.slug.current}`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -408,7 +408,7 @@ function ProductDetails({ productDetails, products }) {
                     {/* Twitter */}
                     <a
                       href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-                        `https://store.civrot.com/detail/${product.slug.current}`
+                        `https://store.civrot.com/${product.slug.current}`
                       )}&text=Check%20out%20this%20awesome%20product!`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -420,7 +420,7 @@ function ProductDetails({ productDetails, products }) {
                     {/* WhatsApp */}
                     <a
                       href={`https://wa.me/?text=Check%20out%20this%20awesome%20product!%20${encodeURIComponent(
-                        `https://store.civrot.com/detail/${product.slug.current}`
+                        `https://store.civrot.com/${product.slug.current}`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
