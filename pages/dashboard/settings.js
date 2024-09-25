@@ -129,7 +129,7 @@ const Settings = () => {
     }
   };
 
-  if (!settings) return <p>Loading...</p>;
+  // if (!settings) return <p>Loading...</p>;
 
   return (
     <DashboardLayout>
