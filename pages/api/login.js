@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 export default async function handleUserAuth(req, res) {
   if (req.method === "POST") {
-    const { email, password, name, type } = req.body;
+    const { email, password, name, type, sub, picture } = req.body; // include sub and picture for Google login
 
     try {
       // Ensure the JWT secret is defined
@@ -14,7 +14,29 @@ export default async function handleUserAuth(req, res) {
       }
 
       if (type === "google") {
-        // Google OAuth login logic (same as before)
+        // Google OAuth login logic
+        const doc = {
+          _type: "user",
+          _id: sub, // Use Google user ID as the document ID to avoid duplicates
+          name,
+          email,
+          picture,
+        };
+
+        // Save user to Sanity
+        await client.createOrReplace(doc);
+
+        const token = jwt.sign(
+          { _id: sub, email }, // Use sub as user ID
+          process.env.JWT_SECRET,
+          { expiresIn: "1h" }
+        );
+
+        return res.status(200).json({
+          message: "Google login successful",
+          user: doc,
+          token,
+        });
       } else if (type === "email") {
         // Email/password login logic
         const query = `*[_type == "user" && email == $email][0]`;
@@ -55,7 +77,6 @@ export default async function handleUserAuth(req, res) {
         const existingUser = await client.fetch(query, { email });
 
         if (existingUser) {
-          // If the user already exists, return an appropriate error message
           return res.status(400).json({ error: "User already registered" });
         }
 
@@ -68,12 +89,16 @@ export default async function handleUserAuth(req, res) {
           password: hashedPassword, // Save hashed password
         };
 
-        await client.create(newUser);
-
-        return res.status(200).json({
-          message: "User registered successfully",
-          user: newUser,
-        });
+        try {
+          const createdUser = await client.create(newUser);
+          return res.status(200).json({
+            message: "User registered successfully",
+            user: createdUser, // Return the created user
+          });
+        } catch (error) {
+          console.error("Error creating new user:", error); // Log the error
+          return res.status(500).json({ error: "Failed to create user" });
+        }
       }
     } catch (error) {
       console.error("Error handling auth:", error);
