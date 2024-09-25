@@ -41,7 +41,7 @@ function Products({ product, discountPercentage }) {
   return (
     <div className="w-[50%] md:w-[25%] py-1 px-2 md:px-4 ">
       <div className="flex flex-col relative px-3 py-2 h-full justify-center rounded-md border border-gray-300 dark:border-gray-900 cursor-pointer hover:bg-gray-100 hover:border-gray-200 bg-white dark:bg-slate-900">
-        <Link href={`${BASE_URL}/detail/${slug.current}`}>
+        <Link href={`${BASE_URL}/${slug.current}`}>
           <img
             className="object-contain h-full w-full bg-gray-900"
             src={urlFor(image && image[0])}

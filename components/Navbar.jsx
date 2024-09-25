@@ -148,7 +148,9 @@ function Navbar() {
         <div className="flex space-x-3 items-center justify-center">
           <div className="flex space-x-2 items-center">
             <BsFillPersonFill className="text-2xl text-blue-600 font-bold " />
+            <Link href="/account">
             <p>Account</p>
+            </Link>
           </div>
 
           <div className="flex space-x-2 items-center">

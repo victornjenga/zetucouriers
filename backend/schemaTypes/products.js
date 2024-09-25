@@ -65,23 +65,43 @@ export default {
               name: 'rating',
               title: 'Rating',
               type: 'number',
-              validation: (Rule) => Rule.min(1).max(5),
+              validation: (Rule) => Rule.min(1).max(5).error('Rating must be between 1 and 5.'),
             },
             {
               name: 'comment',
               title: 'Comment',
               type: 'text',
+              validation: (Rule) => Rule.max(500).error('Comment cannot exceed 500 characters.'),
             },
             {
               name: 'user',
               title: 'User',
               type: 'reference',
-              to: [{type: 'user'}],
+              to: [{ type: 'user' }],
+              validation: (Rule) => Rule.required().error('User reference is required.'),
+            },
+            {
+              name: 'createdAt',
+              title: 'Created At',
+              type: 'datetime',
+              options: {
+                dateFormat: 'YYYY-MM-DD',
+                timeFormat: 'HH:mm',
+                calendarTodayLabel: 'Today',
+              },
             },
           ],
+          preview: {
+            select: {
+              title: 'comment',
+              subtitle: 'user.name', // Assuming user has a `name` field
+              media: 'user.image', // Assuming user has an `image` field
+            },
+          },
         },
       ],
     },
+    
     {
       name: 'featured',
       title: 'Featured',

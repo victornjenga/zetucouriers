@@ -1,11 +1,11 @@
 // Import necessary hooks and context
 import { useRouter } from "next/router";
 import React, { useState, useEffect, useContext } from "react";
-import { urlFor, client } from "../../utils/client";
+import { urlFor, client } from "../utils/client";
 import Image from "next/image";
 import axios from "axios";
-import { BASE_URL } from "../../utils";
-import { useStateContext } from "../../context/StateContext";
+import { BASE_URL } from "../utils";
+import { useStateContext } from "../context/StateContext";
 import { TbMessageCircle2Filled, TbTruckDelivery } from "react-icons/tb";
 import {
   AiOutlineMinus,
@@ -17,7 +17,7 @@ import Link from "next/link";
 import Products from "@/components/Products";
 import useAuthStore from "@/store/authStore";
 import LikeButton from "@/components/LikeButton";
-import { CurrencyContext } from "../../context/CurrencyProvider";
+import { CurrencyContext } from "../context/CurrencyProvider";
 import Head from "next/head"; // Import Head for meta tags
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { v4 as uuidv4 } from "uuid"; // Import uuid to generate unique keys
@@ -46,7 +46,7 @@ function ProductDetails({ productDetails, products }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false); // Loading state for the review submission
 
-  console.log(productDetails);
+  // console.log(productDetails);
 
   // Fetch product details when the route (slug) changes
   useEffect(() => {
@@ -63,7 +63,8 @@ function ProductDetails({ productDetails, products }) {
     };
 
     fetchProductDetails();
-  }, [slug]); // Dependency on the route (slug)
+  }, [slug, product.reviews]); // Add reviews as a dependency to trigger re-fetching
+
   const handleButtonClick = (option) => {
     setSelectedOption(option);
     setSize(option); // Set the size in StateContext
@@ -99,11 +100,11 @@ function ProductDetails({ productDetails, products }) {
 
   const submitReview = async () => {
     if (!userProfile) {
-      // Show modal if the user is not logged in
       setIsModalOpen(true);
       return;
     }
-    setLoading(true); // Start loading when the submission begins
+
+    setLoading(true);
 
     const review = {
       _key: uuidv4(),
@@ -119,6 +120,7 @@ function ProductDetails({ productDetails, products }) {
         .insert("after", "reviews[-1]", [review])
         .commit();
 
+      console.log("Updated product with reviews:", updatedProduct); // Debug log
       setProduct(updatedProduct);
       setRating(0);
       setReviewText("");
@@ -127,7 +129,7 @@ function ProductDetails({ productDetails, products }) {
       console.error("Error submitting review:", error);
       toast.error("Failed to submit review.");
     } finally {
-      setLoading(false); // Stop loading after the process is complete
+      setLoading(false);
     }
   };
 
@@ -481,6 +483,10 @@ function ProductDetails({ productDetails, products }) {
                           Rating: {review.rating}{" "}
                           <span className="text-yellow-500">★</span>{" "}
                         </p>
+                        <p className="text-sm text-gray-500">
+                          Reviewed by: {review.userName}
+                        </p>{" "}
+                        {/* Display reviewer's name */}
                         <p>{review.comment}</p>
                       </div>
                     ))
@@ -534,7 +540,14 @@ export default ProductDetails;
 export const getServerSideProps = async ({ params: { slug } }) => {
   const { data } = await axios.get(`${BASE_URL}/api/products/${slug}`);
   let response = await axios.get(`${BASE_URL}/api/products`);
+
   return {
-    props: { productDetails: data, products: response.data },
+    props: {
+      productDetails: {
+        ...data,
+        reviews: data.reviews || [], // Ensure reviews are included if they exist
+      },
+      products: response.data,
+    },
   };
 };

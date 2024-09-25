@@ -125,33 +125,58 @@ const Home = ({
 
 export default Home;
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async ({ query: { category } }) => {
   try {
-    // Fetch all products from Sanity
-    const query = `*[_type == "products"]{
-      _id,
-      name,
-      image,
-      featured,
-      flashSale,
-      discountPercentage,
-      category[]->{
+    let products;
+
+    // Check if a category is provided in the query
+    if (category) {
+      // Fetch products for the specific category from Sanity
+      const query = `*[_type == "products" && "${category}" in category[]->title]{
         _id,
-        title
-      },
-      slug,
-      description,
-      price,
-      brand,
-      specs
-    }`;
+        name,
+        image,
+        featured,
+        flashSale,
+        discountPercentage,
+        category[]->{
+          _id,
+          title
+        },
+        slug,
+        description,
+        price,
+        brand,
+        specs
+      }`;
+
+      products = await client.fetch(query);
+    } else {
+      // Fetch all products if no category is provided
+      const query = `*[_type == "products"]{
+        _id,
+        name,
+        image,
+        featured,
+        flashSale,
+        discountPercentage,
+        category[]->{
+          _id,
+          title
+        },
+        slug,
+        description,
+        price,
+        brand,
+        specs
+      }`;
+
+      products = await client.fetch(query);
+    }
 
     // Query to fetch flash sale end time from the settings schema
     const flashSaleEndTimeQuery = `*[_type == "settings"][0]{ flashSaleEndTime }`;
-
-    const products = await client.fetch(query);
     const settings = await client.fetch(flashSaleEndTimeQuery);
-
     const flashSaleEndTime = settings?.flashSaleEndTime || null;
 
     // Separate featured, normal, and flash sale products
