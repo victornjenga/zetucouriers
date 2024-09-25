@@ -1,4 +1,3 @@
-// ./schemas/settings.js
 export default {
   name: 'settings',
   title: 'Site Settings',
@@ -23,45 +22,25 @@ export default {
       },
     },
     {
-      name: 'favicon',
-      title: 'Favicon',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    },
-    {
-      name: 'footerDetails',
-      title: 'Footer Details',
-      type: 'object',
-      fields: [
-        {
-          name: 'footerText',
-          title: 'Footer Text',
-          type: 'text',
-        },
-        {
-          name: 'salesPhone',
-          title: 'Sales Phone Number',
-          type: 'string',
-        },
-        {
-          name: 'email',
-          title: 'Email Address',
-          type: 'string',
-        },
-        {
-          name: 'shopLocation',
-          title: 'Shop Location',
-          type: 'string',
-        },
-      ],
-    },
-    {
       name: 'flashSaleEndTime',
       title: 'Flash Sale End Time',
       type: 'datetime',
       description: 'Set the global end time for the flash sale.',
+    },
+    // New field for Hero banners
+    {
+      name: 'heroBanners',
+      title: 'Hero Banners',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          title: 'Banner Image',
+          options: {
+            hotspot: true,
+          },
+        },
+      ],
     },
   ],
 }

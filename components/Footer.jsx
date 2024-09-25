@@ -14,7 +14,7 @@ const Footer = () => {
         <div className="flex flex-col  my-3">
           <p className="text-xl font-bold">Customer Services</p>
           <p>
-            <Link href="/web.docx">Catalogue</Link>{" "}
+            <Link href="/account">Account</Link>{" "}
           </p>
           <p className="">Privacy Policy</p>
           <p>

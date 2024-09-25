@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import Navbar from "./Header";
 import SideBar from "./SideBar";
@@ -7,6 +7,7 @@ import jwt_decode from "jwt-decode"; // Import the jwt-decode library
 import useAuthStore from "../../store/authStore"; // Import your Zustand store
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
+import { useRouter } from "next/router"; // Import Next.js router for navigation
 
 const DashboardLayout = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -17,6 +18,7 @@ const DashboardLayout = ({ children }) => {
   const [isRegisterMode, setIsRegisterMode] = useState(false); // To toggle between login/register
   const [error, setError] = useState(null); // Error state
   const [showPassword, setShowPassword] = useState(false); // Toggle to show/hide password
+  const router = useRouter(); // Use Next.js router for redirection
 
   // Toggle password visibility
   const togglePasswordVisibility = () => {
@@ -28,7 +30,7 @@ const DashboardLayout = ({ children }) => {
     try {
       const decoded = jwt_decode(response.credential);
       addUser(decoded);
-      saveUserToSanity(decoded);
+      saveUserToSanity(decoded); // No need to pass role here; the backend will assign 'customer'
       toast.success("Logged in successfully with Google!");
     } catch (error) {
       console.error("Error decoding JWT:", error);
@@ -42,6 +44,7 @@ const DashboardLayout = ({ children }) => {
       const response = await axios.post("/api/login", {
         ...userData,
         type: "google",
+        // No need to send role from the frontend, the backend will assign 'customer'
       });
       console.log("User saved to Sanity:", response.data);
       toast.success("Google account linked successfully!");
@@ -71,13 +74,23 @@ const DashboardLayout = ({ children }) => {
       });
 
       if (response.status === 200 && response.data.user) {
+        if (response.data.user.role !== "admin") {
+          toast.error("You do not have permission to access this page.");
+          return;
+        }
         addUser(response.data.user); // Add user to Zustand store
-        toast.success(isRegisterMode ? "Registered successfully!" : "Logged in successfully!");
+        toast.success(
+          isRegisterMode
+            ? "Registered successfully!"
+            : "Logged in successfully!"
+        );
       } else {
         setError(
           response.data.error || "An error occurred during authentication"
         );
-        toast.error(response.data.error || "An error occurred. Please try again.");
+        toast.error(
+          response.data.error || "An error occurred. Please try again."
+        );
       }
     } catch (err) {
       setError("An error occurred during login/register");
@@ -85,11 +98,20 @@ const DashboardLayout = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    // Redirect if user is not an admin
+    if (userProfile && userProfile.role !== "admin") {
+      toast.error("You do not have permission to access this page.");
+      router.push("/"); // Redirect to homepage or another page
+    }
+  }, [userProfile]);
+
   return (
-    <GoogleOAuthProvider clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}>
+    <GoogleOAuthProvider
+      clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
+    >
       {userProfile ? (
         <>
-          {/* <ToastContainer /> */}
           <Navbar />
           <div className="flex flex-row justify-between w-full">
             <SideBar />
@@ -142,7 +164,10 @@ const DashboardLayout = ({ children }) => {
                 </div>
 
                 <div className="mb-4 relative">
-                  <label htmlFor="password" className="block text-sm font-medium">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium"
+                  >
                     Password
                   </label>
                   <button

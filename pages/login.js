@@ -42,12 +42,14 @@ const Login = () => {
       await axios.post("/api/login", {
         ...userData,
         type: "google",
+        role: "customer", // Ensure the role is set to customer
       });
     } catch (error) {
       console.error("Error saving user to Sanity:", error);
       toast.error("Failed to save user to database.");
     }
   };
+  
 
   const handleLoginFailure = (error) => {
     console.error("Google Login Failed:", error);
@@ -66,6 +68,7 @@ const Login = () => {
         password,
         name: isRegisterMode ? name : undefined, // Only send name if registering
         type,
+        role: "customer", // Ensure the role is set to customer
       });
 
       if (response.status === 200 && response.data.user) {
