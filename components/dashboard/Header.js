@@ -133,49 +133,49 @@ const Navbar = () => {
                 </li>
                 <li
                   onClick={() => setOpen(false)}
-                  className="font-sm  hover:text-orange-600 flex text-lg space-x-2 items-center"
+                  className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcMindMap />
                   <Link href="/dashboard/categories">Categories</Link>
                 </li>
                 <li
                   onClick={() => setOpen(false)}
-                  className="font-sm  hover:text-orange-600 flex text-lg space-x-2 items-center"
+                  className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcNews />
                   <Link href="/dashboard/orders">Orders</Link>
                 </li>
                 <li
                   onClick={() => setOpen(false)}
-                  className="font-sm  hover:text-orange-600 flex text-lg space-x-2 items-center"
+                  className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcMediumPriority />
                   <Link href="/dashboard/featured">Featured</Link>
                 </li>
                 <li
                   onClick={() => setOpen(false)}
-                  className="font-sm  hover:text-orange-600 flex text-lg space-x-2 items-center"
+                  className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcImport />
                   <Link href="/dashboard/sizes">Variations</Link>
                 </li>
                 <li
                   onClick={() => setOpen(false)}
-                  className="font-sm  hover:text-orange-600 flex text-lg space-x-2 items-center"
+                  className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcShop />
                   <Link href="/dashboard/flash">Flash Sale</Link>
                 </li>
                 <li
                   onClick={() => setOpen(false)}
-                  className=" font-sm cursor-pointer hover:text-orange-600 flex text-lg space-x-2 items-center"
+                  className=" font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcEngineering />
                   <Link href="/">Setting</Link>
                 </li>
                 <li
                   onClick={handleLogout}
-                  className=" font-sm cursor-pointer hover:text-orange-600 flex text-lg space-x-2 items-center"
+                  className=" font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <IoMdLogOut />
 

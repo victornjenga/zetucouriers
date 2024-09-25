@@ -198,7 +198,7 @@ const DashboardLayout = ({ children }) => {
                 </button>
               </form>
 
-              <div className="text-center mb-4">
+              {/* <div className="text-center mb-4">
                 <span>
                   {isRegisterMode
                     ? "Already have an account?"
@@ -211,19 +211,19 @@ const DashboardLayout = ({ children }) => {
                 >
                   {isRegisterMode ? "Login" : "Register"}
                 </button>
-              </div>
+              </div> */}
 
-              <div className="text-center mb-4 text-lg">
+              {/* <div className="text-center mb-4 text-lg">
                 Or login with Google
-              </div>
+              </div> */}
 
               {/* Google Login */}
-              <div className="text-center justify-center items-center flex w-full">
+              {/* <div className="text-center justify-center items-center flex w-full">
                 <GoogleLogin
                   onSuccess={handleLoginSuccess}
                   onError={handleLoginFailure}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </>
