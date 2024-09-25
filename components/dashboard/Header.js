@@ -5,8 +5,10 @@ import {
   FcHome,
   FcNews,
   FcMindMap,
-  FcEngineering,FcImport,FcMediumPriority,
-  FcShop
+  FcEngineering,
+  FcImport,
+  FcMediumPriority,
+  FcShop,
 } from "react-icons/fc";
 
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
@@ -171,7 +173,7 @@ const Navbar = () => {
                   className=" font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcEngineering />
-                  <Link href="/">Setting</Link>
+                  <Link href="/dashboard/settings">Setting</Link>
                 </li>
                 <li
                   onClick={handleLogout}
