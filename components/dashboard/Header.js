@@ -168,13 +168,13 @@ const Navbar = () => {
                   <FcShop />
                   <Link href="/dashboard/flash">Flash Sale</Link>
                 </li>
-                {/* <li
+                <li
                   onClick={() => setOpen(false)}
                   className=" font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcEngineering />
                   <Link href="/dashboard/settings">Setting</Link>
-                </li> */}
+                </li>
                 <li
                   onClick={handleLogout}
                   className=" font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"

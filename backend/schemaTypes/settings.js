@@ -27,28 +27,28 @@ export default {
       type: 'datetime',
       description: 'Set the global end time for the flash sale.',
     },
-    // {
-    //   name: 'heroBanners',
-    //   title: 'Hero Banners',
-    //   type: 'array',
-    //   of: [
-    //     {
-    //       type: 'image',
-    //       title: 'Banner Image',
-    //       options: {
-    //         hotspot: true,
-    //       },
-    //       fields: [
-    //         {
-    //           name: 'altText',
-    //           title: 'Alternative Text',
-    //           type: 'string',
-    //           description: 'Important for SEO and accessibility.',
-    //         },
-    //       ],
-    //     },
-    //   ],
-    //   validation: (Rule) => Rule.unique(), // Ensure all banner items are unique
-    // },
+    {
+      name: 'heroBanners',
+      title: 'Hero Banners',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          title: 'Banner Image',
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: 'altText',
+              title: 'Alternative Text',
+              type: 'string',
+              description: 'Important for SEO and accessibility.',
+            },
+          ],
+        },
+      ],
+      validation: (Rule) => Rule.unique(), // Ensure all banner items are unique
+    },
   ],
 }
