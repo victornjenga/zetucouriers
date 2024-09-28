@@ -23,28 +23,32 @@ const Footer = () => {
           <p>About Us</p>
         </div>
         <div className="flex flex-col  my-3">
-          <p className="text-xl font-bold">Top Products</p>
-          <p className="">Phones </p>
-          <p>Laptops</p>
-          <p>Tablets</p>
+          <p className="text-xl font-bold">Top Restaurants</p>
+          <p className="">Serena </p>
+          <p>Kilimajaro</p>
+          <p>Himalaya</p>
+          <p>Udupi</p>
+          <p>Chettinad</p>
+          <p>Malpe</p>
+          
         </div>
         <div className="flex flex-col  my-3">
           <p className="text-xl font-bold">Call Us Here</p>
           <p className="">
-            <span className="text-lg font-bold">Sales:</span> 0705079016
+            <span className="text-lg font-bold">Sales:</span> 0712345678
           </p>
           <p className="">
-            <span className="text-lg font-bold">Email:</span> civrotstore@gmail.com
+            <span className="text-lg font-bold">Email:</span> menuyetu@gmail.com
           </p>
           <p className="">
-            <span className="text-lg font-bold">Shop Location: </span>Nairobi,
+            <span className="text-lg font-bold">Location: </span>Nairobi,
             Kenya
           </p>
         </div>
       </div>
 
       <p className="py-4 px-3 text-center mx-10  flex justify-center">
-        Copyright © {new Date().getFullYear()} Civrot Store, All rights reserved.
+        Copyright © {new Date().getFullYear()} MenuYetu, All rights reserved.
       </p>
     </div>
   );
