@@ -5,9 +5,9 @@ import {schemaTypes} from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
-  title: 'civrotstore',
+  title: 'menuyetu',
 
-  projectId: '3f255uul',
+  projectId: 'uqtk61ay',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],
