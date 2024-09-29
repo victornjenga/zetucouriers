@@ -14,7 +14,6 @@ import useAuthStore from "/store/authStore";
 import { Toaster } from "react-hot-toast";
 import { RiWhatsappFill } from "react-icons/ri";
 import whatsapp from "/public/whatsapp.png";
-import call from "/public/call.png";
 
 import Layout from "@/components/Layout";
 import Router from "next/router";

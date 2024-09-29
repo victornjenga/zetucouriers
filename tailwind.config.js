@@ -24,10 +24,29 @@ module.exports = {
         },
         customBlue: "#0097B2",
       },
+      keyframes: {
+        fadeInDown: {
+          "0%": { opacity: "0", transform: "translateY(-20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        fadeInUp: {
+          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        bounce: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+      },
+      animation: {
+        fadeInDown: "fadeInDown 1s ease-in-out",
+        fadeInUp: "fadeInUp 1s ease-in-out",
+        bounce: "bounce 2s infinite",
+      },
     },
   },
   images: {
-    domains: ['cdn.sanity.io'], // Allow images from Sanity CDN
+    domains: ["cdn.sanity.io"], // Allow images from Sanity CDN
   },
   plugins: [],
 };

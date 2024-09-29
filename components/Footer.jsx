@@ -1,57 +1,123 @@
-import Link from "next/link";
-import React from "react";
+import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
 
-const Footer = () => {
+export default function Footer() {
   return (
-    <div className="bg-gray-50 mb-0 dark:bg-gray-950 flex flex-col justify-center w-full items-center  py-6">
-      <div className=" flex flex-col w-[80%] justify-center md:grid grid-cols-4">
-        <div className=" px-3 my-3">
-          <Link href="/">
-            <img className="h-[80px]" src="/logo.png" alt="/" />
-          </Link>
-          <p>All in one place for all your household needs</p>
+    <footer className="bg-slate-900 text-gray-300 py-12">
+      <div className="container mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* About Section */}
+        <div className="mb-6 md:mb-0">
+          <h3 className="text-xl font-bold text-white mb-4">About Us</h3>
+          <p className="text-gray-400 leading-relaxed">
+            Discover gourmet cuisine from the world’s finest hotels. Handpicked
+            dishes curated by top chefs to provide an unforgettable culinary
+            experience.
+          </p>
         </div>
-        <div className="flex flex-col  my-3">
-          <p className="text-xl font-bold">Customer Services</p>
-          <p>
-            <Link href="/account">Account</Link>{" "}
-          </p>
-          <p className="">Privacy Policy</p>
-          <p>
-            <Link href="/contact">Contact</Link>{" "}
-          </p>
-          <p>About Us</p>
+
+        {/* Quick Links Section */}
+        <div className="mb-6 md:mb-0">
+          <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
+          <ul className="space-y-2">
+            <li>
+              <a
+                href="#menu-categories"
+                className="hover:text-yellow-500 transition-colors duration-300"
+              >
+                Menu Categories
+              </a>
+            </li>
+            <li>
+              <a
+                href="#dishes"
+                className="hover:text-yellow-500 transition-colors duration-300"
+              >
+                Top Dishes
+              </a>
+            </li>
+            <li>
+              <a
+                href="#special-offers"
+                className="hover:text-yellow-500 transition-colors duration-300"
+              >
+                Special Offers
+              </a>
+            </li>
+            <li>
+              <a
+                href="#reviews"
+                className="hover:text-yellow-500 transition-colors duration-300"
+              >
+                Testimonials
+              </a>
+            </li>
+            <li>
+              <a
+                href="#cta"
+                className="hover:text-yellow-500 transition-colors duration-300"
+              >
+                Contact Us
+              </a>
+            </li>
+          </ul>
         </div>
-        <div className="flex flex-col  my-3">
-          <p className="text-xl font-bold">Top Restaurants</p>
-          <p className="">Serena </p>
-          <p>Kilimajaro</p>
-          <p>Himalaya</p>
-          <p>Udupi</p>
-          <p>Chettinad</p>
-          <p>Malpe</p>
-          
+
+        {/* Social Media Section */}
+        <div className="mb-6 md:mb-0">
+          <h3 className="text-xl font-bold text-white mb-4">Follow Us</h3>
+          <div className="flex space-x-6 justify-center lg:justify-start">
+            <a
+              href="#"
+              className="text-2xl text-gray-400 hover:text-yellow-500 transition duration-300"
+            >
+              <FaFacebook />
+            </a>
+            <a
+              href="#"
+              className="text-2xl text-gray-400 hover:text-yellow-500 transition duration-300"
+            >
+              <FaTwitter />
+            </a>
+            <a
+              href="#"
+              className="text-2xl text-gray-400 hover:text-yellow-500 transition duration-300"
+            >
+              <FaInstagram />
+            </a>
+            <a
+              href="#"
+              className="text-2xl text-gray-400 hover:text-yellow-500 transition duration-300"
+            >
+              <FaYoutube />
+            </a>
+          </div>
         </div>
-        <div className="flex flex-col  my-3">
-          <p className="text-xl font-bold">Call Us Here</p>
-          <p className="">
-            <span className="text-lg font-bold">Sales:</span> 0712345678
+
+        {/* Newsletter Subscription Section */}
+        <div>
+          <h3 className="text-xl font-bold text-white mb-4">Stay Updated</h3>
+          <p className="text-gray-400 mb-4">
+            Subscribe to our newsletter for the latest culinary offers and news.
           </p>
-          <p className="">
-            <span className="text-lg font-bold">Email:</span> menuyetu@gmail.com
-          </p>
-          <p className="">
-            <span className="text-lg font-bold">Location: </span>Nairobi,
-            Kenya
-          </p>
+          <form className="flex flex-col space-y-3">
+            <input
+              type="email"
+              placeholder="Your Email"
+              className="px-4 py-2 bg-gray-700 text-gray-200 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="px-4 py-2 bg-yellow-500 text-gray-900 rounded-lg font-semibold hover:bg-yellow-600 transition duration-300"
+            >
+              Subscribe
+            </button>
+          </form>
         </div>
       </div>
 
-      <p className="py-4 px-3 text-center mx-10  flex justify-center">
-        Copyright © {new Date().getFullYear()} MenuYetu, All rights reserved.
-      </p>
-    </div>
+      {/* Copyright Section */}
+      <div className="border-t border-gray-700 mt-10 pt-6 text-center text-gray-500">
+        <p>&copy; 2024 Luxury Hotels Menu. All rights reserved.</p>
+      </div>
+    </footer>
   );
-};
-
-export default Footer;
+}
