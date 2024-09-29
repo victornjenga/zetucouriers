@@ -15,7 +15,7 @@ const Navbar = () => {
         {/* Logo Section */}
         <div className="text-2xl font-bold">
           <a href="#" className="hover:text-yellow-500 transition duration-300">
-            LuxuryHotelMenus
+            MenuYetu
           </a>
         </div>
 
@@ -32,16 +32,16 @@ const Navbar = () => {
 
         {/* Nav Links (Hidden on Mobile) */}
         <div className="hidden md:flex space-x-8">
-          <a href="#about" className="hover:text-yellow-500 transition duration-300">
+          <a href="/about" className="hover:text-yellow-500 transition duration-300">
             About
           </a>
-          <a href="#menu" className="hover:text-yellow-500 transition duration-300">
-            Menu
+          <a href="/hotels" className="hover:text-yellow-500 transition duration-300">
+            Hotels
           </a>
-          <a href="#offers" className="hover:text-yellow-500 transition duration-300">
-            Offers
+          <a href="/account" className="hover:text-yellow-500 transition duration-300">
+            Account
           </a>
-          <a href="#contact" className="hover:text-yellow-500 transition duration-300">
+          <a href="/contact" className="hover:text-yellow-500 transition duration-300">
             Contact
           </a>
         </div>
@@ -51,19 +51,19 @@ const Navbar = () => {
       <div
         className={`md:hidden bg-gray-800 text-white space-y-4 px-4 py-4 text-center ${isMobileMenuOpen ? 'block' : 'hidden'}`}
       >
-        <a href="#about" className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300">
+        <a href="/about" className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300">
           <FaUtensils />
           <span>About</span>
         </a>
-        <a href="#menu" className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300">
+        <a href="/hotels" className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300">
           <FaUtensils />
-          <span>Menu</span>
+          <span>Hotels</span>
         </a>
-        <a href="#offers" className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300">
+        <a href="/account" className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300">
           <FaTags />
-          <span>Offers</span>
+          <span>Account</span>
         </a>
-        <a href="#contact" className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300">
+        <a href="/contact" className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300">
           <FaPhone />
           <span>Contact</span>
         </a>

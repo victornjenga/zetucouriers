@@ -80,7 +80,7 @@ export default function Home() {
             Indulge in the finest dishes from world-class hotels.
           </p>
           <a
-            href="#dishes"
+            href="/hotels"
             className="mt-6 md:mt-8 inline-block bg-yellow-500 text-gray-900 px-6 md:px-8 py-2 md:py-3 rounded-lg shadow-lg hover:bg-yellow-600 font-semibold animate-bounce"
           >
             View Menu
@@ -94,7 +94,7 @@ export default function Home() {
       {/* Featured Menu Categories Section */}
       <section
         id="menu-categories"
-        className="py-16  bg-gradient-to-b from-gray-50 to-white"
+        className="py-16  px-4 sm:px-6 bg-gradient-to-b from-gray-50 to-white"
       >
         <div className="container mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
@@ -135,31 +135,33 @@ export default function Home() {
       {/* Featured Dishes Section */}
       <section
         id="dishes"
-        className="py-16 px-4 sm:px-6  bg-gradient-to-b from-gray-50 to-gray-100"
+        className="py-20 px-4 sm:px-6 bg-gradient-to-b from-gray-50 to-gray-100"
       >
         <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
+          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 drop-shadow-lg animate-fadeIn">
             Top Dishes from Our Partner Hotels
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {dishes.map((dish, index) => (
               <div
                 key={index}
-                className="relative group overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
+                className="relative group overflow-hidden rounded-lg shadow-xl transform transition-transform duration-300 hover:scale-105"
               >
-                <img
-                  src={dish.image}
-                  alt={dish.name}
-                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                {/* Background Image */}
+                <div
+                  className="w-full h-64 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  style={{ backgroundImage: `url(${dish.image})` }}
+                ></div>
+
+                {/* Text Overlay */}
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4 text-center">
                   <h3 className="text-3xl font-bold text-white mb-2">
                     {dish.name}
                   </h3>
-                  <p className="text-sm text-gray-300 text-center px-4">
+                  <p className="text-sm text-gray-300 mb-2">
                     {dish.description}
                   </p>
-                  <p className="text-md text-yellow-500 mt-2 font-semibold">
+                  <p className="text-lg text-yellow-500 font-semibold">
                     from {dish.hotel}
                   </p>
                 </div>
@@ -170,7 +172,7 @@ export default function Home() {
       </section>
 
       {/* Chef's Recommendations Section */}
-      <section id="chefs-recommendations" className="py-16 ">
+      <section id="chefs-recommendations" className="py-16  px-4 sm:px-6">
         <div className="container mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12">
             Chef's Recommendations
@@ -256,26 +258,26 @@ export default function Home() {
         </div>
       </section>
 
-    {/* Call to Action Section */}
-<section id="cta" className="relative py-16 bg-gradient-to-r from-yellow-500 to-yellow-400 text-white">
-  <div className="container mx-auto text-center">
-    <h2 className="text-4xl font-extrabold mb-6 drop-shadow-lg animate-fadeIn">
-      Ready to Indulge in Gourmet Delights?
-    </h2>
-    <p className="text-xl mb-8 opacity-90 animate-fadeIn delay-200">
-      Book a table or order from your favorite hotels now!
-    </p>
-    <a
-      href="#menu-categories"
-      className="inline-block px-10 py-4 bg-gray-100 text-yellow-500 font-bold text-lg rounded-full shadow-lg hover:bg-gray-200 transition-all duration-300 transform hover:scale-105"
-    >
-      Explore the Menu
-    </a>
-  </div>
-</section>
-
-
-
+      {/* Call to Action Section */}
+      <section
+        id="cta"
+        className="relative py-16 bg-gradient-to-r from-yellow-500 to-yellow-400 text-white"
+      >
+        <div className="container mx-auto text-center">
+          <h2 className="text-4xl font-extrabold mb-6 drop-shadow-lg animate-fadeIn">
+            Ready to Indulge in Gourmet Delights?
+          </h2>
+          <p className="text-xl mb-8 opacity-90 animate-fadeIn delay-200">
+            Book a table or order from your favorite hotels now!
+          </p>
+          <a
+            href="#menu-categories"
+            className="inline-block px-10 py-4 bg-gray-100 text-yellow-500 font-bold text-lg rounded-full shadow-lg hover:bg-gray-200 transition-all duration-300 transform hover:scale-105"
+          >
+            Explore the Menu
+          </a>
+        </div>
+      </section>
     </div>
   );
 }
