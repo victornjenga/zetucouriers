@@ -15,13 +15,11 @@ const DashboardLayout = ({ children }) => {
   const [email, setEmail] = useState(""); // Email state
   const [password, setPassword] = useState(""); // Password state
   const [name, setName] = useState(""); // Name state for registration
+  const [role, setRole] = useState("vendor"); // Role state is default to vendor
   const [isRegisterMode, setIsRegisterMode] = useState(false); // To toggle between login/register
   const [error, setError] = useState(null); // Error state
   const [showPassword, setShowPassword] = useState(false); // Toggle to show/hide password
   const router = useRouter(); // Use Next.js router for redirection
-
-  // Set the role to "admin" only
-  const role = "admin";
 
   // Toggle password visibility
   const togglePasswordVisibility = () => {
@@ -47,7 +45,7 @@ const DashboardLayout = ({ children }) => {
       const response = await axios.post("/api/login", {
         ...userData,
         type: "google",
-        role, // Set the role to "admin"
+        role, // Send the selected role (admin, vendor, or customer)
       });
       console.log("User saved to Sanity:", response.data);
       toast.success("Google account linked successfully!");
@@ -74,11 +72,11 @@ const DashboardLayout = ({ children }) => {
         password,
         name: isRegisterMode ? name : undefined, // Only send name if registering
         type,
-        role, // Set the role to "admin"
+        role, // Send the selected role (vendor by default)
       });
 
       if (response.status === 200 && response.data.user) {
-        if (response.data.user.role === "admin") {
+        if (response.data.user.role === "vendor") {
           addUser(response.data.user); // Add user to Zustand store
           toast.success(
             isRegisterMode
@@ -103,8 +101,8 @@ const DashboardLayout = ({ children }) => {
   };
 
   useEffect(() => {
-    // Redirect if user is not an admin
-    if (userProfile && userProfile.role !== "admin") {
+    // Redirect if user is not a vendor
+    if (userProfile && userProfile.role !== "vendor") {
       toast.error("You do not have permission to access this page.");
       router.push("/"); // Redirect to homepage or another page
     }
@@ -127,7 +125,7 @@ const DashboardLayout = ({ children }) => {
       ) : (
         <>
           <Navbar />
-          <div className="flex items-center  px-4 md:pt-16  justify-center h-screen">
+          <div className="flex items-center px-4 md:pt-16 justify-center h-screen">
             <div className="w-full max-w-sm">
               <h2 className="text-2xl font-bold mb-4">
                 {isRegisterMode ? "Register" : "Login"}
@@ -201,8 +199,9 @@ const DashboardLayout = ({ children }) => {
                   {isRegisterMode ? "Register" : "Login"}
                 </button>
               </form>
+
               {/* Toggle between Login/Register */}
-              {/* <p className="text-center">
+              <p className="text-center">
                 {isRegisterMode ? (
                   <>
                     Already have an account?{" "}
@@ -224,15 +223,15 @@ const DashboardLayout = ({ children }) => {
                     </span>
                   </>
                 )}
-              </p> */}
+              </p>
 
               {/* Google Login */}
-              {/* <div className="text-center justify-center items-center flex w-full">
+              <div className="text-center justify-center items-center flex w-full mt-4">
                 <GoogleLogin
                   onSuccess={handleLoginSuccess}
                   onError={handleLoginFailure}
                 />
-              </div>  */}
+              </div>
             </div>
           </div>
         </>

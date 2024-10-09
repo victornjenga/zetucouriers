@@ -4,30 +4,30 @@ import jwt from "jsonwebtoken";
 
 export default async function handleUserAuth(req, res) {
   if (req.method === "POST") {
-    const { email, password, name, type, sub, picture } = req.body; // include sub and picture for Google login
+    const { email, password, name, type, sub, picture, role } = req.body; // Added role for vendor/customer distinction
 
     try {
-      // Ensure the JWT secret is defined
+      // Ensure JWT_SECRET is defined
       if (!process.env.JWT_SECRET) {
         console.error("JWT_SECRET is not defined in environment variables.");
         return res.status(500).json({ error: "Server configuration error" });
       }
 
       if (type === "google") {
-        // Google OAuth login logic
+        // Google OAuth login logic for customers and vendors
         const doc = {
           _type: "user",
-          _id: sub, // Use Google user ID as the document ID to avoid duplicates
+          _id: sub,
           name,
           email,
           picture,
+          role: role || "customer", // Default to customer if no role is specified
         };
 
-        // Save user to Sanity
         await client.createOrReplace(doc);
 
         const token = jwt.sign(
-          { _id: sub, email }, // Use sub as user ID
+          { _id: sub, email, role: role || "customer" }, // Include default role in the token
           process.env.JWT_SECRET,
           { expiresIn: "1h" }
         );
@@ -38,18 +38,20 @@ export default async function handleUserAuth(req, res) {
           token,
         });
       } else if (type === "email") {
-        // Email/password login logic
-        const query = `*[_type == "user" && email == $email][0]`;
-        const existingUser = await client.fetch(query, { email });
+        // Email/password login for customers and vendors
+
+        // Default role to "customer" if not provided
+        const userRole = role || "customer";
+
+        // Query to find user by email and role
+        const query = `*[_type == "user" && email == $email && role == $role][0]`;
+        const existingUser = await client.fetch(query, {
+          email,
+          role: userRole,
+        });
 
         if (!existingUser) {
           return res.status(401).json({ error: "User not found" });
-        }
-
-        if (!existingUser.password) {
-          return res
-            .status(500)
-            .json({ error: "Password is missing in the database" });
         }
 
         const validPassword = await bcrypt.compare(
@@ -61,7 +63,11 @@ export default async function handleUserAuth(req, res) {
         }
 
         const token = jwt.sign(
-          { _id: existingUser._id, email: existingUser.email },
+          {
+            _id: existingUser._id,
+            email: existingUser.email,
+            role: existingUser.role,
+          },
           process.env.JWT_SECRET,
           { expiresIn: "1h" }
         );
@@ -72,7 +78,11 @@ export default async function handleUserAuth(req, res) {
           token,
         });
       } else if (type === "register") {
-        // Registration logic
+        // Registration logic for customers and vendors
+
+        // Default role to "customer" if not provided
+        const userRole = role || "customer";
+
         const query = `*[_type == "user" && email == $email][0]`;
         const existingUser = await client.fetch(query, { email });
 
@@ -80,25 +90,20 @@ export default async function handleUserAuth(req, res) {
           return res.status(400).json({ error: "User already registered" });
         }
 
-        // Hash the password and create the new user
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = {
           _type: "user",
           email,
           name,
-          password: hashedPassword, // Save hashed password
+          password: hashedPassword,
+          role: userRole, // Ensure role is set
         };
 
-        try {
-          const createdUser = await client.create(newUser);
-          return res.status(200).json({
-            message: "User registered successfully",
-            user: createdUser, // Return the created user
-          });
-        } catch (error) {
-          console.error("Error creating new user:", error); // Log the error
-          return res.status(500).json({ error: "Failed to create user" });
-        }
+        const createdUser = await client.create(newUser);
+        return res.status(200).json({
+          message: "User registered successfully",
+          user: createdUser,
+        });
       }
     } catch (error) {
       console.error("Error handling auth:", error);

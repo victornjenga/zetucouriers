@@ -14,7 +14,7 @@ const Navbar = () => {
         
         {/* Logo Section */}
         <div className="text-2xl font-bold">
-          <a href="#" className="hover:text-yellow-500 transition duration-300">
+          <a href="/" className="hover:text-yellow-500 transition duration-300">
             MenuYetu
           </a>
         </div>

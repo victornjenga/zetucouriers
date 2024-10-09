@@ -77,7 +77,7 @@ export default {
               name: 'user',
               title: 'User',
               type: 'reference',
-              to: [{ type: 'user' }],
+              to: [{type: 'user'}],
               validation: (Rule) => Rule.required().error('User reference is required.'),
             },
             {
@@ -101,7 +101,6 @@ export default {
         },
       ],
     },
-    
     {
       name: 'featured',
       title: 'Featured',
@@ -130,12 +129,22 @@ export default {
         Rule.min(0).max(100).error('Discount percentage must be between 0 and 100'),
       hidden: ({document}) => !document?.flashSale, // Show only if flashSale is true
     },
-
+    // Adding the postedBy field with role validation
     {
       name: 'postedBy',
       title: 'Posted By',
       type: 'reference',
-      to: [{type: 'user'}], // Assuming you have a user schema
+      to: [{type: 'user'}],
+      description: 'The vendor who posted this product',
+      validation: (Rule) =>
+        Rule.custom((user, context) => {
+          if (!user) return 'Vendor reference is required.'
+          const vendorRole = context?.document?.postedBy?._ref
+          if (vendorRole !== 'vendor') {
+            return 'Only vendors can post products.'
+          }
+          return true
+        }).error('The user must be a vendor to post products.'),
     },
   ],
 }

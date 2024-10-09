@@ -32,6 +32,9 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 const MyApp = ({ Component, pageProps }) => {
   const router = useRouter();
+  const isAdminOrVendor =
+    router.pathname.startsWith("/admin") ||
+    router.pathname.startsWith("/vendor");
 
   return (
     <>
@@ -54,13 +57,13 @@ const MyApp = ({ Component, pageProps }) => {
               <StateContext>
                 <div className="w-full bg-gray-50 dark:bg-gray-950">
                   <ToastContainer />
+                  {!isAdminOrVendor && <Navbar />}{" "}
 
-                  {!router.pathname.startsWith("/dashboard") && <Navbar />}
                   <Toaster />
                   <div className="w-full flex flex-col justify-center items-center ">
                     <Component {...pageProps} />
                   </div>
-                  {!router.pathname.startsWith("/dashboard") && <Footer />}
+                  {!isAdminOrVendor && <Footer />}{" "}
                 </div>
 
                 {!router.pathname.startsWith("/dashboard") && (

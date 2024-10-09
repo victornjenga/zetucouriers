@@ -34,7 +34,7 @@ function SideBar() {
       <div className="overflow-y-auto py-5 pb-10  h-full bg-inherit border-r  border-white dark:border-gray-700">
         <ul>
           <li
-            onClick={() => router.push("/admin")}
+            onClick={() => router.push("/vendor")}
             className="sidebar-link"
           >
             <FcHome className="text-xl" />
@@ -42,70 +42,70 @@ function SideBar() {
             <p className="font-semibold text-xl">Home</p>
           </li>
 
-          <li
-            onClick={() => router.push("/admin/users")}
+          {/* <li
+            onClick={() => router.push("/vendor/users")}
             className="sidebar-link"
           >
             <IoMdPerson className="text-xl" />
 
             <p className="font-semibold text-xl">users</p>
-          </li>
+          </li> */}
           <li
-            onClick={() => router.push("/admin/products")}
+            onClick={() => router.push("/vendor/products")}
             className="sidebar-link"
           >
             <FcMultipleInputs className="text-xl" />
 
-            <p className="font-semibold text-xl">Products</p>
+            <p className="font-semibold text-xl">Menus</p>
           </li>
-          <li
-            onClick={() => router.push("/admin/categories")}
+          {/* <li
+            onClick={() => router.push("/vendor/categories")}
             className="sidebar-link"
           >
             <FcMindMap className="text-xl" />
 
             <p className="font-semibold text-xl">Categories</p>
-          </li>
+          </li> */}
           <li
-            onClick={() => router.push("/admin/orders")}
+            onClick={() => router.push("/vendor/orders")}
             className="sidebar-link"
           >
             <FcNews className="text-xl" />
 
             <p className="font-semibold text-xl">Orders</p>
           </li>
-          <li
-            onClick={() => router.push("/admin/featured")}
+          {/* <li
+            onClick={() => router.push("/vendor/featured")}
             className="sidebar-link"
           >
             <FcMediumPriority className="text-xl" />
 
             <p className="font-semibold text-xl">Featured</p>
-          </li>
-          <li
-            onClick={() => router.push("/admin/flash")}
+          </li> */}
+          {/* <li
+            onClick={() => router.push("/vendor/flash")}
             className="sidebar-link"
           >
             <FcShop className="text-xl" />
 
             <p className="font-semibold text-xl">Flash Sale</p>
-          </li>
+          </li> */}
           <li
-            onClick={() => router.push("/admin/sizes")}
+            onClick={() => router.push("/vendor/sizes")}
             className="sidebar-link"
           >
             <FcImport className="text-xl" />
 
             <p className="font-semibold text-xl">Variations</p>
           </li>
-          <li
-            onClick={() => router.push("/admin/settings")}
+          {/* <li
+            onClick={() => router.push("/vendor/settings")}
             className="sidebar-link"
           >
             <FcEngineering className="text-xl" />
 
             <p className="font-semibold text-xl">Settings</p>
-          </li>
+          </li> */}
           <li onClick={handleLogout} className="sidebar-link">
             <IoMdLogOut className="text-xl" />
 

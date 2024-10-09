@@ -121,7 +121,7 @@ export default function Checkout() {
     .join("<br><br>");
 
   return (
-    <div className="flex w-full justify-center pt-40 items-center z-0 flex-col">
+    <div className="flex w-full justify-center py-8 items-center z-0 flex-col">
       <h3 className="text-2xl my-6">Make payment for your order</h3>
       <div className=" justify-center md:flex items-center w-[90%] md:w-[90%]">
         <form ref={form} onSubmit={handleSubmit} className="space-y-4">

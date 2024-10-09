@@ -1,12 +1,57 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaArrowDown } from "react-icons/fa";
+import { client } from "../utils/client";
+import Products from "@/components/Products";
+import Categories from "@/components/Category";
 
-export default function Home() {
+export default function Home({
+  featuredProducts = [],
+  normalProducts = [],
+  flashSaleProducts = [],
+  flashSaleEndTime, // Receive flashSaleEndTime from server-side props
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [timeLeft, setTimeLeft] = useState({}); // Initially empty
+  const [hasMounted, setHasMounted] = useState(false); // Track if component has mounted
 
+  // Countdown Timer for Flash Sale
+  const calculateTimeLeft = () => {
+    const flashSaleEnd = new Date(flashSaleEndTime); // Use dynamic flash sale end time
+    const now = new Date();
+    const difference = flashSaleEnd - now;
+
+    let timeLeft = {};
+
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    }
+
+    return timeLeft;
+  };
+
+  // Only calculate the time left after the component has mounted on the client-side
+  useEffect(() => {
+    setHasMounted(true); // Set to true after the component has mounted
+
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [flashSaleEndTime]);
+
+  // If the component hasn't mounted yet, don't render the timer to avoid SSR/client mismatch
+  if (!hasMounted) {
+    return null; // or you can return a loader, or a placeholder countdown
+  }
   const testimonials = [
     {
       text: "The steak from Skyline Hotel was absolutely divine! Perfectly cooked and bursting with flavor.",
@@ -132,6 +177,26 @@ export default function Home() {
         </div>
       </section>
 
+      <div className="pt-2 md:pt-4 flex overflow-x-scroll py-2 scrollbar-hide mx-4 md:ml-12">
+          <Categories />
+        </div>
+        {/* All Products Section */}
+        <div className="my-3 md:mt-4">
+          <h1 className="text-lg md:text-xl py-2 pl-3 font-semibold">
+            All Products
+          </h1>
+        </div>
+        {normalProducts?.length > 0 ? (
+          <div className="flex mb-4 flex-wrap mx-2 w-full">
+            {normalProducts.map((product) => (
+              <Products key={product._id} product={product} />
+            ))}
+          </div>
+        ) : (
+          <div className="px-4">
+            <p className="text-lg">No products found.</p>
+          </div>
+        )}
       {/* Featured Dishes Section */}
       <section
         id="dishes"
@@ -199,13 +264,13 @@ export default function Home() {
       </section>
 
       {/* Special Offers Section */}
-      <section id="special-offers" className="py-16 bg-gray-50">
+      <section id="special-offers" className="py-16 ">
         <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">
+          <h2 className="text-4xl text-gray-800 font-bold text-center mb-12">
             Exclusive Offers
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-gray-100 p-6 rounded-lg shadow-lg">
+            <div className=" p-6 rounded-lg shadow-lg">
               <h3 className="text-2xl font-bold mb-4">Happy Hour Special</h3>
               <p className="text-gray-600">
                 Enjoy 20% off on select beverages and appetizers during happy
@@ -281,3 +346,86 @@ export default function Home() {
     </div>
   );
 }
+export const getServerSideProps = async ({ query: { category } }) => {
+  try {
+    let products;
+
+    // Check if a category is provided in the query
+    if (category) {
+      // Fetch products for the specific category from Sanity
+      const query = `*[_type == "products" && "${category}" in category[]->title]{
+        _id,
+        name,
+        image,
+        featured,
+        flashSale,
+        discountPercentage,
+        category[]->{
+          _id,
+          title
+        },
+        slug,
+        description,
+        price,
+        brand,
+        specs
+      }`;
+
+      products = await client.fetch(query);
+    } else {
+      // Fetch all products if no category is provided
+      const query = `*[_type == "products"]{
+        _id,
+        name,
+        image,
+        featured,
+        flashSale,
+        discountPercentage,
+        category[]->{
+          _id,
+          title
+        },
+        slug,
+        description,
+        price,
+        brand,
+        specs
+      }`;
+
+      products = await client.fetch(query);
+    }
+
+    // Query to fetch flash sale end time from the settings schema
+    const flashSaleEndTimeQuery = `*[_type == "settings"][0]{ flashSaleEndTime }`;
+    const settings = await client.fetch(flashSaleEndTimeQuery);
+    const flashSaleEndTime = settings?.flashSaleEndTime || null;
+
+    // Separate featured, normal, and flash sale products
+    const featuredProducts = products.filter((product) => product.featured);
+    const normalProducts = products.filter(
+      (product) => !product.featured && !product.flashSale
+    );
+    const flashSaleProducts = products.filter((product) => product.flashSale);
+
+    return {
+      props: {
+        featuredProducts: featuredProducts || [],
+        normalProducts: normalProducts || [],
+        flashSaleProducts: flashSaleProducts || [],
+        flashSaleEndTime, // Pass the flash sale end time to the component
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching products or settings:", error);
+
+    return {
+      props: {
+        featuredProducts: [],
+        normalProducts: [],
+        flashSaleProducts: [],
+        flashSaleEndTime: null,
+        error: "Failed to fetch products or settings",
+      },
+    };
+  }
+};

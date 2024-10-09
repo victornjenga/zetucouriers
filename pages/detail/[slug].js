@@ -208,7 +208,7 @@ function ProductDetails({ productDetails, products }) {
       <GoogleOAuthProvider
         clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
       >
-        <div className="w-full md:w-[90%] pt-8 mb-8">
+        <div className="w-full md:w-[90%] pt-28 mb-8">
           {/* Google Login Modal */}
           {isModalOpen && (
             <div className="fixed inset-0 mx-3 flex items-center justify-center bg-black bg-opacity-50">
@@ -237,7 +237,7 @@ function ProductDetails({ productDetails, products }) {
             white-space: pre-line;
           }`}
           </style>
-          <div className="w-full p-2 md:p-8 h-full justify-center pt-6 rounded">
+          <div className="w-full p-2 md:p-8 h-full justify-center pt-16 rounded">
             <h3 className="font-medium md:hidden text-xl">{product.name}</h3>
             <div className="flex flex-col md:px-8 w-full justify-center items-center pb-8 xl:flex-row">
               <div className="block space-x-3 md:flex w-full ">
@@ -301,14 +301,14 @@ function ProductDetails({ productDetails, products }) {
                       <p>Services:</p>
                       <div className="flex items-center gap-2">
                         <IoCheckmarkCircleOutline className="text-red-600 text-xl" />
-                        <p> Fulfilled By MenuYetu</p>
+                        <p> Fulfilled By Civrot</p>
                       </div>
                     </div>
                     <div className="flex my-3 items-center gap-4">
-                      <p>Location:</p>
+                      <p>Delivery Info:</p>
                       <div className="flex items-center gap-2">
                         <TbTruckDelivery className="text-green-600 text-xl" />
-                        <p>Nairobi,Kenya</p>
+                        <p>Arrives within 1-3 workdays.</p>
                       </div>
                     </div>
                     {product.variations && product.variations.length > 0 && (
