@@ -4,27 +4,33 @@ import { client } from "../../../utils/client";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import useAuthStore from "../../../store/authStore"; // Import Zustand store
 
 function Products({ products }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const { userProfile } = useAuthStore(); // Get logged-in vendor details
 
   const router = useRouter();
 
+  // Handle edit product
   const handleEditProduct = (slug) => {
     router.push(`/vendor/products/edit/${slug}`);
   };
 
+  // Open delete modal
   const openDeleteModal = (product) => {
     setSelectedProduct(product);
     setShowDeleteModal(true);
   };
 
+  // Close delete modal
   const closeDeleteModal = () => {
     setShowDeleteModal(false);
     setSelectedProduct(null);
   };
 
+  // Handle product deletion
   const handleDeleteProduct = async () => {
     if (selectedProduct) {
       try {
@@ -34,16 +40,15 @@ function Products({ products }) {
         // Show success toast notification
         toast.success(`Product ${selectedProduct.name} deleted successfully!`);
 
-        // Optionally, remove the deleted product from the UI
-        // router.reload(); // No longer needed
+        // Optionally, refresh or update the product list after deletion
       } catch (error) {
         console.error("Error deleting product:", error);
-        // Show error toast notification
         toast.error("Failed to delete product. Please try again.");
       }
     }
   };
 
+  // Add new product
   const handleAddProduct = () => {
     router.push("/vendor/products/add");
   };
@@ -64,7 +69,7 @@ function Products({ products }) {
 
         {/* Header Section */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">All Products</h1>
+          <h1 className="text-2xl font-bold">Your Products</h1>
           <button
             onClick={handleAddProduct}
             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
@@ -155,37 +160,31 @@ function Products({ products }) {
 
 export default Products;
 
-export const getServerSideProps = async ({ query: { category } }) => {
+export const getServerSideProps = async ({ req }) => {
   try {
-    let products;
+    // Retrieve vendor information from the session (assuming session has userProfile)
+    const vendor = req.userProfile; // Assuming the vendor info is in the session
+    let products = [];
 
-    if (category) {
-      // Query Sanity for products under the selected category
-      const query = `*[_type == "products" && "${category}" in category[]->title]{
+    if (vendor && vendor._id) {
+      // Query Sanity for products that belong to the logged-in vendor
+      const query = `*[_type == "products" && vendor._ref == "${vendor._id}"]{
         _id,
         name,
         price,
         slug,
       }`;
       products = await client.fetch(query);
-    } else {
-      const allPostsQuery = `*[_type == "products"]{
-        _id,
-        name,
-        price,
-        slug,
-      }`;
-      products = await client.fetch(allPostsQuery);
     }
 
     return {
       props: { products: products || [] }, // Ensure products is always an array
     };
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching vendor products:", error);
 
     return {
-      props: { products: [], error: "Failed to fetch products" }, // Handle error case
+      props: { products: [], error: "Failed to fetch products" },
     };
   }
 };
