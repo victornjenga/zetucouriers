@@ -26,7 +26,7 @@ export default function Hotels({ vendors }) {
         {vendors.map((vendor) => {
           // Skip vendors without a valid slug
           if (!vendor.vendorSlug?.current) return null;
-          
+
           return (
             <div
               key={vendor._id}
