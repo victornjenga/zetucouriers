@@ -5,13 +5,20 @@ import Link from "next/link";
 import QRCode from "qrcode";
 import { useState, useEffect } from "react";
 
-export default function VendorProducts({ vendor, products, categories }) {
+export default function VendorProducts({
+  vendor,
+  vendorSettings,
+  products,
+  categories,
+}) {
   const router = useRouter();
   const [qrCodeUrl, setQrCodeUrl] = useState(null);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [activeCategory, setActiveCategory] = useState("All");
 
-  console.log(categories);
+  console.log("Vendor ID:", vendor._id);
+  console.log("Fetching Vendor Settings with Vendor ID:", vendor._id);
+  console.log("Vendor Settings Response:", vendorSettings);
 
   if (router.isFallback) {
     return (
@@ -80,11 +87,63 @@ export default function VendorProducts({ vendor, products, categories }) {
         </div>
       )}
 
+      {/* Display Vendor Details */}
+      <div className="mb-10">
+        {vendorSettings?.logo && (
+          <Image
+            src={vendorSettings.logo.asset.url}
+            alt={vendorSettings.vendorName}
+            width={150}
+            height={150}
+            className="rounded-full mb-4"
+          />
+        )}
+        <p className="text-lg text-gray-700 mb-4">
+          {vendorSettings?.description}
+        </p>
+        <p className="text-md text-gray-600">
+          Email: {vendorSettings?.contactEmail}
+        </p>
+        <p className="text-md text-gray-600">
+          Phone: {vendorSettings?.contactPhone}
+        </p>
+        <p className="text-md text-gray-600">
+          Address: {vendorSettings?.address}
+        </p>
+
+        {/* Social Links */}
+        <div className="mt-4">
+          {vendorSettings?.socialLinks?.map((link) => (
+            <a
+              key={link.platform}
+              href={link.url}
+              className="mr-4 text-blue-500"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {link.platform}
+            </a>
+          ))}
+        </div>
+
+        {/* Business Hours */}
+        <div className="mt-4">
+          <h3 className="text-md font-bold">Business Hours:</h3>
+          {vendorSettings?.businessHours?.map((hour) => (
+            <p key={hour.day} className="text-gray-600">
+              {hour.day}: {hour.openTime} - {hour.closeTime}
+            </p>
+          ))}
+        </div>
+      </div>
+
       {/* Categories Filter */}
       <div className="flex space-x-4 overflow-x-scroll py-2 scrollbar-hide mb-8">
         <button
           className={`px-4 py-2 rounded-lg ${
-            activeCategory === "All" ? "bg-yellow-500 text-white" : "bg-gray-200"
+            activeCategory === "All"
+              ? "bg-yellow-500 text-white"
+              : "bg-gray-200"
           }`}
           onClick={() => filterProductsByCategory("All")}
         >
@@ -105,6 +164,7 @@ export default function VendorProducts({ vendor, products, categories }) {
         ))}
       </div>
 
+      {/* Display Products */}
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProducts.map((product) => (
           <div
@@ -157,16 +217,29 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const { slug } = params;
+
+  // Fetch vendor based on the slug
   const vendorQuery = `*[_type == "user" && vendorSlug.current == $slug][0]`;
   const vendor = await client.fetch(vendorQuery, { slug });
 
   if (!vendor) return { notFound: true };
 
+  // Fetch vendor settings based on vendor reference
+  const vendorSettingsQuery = `*[_type == "vendorSettings" && vendor._ref == $vendorId][0]`;
+  const vendorSettings = await client.fetch(vendorSettingsQuery, {
+    vendorId: vendor._id,
+  });
+
+  console.log("Vendor:", vendor);
+  console.log("Vendor Settings:", vendorSettings);
+
+  // Fetch products associated with the vendor
   const productsQuery = `*[_type == "products" && postedBy._ref == $vendorId]{
     _id, name, slug, price, category[]->{_id, title}, image[]{ asset->{_id, url} }
   }`;
   const products = await client.fetch(productsQuery, { vendorId: vendor._id });
 
+  // Fetch all categories
   const categoriesQuery = `*[_type == "category"]{
     _id, title
   }`;
@@ -175,6 +248,7 @@ export async function getStaticProps({ params }) {
   return {
     props: {
       vendor,
+      vendorSettings: vendorSettings || null, // Ensure that even if null, it's handled properly
       products: products || [],
       categories: categories || [],
     },

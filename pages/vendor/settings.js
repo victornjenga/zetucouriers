@@ -1,294 +1,345 @@
 import React, { useState, useEffect } from "react";
 import { client } from "../../utils/client"; // Sanity client
 import DashboardLayout from "../../components/vendor/Layout";
-import useAuthStore from "../../store/authStore"; // Zustand for logged-in user
-import Image from "next/image";
+import useAuthStore from "../../store/authStore"; // Zustand for logged-in vendor
 import { toast } from "react-toastify";
 
-const Settings = () => {
-  const { userProfile } = useAuthStore(); // Logged in user profile from Zustand
-  const [settings, setSettings] = useState(null);
-  const [newBanners, setNewBanners] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); // Loading state for saving
-  const [error, setError] = useState(""); // Error state
+const VendorSettings = () => {
+  const { userProfile } = useAuthStore(); // Logged-in vendor profile from Zustand
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // New state for loading
 
-  // Fetch site settings from Sanity
-  const fetchSettings = async () => {
+  const [settings, setSettings] = useState({
+    _id: "", // Add _id field to track the document ID
+    vendorName: "",
+    description: "",
+    contactEmail: "",
+    contactPhone: "",
+    address: "",
+    socialLinks: [{ platform: "", url: "" }],
+    businessHours: [{ day: "", openTime: "", closeTime: "" }],
+  });
+
+  // Fetch vendor settings from Sanity based on the logged-in vendor
+  const fetchVendorSettings = async () => {
+    if (!userProfile) return;
+
     try {
-      const query = `*[_type == "settings"]{
-        _id, siteName, description, logo, flashSaleEndTime,
-        heroBanners[]{_key, asset->{_id, url}}
-      }[0]`; // Fetch settings including hero banners
+      // Fetch the vendor's settings from Sanity
+      const query = `*[_type == "vendorSettings" && vendor._ref == "${userProfile._id}"][0]{
+        _id, vendorName, description, logo, contactEmail, contactPhone, address, socialLinks, businessHours
+      }`;
       const result = await client.fetch(query);
-      setSettings(result);
+
+      // If no settings exist, set _id to null, otherwise use the existing _id
+      if (!result) {
+        // No settings document found, keep _id as empty for creation later
+        setSettings((prevSettings) => ({
+          ...prevSettings,
+          vendorName: userProfile.name || "Unnamed Vendor",
+          contactEmail: userProfile.email || "",
+        }));
+      } else {
+        // Settings exist, set the entire fetched result into state including _id
+        setSettings(result);
+      }
     } catch (fetchError) {
-      console.error("Error fetching settings:", fetchError);
-      setError("Failed to load settings");
+      console.error("Error fetching vendor settings:", fetchError);
+      setError("Failed to load vendor settings");
     }
   };
 
   useEffect(() => {
-    fetchSettings();
-  }, []);
+    fetchVendorSettings();
+  }, [userProfile]);
 
-  // Handle new banner image upload
-  const handleBannerUpload = (e) => {
-    const files = Array.from(e.target.files);
-    const validImages = files.filter((file) => file.type.startsWith("image/")); // Validate image type
-    const urls = validImages.map((file) => URL.createObjectURL(file)); // Create preview URLs
-    setNewBanners((prev) => [...prev, ...urls]); // Update state with new preview URLs
-
-    if (validImages.length !== files.length) {
-      toast.warn("Some files were not valid images and were not added.");
-    }
+  // Add a new social media link
+  const addSocialLink = () => {
+    setSettings({
+      ...settings,
+      socialLinks: [...settings.socialLinks, { platform: "", url: "" }],
+    });
   };
 
-  // Remove banner preview
-  const removeBannerPreview = (url) => {
-    setNewBanners((prev) => prev.filter((banner) => banner !== url));
+  // Add a new business hour entry
+  const addBusinessHour = () => {
+    setSettings({
+      ...settings,
+      businessHours: [
+        ...settings.businessHours,
+        { day: "", openTime: "", closeTime: "" },
+      ],
+    });
   };
 
-  // Remove current banner
-  const removeCurrentBanner = async (bannerKey) => {
-    if (!settings) return;
-    const updatedBanners = settings.heroBanners.filter(
-      (banner) => banner._key !== bannerKey
-    );
-
-    // Update state and send the change to Sanity
-    try {
-      await client
-        .patch(settings._id)
-        .set({ heroBanners: updatedBanners })
-        .commit();
-
-      setSettings((prev) => ({ ...prev, heroBanners: updatedBanners }));
-      toast.success("Banner removed successfully");
-    } catch (error) {
-      console.error("Failed to remove banner", error);
-      toast.error("Failed to remove banner");
-    }
-  };
-
-  // Update site settings
+  // Update vendor settings
   const handleSaveSettings = async () => {
-    if (!settings) return; // Ensure settings are loaded
-    setIsLoading(true); // Set loading state
-    setError(""); // Reset any previous error
+    if (!settings) {
+      toast.error("Settings data is missing.");
+      return; // Stop execution if settings object is missing
+    }
 
-    // Prepare updated settings object
     const updatedSettings = {
-      siteName: settings.siteName,
+      vendorName: settings.vendorName,
       description: settings.description,
-      flashSaleEndTime: settings.flashSaleEndTime,
-      heroBanners: settings.heroBanners || [], // Preserve current banners
+      contactEmail: settings.contactEmail,
+      contactPhone: settings.contactPhone,
+      address: settings.address,
+      socialLinks: settings.socialLinks,
+      businessHours: settings.businessHours,
     };
 
-    // Upload new banners and append them to existing ones
-    if (newBanners.length > 0) {
-      try {
-        const uploadedBanners = await Promise.all(
-          newBanners.map(async (banner) => {
-            const response = await fetch(banner);
-            const blob = await response.blob();
-            const uploadedImage = await client.assets.upload("image", blob); // Upload image blob
-
-            // Generate a unique _key for each new banner
-            return {
-              _key: uploadedImage._id, // You could use uuid() here if you prefer
-              asset: { _type: "reference", _ref: uploadedImage._id },
-            };
-          })
-        );
-
-        // Append newly uploaded banners to the existing ones
-        updatedSettings.heroBanners = [
-          ...updatedSettings.heroBanners,
-          ...uploadedBanners,
-        ];
-      } catch (uploadError) {
-        setError("Failed to upload one or more banners.");
-        console.error("Upload Error:", uploadError);
-      }
-    }
-
-    // Save the updated settings to Sanity
     try {
-      await client
-        .patch(settings._id) // Use the correct settings document ID
-        .set(updatedSettings)
-        .commit();
+      setLoading(true); // Set loading to true when the save process begins
 
-      toast.success("Settings updated successfully");
-      setNewBanners([]); // Clear uploaded banners
-      fetchSettings(); // Re-fetch the settings to reflect changes
+      if (settings._id) {
+        // Update existing document
+        await client
+          .patch(settings._id) // Use the existing _id to update the document
+          .set(updatedSettings)
+          .commit();
+
+        toast.success("Settings updated successfully");
+      } else {
+        // Create a new settings document
+        const newDocument = {
+          _type: "vendorSettings",
+          vendor: { _type: "reference", _ref: userProfile._id }, // Reference the vendor
+          ...updatedSettings,
+        };
+
+        await client.create(newDocument);
+        toast.success("Settings created successfully");
+      }
+
+      fetchVendorSettings(); // Re-fetch the settings to reflect changes
     } catch (error) {
       console.error("Failed to update settings", error);
-      setError("Failed to update settings");
       toast.error("Failed to update settings");
     } finally {
-      setIsLoading(false); // Reset loading state
+      setLoading(false); // Set loading to false once the process is complete
     }
   };
 
   return (
     <DashboardLayout>
       <div className="w-full p-4">
-        <h1 className="text-2xl font-bold mb-6">Settings</h1>
+        <h1 className="text-2xl font-bold mb-6">Vendor Settings</h1>
 
-        {/* Display error message if any */}
-        {error && <p className="text-red-500">{error}</p>}
-
-        {/* Check if settings are null or undefined */}
-        {!settings ? (
-          <p>Loading...</p> // Display a loading message or spinner while fetching settings
-        ) : (
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Left Column */}
-            <div className="space-y-8">
-              {/* Admin Profile */}
-              <div className="mb-8">
-                <h2 className="text-xl font-semibold mb-4">Admin Profile</h2>
-                <div className="flex items-center space-x-4">
-                  {userProfile?.profileImage && (
-                    <Image
-                      src={userProfile.profileImage}
-                      alt="Admin Profile"
-                      width={50}
-                      height={50}
-                      className="rounded-full"
-                    />
-                  )}
-                  <div>
-                    <p className="text-lg font-medium">{userProfile?.name}</p>
-                    <p className="">{userProfile?.email}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Site Settings */}
-              <div>
-                <h2 className="text-xl font-semibold mb-4">Site Settings</h2>
-                <label className="block text-sm font-medium ">Site Name</label>
-                <input
-                  type="text"
-                  value={settings.siteName || ""}
-                  onChange={(e) =>
-                    setSettings({ ...settings, siteName: e.target.value })
-                  }
-                  className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                />
-
-                <label className="block text-sm font-medium mt-4">
-                  Site Description
-                </label>
-                <textarea
-                  value={settings.description || ""}
-                  onChange={(e) =>
-                    setSettings({ ...settings, description: e.target.value })
-                  }
-                  className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                />
-              </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Left Column */}
+          <div className="space-y-8">
+            {/* Vendor Profile */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4">Vendor Profile</h2>
+              <p className="text-lg font-medium">{userProfile?.name}</p>
+              <p>{userProfile?.email}</p>
             </div>
 
-            {/* Right Column */}
-            <div className="space-y-8">
-              {/* Current Hero Banners */}
-              <div>
-                <h2 className="text-xl font-semibold mb-4">
-                  Current Hero Banners
-                </h2>
-                <div className="flex flex-col gap-4">
-                  {settings.heroBanners?.length > 0 ? (
-                    settings.heroBanners.map((banner) => (
-                      <div key={banner._key} className="relative p-2">
-                        {banner.asset && (
-                          <div>
-                            <Image
-                              src={banner.asset.url}
-                              alt={`Current Hero Banner`}
-                              width={300}
-                              height={150}
-                              layout="responsive"
-                              className="rounded shadow-md"
-                            />
-                            <button
-                              onClick={() => removeCurrentBanner(banner._key)}
-                              className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded hover:bg-red-600"
-                            >
-                              X
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    ))
-                  ) : (
-                    <p>No banners available.</p>
-                  )}
-                </div>
-              </div>
+            {/* Vendor Settings */}
+            <div>
+              <h2 className="text-xl font-semibold mb-4">
+                Business Information
+              </h2>
 
-              {/* New Banners Preview */}
-              <div>
-                <h2 className="text-xl font-semibold mb-4">
-                  New Banner Previews
-                </h2>
-                <div className="flex flex-wrap gap-4">
-                  {newBanners.map((url, index) => (
-                    <div
-                      key={index}
-                      className="relative w-1/2 md:w-1/3 lg:w-1/4 p-2"
-                    >
-                      <Image
-                        src={url}
-                        alt={`New Banner Preview`}
-                        width={300}
-                        height={150}
-                        layout="responsive"
-                        className="rounded shadow-md"
-                      />
-                      <button
-                        onClick={() => removeBannerPreview(url)}
-                        className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded hover:bg-red-600"
-                      >
-                        X
-                      </button>
-                    </div>
-                  ))}
-                </div>
+              <label className="block text-sm font-medium">Vendor Name</label>
+              <input
+                type="text"
+                value={settings.vendorName || ""}
+                onChange={(e) =>
+                  setSettings({ ...settings, vendorName: e.target.value })
+                }
+                className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+              />
 
-                {/* Add New Banners */}
-                <div className="mt-4">
-                  <label className="block text-sm font-medium">
-                    Upload New Banners
-                  </label>
+              <label className="block text-sm font-medium mt-4">
+                Description
+              </label>
+              <textarea
+                value={settings.description || ""}
+                onChange={(e) =>
+                  setSettings({ ...settings, description: e.target.value })
+                }
+                className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+              />
+
+              <label className="block text-sm font-medium mt-4">
+                Contact Email
+              </label>
+              <input
+                type="email"
+                value={settings.contactEmail || ""}
+                onChange={(e) =>
+                  setSettings({ ...settings, contactEmail: e.target.value })
+                }
+                className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+              />
+
+              <label className="block text-sm font-medium mt-4">
+                Contact Phone
+              </label>
+              <input
+                type="tel"
+                value={settings.contactPhone || ""}
+                onChange={(e) =>
+                  setSettings({ ...settings, contactPhone: e.target.value })
+                }
+                className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+              />
+
+              <label className="block text-sm font-medium mt-4">Address</label>
+              <input
+                type="text"
+                value={settings.address || ""}
+                onChange={(e) =>
+                  setSettings({ ...settings, address: e.target.value })
+                }
+                className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+              />
+            </div>
+          </div>
+
+          {/* Right Column */}
+          <div className="space-y-8">
+            {/* Social Media Links */}
+            <div>
+              <h2 className="text-xl font-semibold mb-4">Social Media Links</h2>
+              {settings.socialLinks?.map((link, index) => (
+                <div key={index} className="space-y-2 mb-4">
+                  <label className="block text-sm font-medium">Platform</label>
                   <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleBannerUpload}
-                    multiple
+                    type="text"
+                    value={link.platform || ""}
+                    onChange={(e) => {
+                      const newLinks = [...settings.socialLinks];
+                      newLinks[index].platform = e.target.value;
+                      setSettings({ ...settings, socialLinks: newLinks });
+                    }}
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                  />
+
+                  <label className="block text-sm font-medium">URL</label>
+                  <input
+                    type="url"
+                    value={link.url || ""}
+                    onChange={(e) => {
+                      const newLinks = [...settings.socialLinks];
+                      newLinks[index].url = e.target.value;
+                      setSettings({ ...settings, socialLinks: newLinks });
+                    }}
                     className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                   />
                 </div>
-              </div>
+              ))}
+
+              {/* Button to add a new social media link */}
+              <button
+                onClick={addSocialLink}
+                className="bg-green-500 text-white p-2 rounded-md"
+              >
+                Add Social Link
+              </button>
+            </div>
+
+            {/* Business Hours */}
+            <div>
+              <h2 className="text-xl font-semibold mb-4">Business Hours</h2>
+              {settings.businessHours?.map((hour, index) => (
+                <div key={index} className="space-y-2 mb-4">
+                  <label className="block text-sm font-medium">Day</label>
+                  <input
+                    type="text"
+                    value={hour.day || ""}
+                    onChange={(e) => {
+                      const newHours = [...settings.businessHours];
+                      newHours[index].day = e.target.value;
+                      setSettings({ ...settings, businessHours: newHours });
+                    }}
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                  />
+
+                  <label className="block text-sm font-medium">
+                    Opening Time
+                  </label>
+                  <input
+                    type="text"
+                    value={hour.openTime || ""}
+                    onChange={(e) => {
+                      const newHours = [...settings.businessHours];
+                      newHours[index].openTime = e.target.value;
+                      setSettings({ ...settings, businessHours: newHours });
+                    }}
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                  />
+
+                  <label className="block text-sm font-medium">
+                    Closing Time
+                  </label>
+                  <input
+                    type="text"
+                    value={hour.closeTime || ""}
+                    onChange={(e) => {
+                      const newHours = [...settings.businessHours];
+                      newHours[index].closeTime = e.target.value;
+                      setSettings({ ...settings, businessHours: newHours });
+                    }}
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                  />
+                </div>
+              ))}
+
+              {/* Button to add a new business hour */}
+              <button
+                onClick={addBusinessHour}
+                className="bg-green-500 text-white p-2 rounded-md"
+              >
+                Add Business Hour
+              </button>
             </div>
           </div>
-        )}
+        </div>
 
         {/* Save All Settings Button */}
         <button
           onClick={handleSaveSettings}
-          className={`mt-8 bg-blue-500 text-white p-2 rounded-md ${
-            isLoading ? "opacity-50 cursor-not-allowed" : ""
+          disabled={loading} // Disable the button during loading
+          className={`mt-8 p-2 rounded-md ${
+            loading
+              ? "bg-gray-500 cursor-not-allowed" // Change color and cursor when loading
+              : "bg-blue-500 text-white"
           }`}
-          disabled={isLoading} // Disable the button while loading
         >
-          {isLoading ? "Saving..." : "Save All Settings"}
+          {loading ? (
+            <>
+              <svg
+                className="inline mr-2 w-4 h-4 text-white animate-spin"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8H4z"
+                ></path>
+              </svg>
+              Saving...
+            </>
+          ) : (
+            "Save All Settings"
+          )}
         </button>
       </div>
     </DashboardLayout>
   );
 };
 
-export default Settings;
+export default VendorSettings;

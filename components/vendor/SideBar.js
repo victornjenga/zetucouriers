@@ -90,22 +90,22 @@ function SideBar() {
 
             <p className="font-semibold text-xl">Flash Sale</p>
           </li> */}
-          <li
+          {/* <li
             onClick={() => router.push("/vendor/sizes")}
             className="sidebar-link"
           >
             <FcImport className="text-xl" />
 
             <p className="font-semibold text-xl">Variations</p>
-          </li>
-          {/* <li
+          </li> */}
+          <li
             onClick={() => router.push("/vendor/settings")}
             className="sidebar-link"
           >
             <FcEngineering className="text-xl" />
 
             <p className="font-semibold text-xl">Settings</p>
-          </li> */}
+          </li>
           <li onClick={handleLogout} className="sidebar-link">
             <IoMdLogOut className="text-xl" />
 

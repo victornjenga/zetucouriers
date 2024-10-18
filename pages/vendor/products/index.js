@@ -4,12 +4,13 @@ import { client } from "../../../utils/client";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import useAuthStore from "../../../store/authStore"; // Import auth store to get logged-in vendor info
 
 function Products({ products }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-
   const router = useRouter();
+  const { userProfile } = useAuthStore(); // Access userProfile from zustand store
 
   const handleEditProduct = (slug) => {
     router.push(`/vendor/products/edit/${slug}`);
@@ -30,15 +31,9 @@ function Products({ products }) {
       try {
         await client.delete(selectedProduct._id); // Delete product from Sanity
         closeDeleteModal();
-
-        // Show success toast notification
         toast.success(`Product ${selectedProduct.name} deleted successfully!`);
-
-        // Optionally, remove the deleted product from the UI
-        // router.reload(); // No longer needed
       } catch (error) {
         console.error("Error deleting product:", error);
-        // Show error toast notification
         toast.error("Failed to delete product. Please try again.");
       }
     }
@@ -47,6 +42,11 @@ function Products({ products }) {
   const handleAddProduct = () => {
     router.push("/vendor/products/add");
   };
+
+  // Filter products by the logged-in vendor's ID, making sure postedBy exists
+  const vendorProducts = products.filter(
+    (product) => product.postedBy?._ref === userProfile?._id
+  );
 
   return (
     <DashboardLayout>
@@ -64,7 +64,7 @@ function Products({ products }) {
 
         {/* Header Section */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">All Products</h1>
+          <h1 className="text-2xl font-bold">Your Products</h1>
           <button
             onClick={handleAddProduct}
             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
@@ -85,8 +85,8 @@ function Products({ products }) {
               </tr>
             </thead>
             <tbody>
-              {products && products.length > 0 ? (
-                products.map((product) => (
+              {vendorProducts && vendorProducts.length > 0 ? (
+                vendorProducts.map((product) => (
                   <tr key={product._id}>
                     <td className="border px-4 py-2">{product.name}</td>
                     <td className="border px-4 py-2">{product.price}</td>
@@ -145,9 +145,6 @@ function Products({ products }) {
             </div>
           </div>
         )}
-
-        {/* Toast Container */}
-        {/* <ToastContainer /> */}
       </div>
     </DashboardLayout>
   );
@@ -166,6 +163,7 @@ export const getServerSideProps = async ({ query: { category } }) => {
         name,
         price,
         slug,
+        postedBy { _ref } // Fetch postedBy reference to filter by vendor
       }`;
       products = await client.fetch(query);
     } else {
@@ -174,18 +172,19 @@ export const getServerSideProps = async ({ query: { category } }) => {
         name,
         price,
         slug,
+        postedBy { _ref } // Fetch postedBy reference to filter by vendor
       }`;
       products = await client.fetch(allPostsQuery);
     }
 
     return {
-      props: { products: products || [] }, // Ensure products is always an array
+      props: { products: products || [] },
     };
   } catch (error) {
     console.error("Error fetching products:", error);
 
     return {
-      props: { products: [], error: "Failed to fetch products" }, // Handle error case
+      props: { products: [], error: "Failed to fetch products" },
     };
   }
 };
