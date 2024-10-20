@@ -5,27 +5,93 @@ import {
   InfoWindow,
   OverlayView,
 } from "@react-google-maps/api";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import axios from "axios";
 import { client } from "../utils/client";
 import Image from "next/image";
 import Link from "next/link";
-import { FiMapPin } from "react-icons/fi"; // Make sure to import the location icon
+import { FiMapPin } from "react-icons/fi";
 
 export default function Hotels({ vendors }) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
 
+  const [userLocation, setUserLocation] = useState(null);
   const [selectedVendor, setSelectedVendor] = useState(null);
+  const [closestVendor, setClosestVendor] = useState(null);
 
-  // Calculate a map center based on vendors' coordinates
+  // Request the user's location
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, []);
+
+  // Find the closest hotel based on user's location
+  useEffect(() => {
+    if (userLocation) {
+      let closest = null;
+      let minDistance = Infinity;
+
+      vendors.forEach((vendor) => {
+        if (vendor.lat && vendor.lng) {
+          const distance = getDistanceFromLatLonInKm(
+            userLocation.lat,
+            userLocation.lng,
+            vendor.lat,
+            vendor.lng
+          );
+
+          if (distance < minDistance) {
+            minDistance = distance;
+            closest = vendor;
+          }
+        }
+      });
+
+      setClosestVendor(closest);
+    }
+  }, [userLocation, vendors]);
+
+  // Function to calculate distance between two points
+  function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
+    const R = 6371; // Radius of the Earth in km
+    const dLat = deg2rad(lat2 - lat1);
+    const dLng = deg2rad(lng2 - lng1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Distance in km
+  }
+
+  function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+  }
+
+  // Set the map center based on the closest hotel or user location
   const mapCenter = useMemo(() => {
-    const vendorWithCoords = vendors.find((vendor) => vendor.lat && vendor.lng);
-    return vendorWithCoords
-      ? { lat: vendorWithCoords.lat, lng: vendorWithCoords.lng }
-      : { lat: -1.2921, lng: 36.8219 }; // Default to Nairobi if no valid coordinates
-  }, [vendors]);
+    if (closestVendor) {
+      return { lat: closestVendor.lat, lng: closestVendor.lng };
+    }
+    return userLocation || { lat: -1.2921, lng: 36.8219 }; // Default to Nairobi if no location
+  }, [closestVendor, userLocation]);
 
   if (!vendors?.length) {
     return (
@@ -42,10 +108,11 @@ export default function Hotels({ vendors }) {
 
   return (
     <div className="container mx-auto py-12 px-4">
-      <h1 className="text-3xl md:text-5xl font-bold text-center text-gray-800 mb-12">
+      <h1 className="text-3xl md:text-5xl font-bold text-center text-gray-800 dark:text-gray-50 mb-12">
         Partner Hotels
       </h1>
 
+      {/* Display hotels in a grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">
         {vendors.map((vendor) => {
           if (!vendor.vendorSlug?.current) return null;
@@ -53,7 +120,7 @@ export default function Hotels({ vendors }) {
           return (
             <div
               key={vendor._id}
-              className="bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden"
             >
               <div className="relative w-full h-24 md:h-48">
                 <Image
@@ -66,15 +133,9 @@ export default function Hotels({ vendors }) {
               </div>
 
               <div className="px-3 py-2">
-                <h2 className="text-lg md:text-2xl font-semibold text-gray-800 mb-2">
+                <h2 className="text-lg md:text-2xl font-semibold text-gray-800 dark:text-gray-50 mb-2">
                   {vendor.name}
                 </h2>
-                {/* <div className="flex items-center text-gray-600 mb-2">
-                  <FiMapPin className="text-lg mr-1" />
-                  <span>
-                    {vendor.vendorSettings?.address || "Address not available"}
-                  </span>
-                </div> */}
                 <Link href={`/hotel/${vendor.vendorSlug.current}`}>
                   <div className="text-blue-500 font-semibold hover:underline">
                     View Menu
@@ -85,14 +146,16 @@ export default function Hotels({ vendors }) {
           );
         })}
       </div>
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-12">
+
+      <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-50 mb-12">
         Hotels Locations On The Map
       </h1>
+
       {/* Map Section */}
       <div className="h-96 w-full">
         {isLoaded && (
           <GoogleMap
-            zoom={12}
+            zoom={closestVendor ? 14 : 12} // Zoom in closer to the nearest hotel
             center={mapCenter}
             mapContainerClassName="w-full h-full"
           >
@@ -100,21 +163,21 @@ export default function Hotels({ vendors }) {
               .filter((vendor) => vendor.lat && vendor.lng) // Only show markers for valid coordinates
               .map((vendor, index) => (
                 <>
-                  {/* <Marker
-                  key={index}
-                  position={{ lat: vendor.lat, lng: vendor.lng }}
-                  icon={{
-                    url: "/marker-icon-2x.png", // Define the custom marker icon here
-                    scaledSize: new window.google.maps.Size(40, 40), // Size of the marker
-                  }}
-                  onClick={() => setSelectedVendor(vendor)}
-                  onLoad={() =>
-                    console.log(
-                      `Custom Marker loaded at: ${vendor.lat}, ${vendor.lng}`
-                    )
-                  }
-                /> */}
-                  <OverlayView
+                  <Marker
+                    key={index}
+                    position={{ lat: vendor.lat, lng: vendor.lng }}
+                    icon={{
+                      url: "/marker-icon-2x.png", // Define the custom marker icon here
+                      scaledSize: new window.google.maps.Size(40, 40), // Size of the marker
+                    }}
+                    onClick={() => setSelectedVendor(vendor)}
+                    onLoad={() =>
+                      console.log(
+                        `Custom Marker loaded at: ${vendor.lat}, ${vendor.lng}`
+                      )
+                    }
+                  />
+                  {/* <OverlayView
                     key={index}
                     position={{ lat: vendor.lat, lng: vendor.lng }}
                     mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
@@ -133,7 +196,7 @@ export default function Hotels({ vendors }) {
                     >
                       H
                     </div>
-                  </OverlayView>
+                  </OverlayView> */}
                 </>
               ))}
 
@@ -170,20 +233,15 @@ async function geocodeAddress(address) {
 
   try {
     const response = await axios.get(geocodeURL);
-    console.log("Geocoding response:", response.data);
-
     const { results } = response.data;
 
     if (results && results.length > 0) {
       const location = results[0].geometry.location;
-      console.log(`Coordinates for ${address}:`, location);
       return { lat: location.lat, lng: location.lng };
     } else {
-      console.warn(`No coordinates found for address: ${address}`);
       return { lat: 0, lng: 0 };
     }
   } catch (error) {
-    console.error(`Error fetching coordinates for address: ${address}`, error);
     return { lat: 0, lng: 0 };
   }
 }
@@ -202,14 +260,10 @@ export async function getStaticProps() {
   }`;
 
   const vendors = await client.fetch(query);
-  console.log("Vendors fetched from Sanity:", vendors);
 
-  // Geocode each vendor's address to get lat/lng
   const formattedVendors = await Promise.all(
     vendors.map(async (vendor) => {
       const address = vendor?.vendorSettings?.address || "";
-      console.log(`Geocoding address for vendor ${vendor.name}:`, address);
-
       if (address) {
         const { lat, lng } = await geocodeAddress(address);
         return {
@@ -218,7 +272,6 @@ export async function getStaticProps() {
           lng,
         };
       } else {
-        console.warn(`No address for vendor: ${vendor.name}`);
         return {
           ...vendor,
           lat: null,
@@ -227,8 +280,6 @@ export async function getStaticProps() {
       }
     })
   );
-
-  console.log("Formatted vendors with geocoded addresses:", formattedVendors);
 
   return {
     props: {
