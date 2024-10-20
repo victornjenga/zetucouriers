@@ -75,7 +75,7 @@ const Navbar = () => {
 
           <div className="justify-center space-x-3 items-center flex">
             <div className="md:px-3 items-center flex">
-              {/* <Link href="/dashboard">
+              {/* <Link href="/vendor">
                 <p className="text-xl hover:text-red-600 cursor-pointer font-medium">
                   Account
                 </p>
@@ -115,7 +115,7 @@ const Navbar = () => {
                   className="font-sm hover:text-orange-600 flex text-lg space-x-2 items-center "
                 >
                   <FcHome />
-                  <Link href="/dashboard">Home</Link>
+                  <Link href="/vendor">Home</Link>
                 </li>
 
                 {/* <li
@@ -123,7 +123,7 @@ const Navbar = () => {
                   className=" font-sm cursor-pointer hover:text-orange-600 flex text-lg space-x-2 items-center"
                 >
                   <IoMdPerson />
-                  <Link href="/dashboard/users">Users</Link>
+                  <Link href="/vendor/users">Users</Link>
                 </li> */}
 
                 <li
@@ -131,57 +131,57 @@ const Navbar = () => {
                   className="font-sm  hover:text-orange-600 flex text-lg space-x-2 items-center"
                 >
                   <FcMultipleInputs />
-                  <Link href="/dashboard/products">Menus</Link>
+                  <Link href="/vendor/products">Menus</Link>
                 </li>
                 {/* <li
                   onClick={() => setOpen(false)}
                   className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcMindMap />
-                  <Link href="/dashboard/categories">Categories</Link>
+                  <Link href="/vendor/categories">Categories</Link>
                 </li> */}
                 {/* <li
                   onClick={() => setOpen(false)}
                   className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcNews />
-                  <Link href="/dashboard/orders">Orders</Link>
+                  <Link href="/vendor/orders">Orders</Link>
                 </li> */}
                 {/* <li
                   onClick={() => setOpen(false)}
                   className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcMediumPriority />
-                  <Link href="/dashboard/featured">Featured</Link>
+                  <Link href="/vendor/featured">Featured</Link>
                 </li> */}
                 {/* <li
                   onClick={() => setOpen(false)}
                   className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcImport />
-                  <Link href="/dashboard/sizes">Variations</Link>
+                  <Link href="/vendor/sizes">Variations</Link>
                 </li> */}
                 {/* <li
                   onClick={() => setOpen(false)}
                   className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcShop />
-                  <Link href="/dashboard/flash">Flash Sale</Link>
+                  <Link href="/vendor/flash">Flash Sale</Link>
                 </li> */}
-                {/* <li
+                <li
                   onClick={() => setOpen(false)}
                   className=" font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcEngineering />
-                  <Link href="/dashboard/settings">Setting</Link>
-                </li> */}
+                  <Link href="/vendor/settings">Setting</Link>
+                </li>
                 <li
                   onClick={handleLogout}
                   className=" font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <IoMdLogOut />
 
-                  <Link href="/dashboard">Logout</Link>
+                  <Link href="/vendor">Logout</Link>
                 </li>
               </ul>
             </div>

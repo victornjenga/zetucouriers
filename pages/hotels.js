@@ -3,6 +3,7 @@ import {
   GoogleMap,
   Marker,
   InfoWindow,
+  OverlayView,
 } from "@react-google-maps/api";
 import { useState, useMemo } from "react";
 import axios from "axios";
@@ -41,7 +42,7 @@ export default function Hotels({ vendors }) {
 
   return (
     <div className="container mx-auto py-12 px-4">
-      <h1 className="text-5xl font-bold text-center text-gray-800 mb-12">
+      <h1 className="text-3xl md:text-5xl font-bold text-center text-gray-800 mb-12">
         Partner Hotels
       </h1>
 
@@ -84,7 +85,9 @@ export default function Hotels({ vendors }) {
           );
         })}
       </div>
-
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-12">
+        Hotels Locations On The Map
+      </h1>
       {/* Map Section */}
       <div className="h-96 w-full">
         {isLoaded && (
@@ -96,7 +99,8 @@ export default function Hotels({ vendors }) {
             {vendors
               .filter((vendor) => vendor.lat && vendor.lng) // Only show markers for valid coordinates
               .map((vendor, index) => (
-                <Marker
+                <>
+                  {/* <Marker
                   key={index}
                   position={{ lat: vendor.lat, lng: vendor.lng }}
                   icon={{
@@ -109,7 +113,28 @@ export default function Hotels({ vendors }) {
                       `Custom Marker loaded at: ${vendor.lat}, ${vendor.lng}`
                     )
                   }
-                />
+                /> */}
+                  <OverlayView
+                    key={index}
+                    position={{ lat: vendor.lat, lng: vendor.lng }}
+                    mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                  >
+                    <div
+                      style={{
+                        background: "red", // Red circle for demonstration
+                        borderRadius: "50%",
+                        width: "20px",
+                        height: "20px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "white",
+                      }}
+                    >
+                      H
+                    </div>
+                  </OverlayView>
+                </>
               ))}
 
             {selectedVendor && (
