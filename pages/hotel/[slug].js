@@ -3,7 +3,7 @@ import { client } from "../../utils/client";
 import Image from "next/image";
 import Link from "next/link";
 import QRCode from "qrcode";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function VendorProducts({
   vendor,
@@ -15,10 +15,6 @@ export default function VendorProducts({
   const [qrCodeUrl, setQrCodeUrl] = useState(null);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [activeCategory, setActiveCategory] = useState("All");
-
-  console.log("Vendor ID:", vendor._id);
-  console.log("Fetching Vendor Settings with Vendor ID:", vendor._id);
-  console.log("Vendor Settings Response:", vendorSettings);
 
   if (router.isFallback) {
     return (
@@ -50,6 +46,13 @@ export default function VendorProducts({
     }
   };
 
+  const handleDownloadQRCode = () => {
+    const link = document.createElement("a");
+    link.href = qrCodeUrl;
+    link.download = `${vendor.name}-QR-Code.png`;
+    link.click();
+  };
+
   const filterProductsByCategory = (category) => {
     setActiveCategory(category);
     if (category === "All") {
@@ -65,75 +68,84 @@ export default function VendorProducts({
 
   return (
     <div className="container mx-auto py-12 px-4">
-      <div className="flex justify-between items-center mb-10">
+      <div className="flex justify- items-center mb-10">
         <h1 className="text-4xl font-bold text-gray-800">
           {vendor.name}'s Menu
         </h1>
-        <button
-          onClick={handleGenerateQRCode}
-          className="bg-gray-800 text-white py-2 px-6 rounded-lg hover:bg-yellow-600 transition ease-in-out duration-300 shadow-lg"
-        >
-          Generate QR Code
-        </button>
       </div>
 
-      {qrCodeUrl && (
-        <div className="my-8 flex justify-center">
-          <img
-            src={qrCodeUrl}
-            alt="QR Code"
-            className="w-48 h-48 border border-gray-300 rounded-lg shadow-md"
-          />
-        </div>
-      )}
-
       {/* Display Vendor Details */}
-      <div className="mb-10">
-        {vendorSettings?.logo && (
-          <Image
-            src={vendorSettings.logo.asset.url}
-            alt={vendorSettings.vendorName}
-            width={150}
-            height={150}
-            className="rounded-full mb-4"
-          />
-        )}
-        <p className="text-lg text-gray-700 mb-4">
-          {vendorSettings?.description}
-        </p>
-        <p className="text-md text-gray-600">
-          Email: {vendorSettings?.contactEmail}
-        </p>
-        <p className="text-md text-gray-600">
-          Phone: {vendorSettings?.contactPhone}
-        </p>
-        <p className="text-md text-gray-600">
-          Address: {vendorSettings?.address}
-        </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          {vendorSettings?.logo && (
+            <Image
+              src={vendorSettings.logo.asset.url}
+              alt={vendorSettings.vendorName}
+              width={150}
+              height={150}
+              className="rounded-full mb-4"
+            />
+          )}
+          <p className="text-lg text-gray-700 mb-4">
+            {vendorSettings?.description}
+          </p>
+          <p className="text-md text-gray-600">
+            Email: {vendorSettings?.contactEmail}
+          </p>
+          <p className="text-md text-gray-600">
+            Phone: {vendorSettings?.contactPhone}
+          </p>
+          <p className="text-md text-gray-600">
+            Address: {vendorSettings?.address}
+          </p>
 
-        {/* Social Links */}
-        <div className="mt-4">
-          {vendorSettings?.socialLinks?.map((link) => (
-            <a
-              key={link.platform}
-              href={link.url}
-              className="mr-4 text-blue-500"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {link.platform}
-            </a>
-          ))}
+          {/* Social Links */}
+          <div className="mt-4">
+            {vendorSettings?.socialLinks?.map((link) => (
+              <a
+                key={link.platform}
+                href={link.url}
+                className="mr-4 text-blue-500"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {link.platform}
+              </a>
+            ))}
+          </div>
+
+          {/* Business Hours */}
+          <div className="mt-4">
+            <h3 className="text-md font-bold">Business Hours:</h3>
+            {vendorSettings?.businessHours?.map((hour) => (
+              <p key={hour.day} className="text-gray-600">
+                {hour.day}: {hour.openTime} - {hour.closeTime}
+              </p>
+            ))}
+          </div>
         </div>
-
-        {/* Business Hours */}
-        <div className="mt-4">
-          <h3 className="text-md font-bold">Business Hours:</h3>
-          {vendorSettings?.businessHours?.map((hour) => (
-            <p key={hour.day} className="text-gray-600">
-              {hour.day}: {hour.openTime} - {hour.closeTime}
-            </p>
-          ))}
+        <div className="py-4 justify-start items-center md:py-0">
+          <button
+            onClick={handleGenerateQRCode}
+            className="bg-gray-800 text-white py-2 px-6 rounded-lg hover:bg-yellow-600 transition ease-in-out duration-300 shadow-lg"
+          >
+            Generate QR Code
+          </button>
+          {qrCodeUrl && (
+            <div className="my-8 flex flex-col w-full justify-start">
+              <img
+                src={qrCodeUrl}
+                alt="QR Code"
+                className="w-48 h-48 border border-gray-300 rounded-lg shadow-md mb-4"
+              />
+              <button
+                onClick={handleDownloadQRCode}
+                className="bg-blue-600 w-48 text-white py-2 px-2 rounded-lg hover:bg-yellow-600 transition ease-in-out duration-300 shadow-lg"
+              >
+                Download QR Code
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -180,13 +192,13 @@ export default function VendorProducts({
                 className="rounded-t-lg"
               />
             </div>
-            <div className="p-6">
+            <div className="px-3 py-2">
               <h2 className="text-xl font-semibold text-gray-800 mb-2">
                 {product.name}
               </h2>
               <p className="text-gray-600 mb-4">
                 {product.price && !isNaN(product.price)
-                  ? `$${Number(product.price).toFixed(2)}`
+                  ? `Ksh ${Number(product.price).toFixed(2)}`
                   : "Price not available"}
               </p>
               <Link href={`/${product.slug.current}`}>

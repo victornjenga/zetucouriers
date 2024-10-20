@@ -66,14 +66,14 @@ function SideBar() {
 
             <p className="font-semibold text-xl">Categories</p>
           </li> */}
-          <li
+          {/* <li
             onClick={() => router.push("/vendor/orders")}
             className="sidebar-link"
           >
             <FcNews className="text-xl" />
 
             <p className="font-semibold text-xl">Orders</p>
-          </li>
+          </li> */}
           {/* <li
             onClick={() => router.push("/vendor/featured")}
             className="sidebar-link"

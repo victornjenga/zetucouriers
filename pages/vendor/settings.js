@@ -262,7 +262,7 @@ const VendorSettings = () => {
                     Opening Time
                   </label>
                   <input
-                    type="text"
+                    type="time"
                     value={hour.openTime || ""}
                     onChange={(e) => {
                       const newHours = [...settings.businessHours];
@@ -276,7 +276,7 @@ const VendorSettings = () => {
                     Closing Time
                   </label>
                   <input
-                    type="text"
+                    type="time"
                     value={hour.closeTime || ""}
                     onChange={(e) => {
                       const newHours = [...settings.businessHours];

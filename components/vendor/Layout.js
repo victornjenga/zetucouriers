@@ -21,6 +21,19 @@ const DashboardLayout = ({ children }) => {
   const [showPassword, setShowPassword] = useState(false); // Toggle to show/hide password
   const router = useRouter(); // Use Next.js router for redirection
 
+  // Function to generate a slug from the vendor's name
+  const slugify = (text) => {
+    return text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-") // Replace spaces with -
+      .replace(/[^\w\-]+/g, "") // Remove all non-word chars
+      .replace(/\-\-+/g, "-") // Replace multiple - with single -
+      .replace(/^-+/, "") // Trim - from start of text
+      .replace(/-+$/, ""); // Trim - from end of text
+  };
+
   // Toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -67,12 +80,15 @@ const DashboardLayout = ({ children }) => {
 
     try {
       const type = isRegisterMode ? "register" : "email";
+      const vendorSlug = isRegisterMode ? slugify(name) : undefined; // Generate slug only if registering
+
       const response = await axios.post("/api/login", {
         email,
         password,
         name: isRegisterMode ? name : undefined, // Only send name if registering
         type,
         role, // Send the selected role (vendor by default)
+        vendorSlug, // Send the generated slug
       });
 
       if (response.status === 200 && response.data.user) {
@@ -226,16 +242,17 @@ const DashboardLayout = ({ children }) => {
               </p>
 
               {/* Google Login */}
-              <div className="text-center justify-center items-center flex w-full mt-4">
+              {/* <div className="text-center justify-center items-center flex w-full mt-4">
                 <GoogleLogin
                   onSuccess={handleLoginSuccess}
                   onError={handleLoginFailure}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </>
       )}
+      <ToastContainer />
     </GoogleOAuthProvider>
   );
 };

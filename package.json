@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@chec/commerce.js": "^2.3.0-beta1",
+    "@react-google-maps/api": "^2.20.3",
     "@react-oauth/google": "^0.2.8",
     "@sanity/client": "^3.4.1",
     "@sanity/image-url": "^1.0.1",
@@ -38,6 +39,7 @@
     "react-icons": "^5.2.1",
     "react-intl-number-format": "^1.1.1",
     "react-leaflet": "^4.2.1",
+    "react-map-gl": "^7.1.7",
     "react-toastify": "^10.0.5",
     "react-whatsapp": "^0.3.0",
     "react-whatsapp-widget": "^2.2.0",

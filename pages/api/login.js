@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 export default async function handleUserAuth(req, res) {
   if (req.method === "POST") {
-    const { email, password, name, type, sub, picture, role } = req.body; // Added role for vendor/customer distinction
+    const { email, password, name, type, sub, picture, role } = req.body; // Removed vendorSlug from request body
 
     try {
       // Ensure JWT_SECRET is defined
@@ -91,12 +91,20 @@ export default async function handleUserAuth(req, res) {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Generate the vendorSlug
+        const vendorSlug = {
+          _type: "slug",
+          current: name.toLowerCase().replace(/\s+/g, "-"), // Generate slug from the name
+        };
+
         const newUser = {
           _type: "user",
           email,
           name,
           password: hashedPassword,
           role: userRole, // Ensure role is set
+          ...(userRole === "vendor" && { vendorSlug }), // Only include vendorSlug if role is vendor
         };
 
         const createdUser = await client.create(newUser);

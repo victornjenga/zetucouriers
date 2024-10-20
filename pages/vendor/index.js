@@ -57,18 +57,18 @@ function Dashboard() {
             icon={<FaPeopleArrows />}
           />
 
-          <InfoCard
+          {/* <InfoCard
             title="Orders"
             quantity={ordersCount} // Show the actual orders count
             background="bg-blue-700"
             icon={<FaFileAlt />}
-          />
-          <InfoCard
+          /> */}
+          {/* <InfoCard
             title="Users"
             quantity="10" // Static or can be fetched similarly
             background="bg-green-700"
             icon={<FaPeopleArrows />}
-          />
+          /> */}
         </div>
       </div>
     </DashboardLayout>
