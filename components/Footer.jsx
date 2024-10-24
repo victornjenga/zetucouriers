@@ -8,9 +8,9 @@ export default function Footer() {
         <div className="mb-6 md:mb-0">
           <h3 className="text-xl font-bold text-white mb-4">About Us</h3>
           <p className="text-gray-400 leading-relaxed">
-            Discover gourmet cuisine from the world’s finest hotels. Handpicked
-            dishes curated by top chefs to provide an unforgettable culinary
-            experience.
+            Ans Engineering Group Ltd. is a leading engineering consultancy
+            firm, delivering innovative and sustainable civil and structural
+            solutions across East Africa.
           </p>
         </div>
 
@@ -20,31 +20,31 @@ export default function Footer() {
           <ul className="space-y-2">
             <li>
               <a
-                href="#menu-categories"
+                href="#about"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
-                Menu Categories
+                About Us
               </a>
             </li>
             <li>
               <a
-                href="#dishes"
+                href="#services"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
-                Top Dishes
+                Our Services
               </a>
             </li>
             <li>
               <a
-                href="#special-offers"
+                href="#projects"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
-                Special Offers
+                Projects
               </a>
             </li>
             <li>
               <a
-                href="#reviews"
+                href="#testimonials"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
                 Testimonials
@@ -96,7 +96,8 @@ export default function Footer() {
         <div>
           <h3 className="text-xl font-bold text-white mb-4">Stay Updated</h3>
           <p className="text-gray-400 mb-4">
-            Subscribe to our newsletter for the latest culinary offers and news.
+            Subscribe to our newsletter for the latest news on our engineering
+            services and projects.
           </p>
           <form className="flex flex-col space-y-3">
             <input
@@ -116,7 +117,7 @@ export default function Footer() {
 
       {/* Copyright Section */}
       <div className="border-t border-gray-700 mt-10 pt-6 text-center text-gray-500">
-        <p>&copy; 2024 Luxury Hotels Menu. All rights reserved.</p>
+        <p>&copy; 2024 Ans Engineering Group Ltd. All rights reserved.</p>
       </div>
     </footer>
   );
