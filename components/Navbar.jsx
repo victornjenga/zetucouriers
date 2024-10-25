@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useState } from "react";
 import {
   FaHome,
@@ -22,15 +23,12 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-900 text-white shadow-lg">
-      <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+      <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-around items-center">
         {/* Logo Section */}
         <div className="text-2xl font-bold">
-          <a
-            href="/"
-            className="hover:text-yellow-500 text-xl transition duration-300"
-          >
-            Ans Engineering
-          </a>
+          <Link href="/">
+            <img className="h-[40px]" src="/logo.png" alt="/" />
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -53,7 +51,7 @@ const Navbar = () => {
             Home
           </a>
           <div className="relative group justify-start">
-            <button className="flex items-center hover:text-yellow-500 transition duration-300">
+            <button className="flex text-xl items-center hover:text-yellow-500 transition duration-300">
               About Us <FaAngleDown className="ml-1" />
             </button>
 
