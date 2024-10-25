@@ -25,7 +25,10 @@ const Navbar = () => {
       <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
         {/* Logo Section */}
         <div className="text-2xl font-bold">
-          <a href="/" className="hover:text-yellow-500 transition duration-300">
+          <a
+            href="/"
+            className="hover:text-yellow-500 text-xl transition duration-300"
+          >
             Ans Engineering
           </a>
         </div>
@@ -43,70 +46,56 @@ const Navbar = () => {
 
         {/* Nav Links (Hidden on Mobile) */}
         <div className="hidden md:flex space-x-8 items-center">
-          <a href="/" className="hover:text-yellow-500 transition duration-300">
+          <a
+            href="/"
+            className="hover:text-yellow-500 text-xl transition duration-300"
+          >
             Home
           </a>
-          <div className="relative group">
+          <div className="relative group justify-start">
             <button className="flex items-center hover:text-yellow-500 transition duration-300">
               About Us <FaAngleDown className="ml-1" />
             </button>
+
             {/* Dropdown Menu */}
             <div className="absolute left-0 mt-2 w-48 bg-gray-800 text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
               <a
                 href="/our-team"
-                className="block px-4 py-2 hover:bg-gray-700 hover:text-yellow-500"
+                className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
               >
                 Our Team
               </a>
               <a
-                href="/areas-of-specialiazation"
-                className="block px-4 py-2 hover:bg-gray-700 hover:text-yellow-500"
+                href="/areas-of-specialization"
+                className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
               >
                 Areas Of Specialization
               </a>
               <a
                 href="/bim"
-                className="block px-4 py-2 hover:bg-gray-700 hover:text-yellow-500"
+                className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
               >
                 Working with BIM
               </a>
             </div>
           </div>
-          <div className="relative group">
-            <button className="flex items-center hover:text-yellow-500 transition duration-300">
-              Services <FaAngleDown className="ml-1" />
-            </button>
-            {/* Dropdown Menu */}
-            <div className="absolute left-0 mt-2 w-48 bg-gray-800 text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-              <a
-                href="/civil-engineering"
-                className="block px-4 py-2 hover:bg-gray-700 hover:text-yellow-500"
-              >
-                Civil Engineering
-              </a>
-              <a
-                href="/structural-engineering"
-                className="block px-4 py-2 hover:bg-gray-700 hover:text-yellow-500"
-              >
-                Structural Engineering
-              </a>
-              <a
-                href="/bim"
-                className="block px-4 py-2 hover:bg-gray-700 hover:text-yellow-500"
-              >
-                Working with BIM
-              </a>
-            </div>
-          </div>
+
           <a
             href="/projects"
-            className="hover:text-yellow-500 transition duration-300"
+            className="hover:text-yellow-500 text-xl transition duration-300"
           >
             Projects
           </a>
+
+          <a
+            href="/careers"
+            className="hover:text-yellow-500 text-xl transition duration-300"
+          >
+            Careers
+          </a>
           <a
             href="/contact"
-            className="hover:text-yellow-500 transition duration-300"
+            className="hover:text-yellow-500 text-xl transition duration-300"
           >
             Contact
           </a>
@@ -159,45 +148,20 @@ const Navbar = () => {
             </div>
           )}
         </div>
-        <div>
-          <button
-            onClick={toggleServicesDropdown}
-            className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300 w-full "
-          >
-            <FaUtensils />
-            <span>Services</span>
-            <FaAngleDown />
-          </button>
-          {/* Mobile Dropdown for Services */}
-          {isServicesOpen && (
-            <div className="space-y-2 mt-2">
-              <a
-                href="/civil-engineering"
-                className="block hover:text-yellow-500 transition duration-300"
-              >
-                Civil Engineering
-              </a>
-              <a
-                href="/structural-engineering"
-                className="block hover:text-yellow-500 transition duration-300"
-              >
-                Structural Engineering
-              </a>
-              <a
-                href="/bim"
-                className="block hover:text-yellow-500 transition duration-300"
-              >
-                Working with BIM
-              </a>
-            </div>
-          )}
-        </div>
+
         <a
           href="/projects"
           className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
         >
           <FaTags />
           <span>Projects</span>
+        </a>
+        <a
+          href="/careers"
+          className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
+        >
+          <FaTags />
+          <span>Careers</span>
         </a>
         <a
           href="/contact"

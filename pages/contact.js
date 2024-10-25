@@ -1,135 +1,145 @@
 import Head from "next/head";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { useEffect, useState } from "react";
-import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 
 export default function Contact() {
-  const [visible, setVisible] = useState(true); // Set to true for immediate visibility
-
   return (
     <div className="bg-gray-50 w-full">
       <Head>
-        <title>Contact Us | Elevating Culinary Experiences</title>
-        <meta
-          name="description"
-          content="Get in touch with us to elevate your culinary experiences. We're here to help!"
-        />
+        <title>Ans Engineering Group | Contact Us</title>
       </Head>
 
-      {/* Hero Section */}
+      {/* Hero Section with Parallax */}
       <section
-        className="relative h-[60vh] bg-cover bg-center flex flex-col items-center justify-center text-center"
-        style={{ backgroundImage: `url('/contact-hero.jpg')` }}
+        id="hero"
+        className="relative h-[50vh] md:h-[60vh] bg-fixed bg-center flex flex-col items-center justify-center text-center"
+        style={{
+          backgroundImage: `url('/contact-hero.jpg')`,
+        }}
       >
+        {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black opacity-70"></div>
-        <div className="relative z-10 text-white px-4">
-          <h1 className="text-5xl md:text-6xl font-bold">Get in Touch</h1>
-          <p className="text-xl md:text-2xl mt-4">
-            We'd love to hear from you!
+
+        {/* Hero Content */}
+        <div className="relative z-10 space-y-4 sm:space-y-6 text-white px-4">
+          <h1 className="text-4xl md:text-6xl font-bold animate-fadeInDown">
+            Get in Touch with Us
+          </h1>
+          <p className="text-lg md:text-xl animate-fadeInUp">
+            We are here to assist you with your project needs.
           </p>
         </div>
       </section>
 
-      {/* Contact Information Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-4xl font-extrabold text-gray-900 mb-12 tracking-wide">
+      {/* Contact Info Section */}
+      <section
+        id="contact-info"
+        className="py-16 px-4 sm:px-6 bg-gradient-to-b from-gray-50 to-white"
+      >
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 drop-shadow-lg">
             Contact Information
           </h2>
-          <div
-            className={`grid md:grid-cols-3 gap-12 transition-opacity duration-700 ${
-              visible ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <div className="bg-gray-100 p-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 space-y-4">
-              <FaEnvelope size={40} className="mx-auto text-yellow-500" />
-              <h3 className="text-2xl font-semibold text-gray-900">Email</h3>
-              <p className="text-lg text-gray-700">
-                support@menuyetu.com
-              </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            {/* Office Address */}
+            <div className="flex items-center bg-white p-6 rounded-lg shadow-lg">
+              <FaMapMarkerAlt className="text-yellow-500 text-4xl mr-6" />
+              <div>
+                <h3 className="text-2xl font-bold mb-2">Our Office</h3>
+                <p className="text-gray-600">
+                  LungaLunga Square, 2nd Floor, Room No.225
+                  <br />
+                  Linga Lunga Road
+                  <br />
+                  Nairobi, Kenya
+                </p>
+              </div>
             </div>
-            <div className="bg-gray-100 p-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 space-y-4">
-              <FaPhoneAlt size={40} className="mx-auto text-yellow-500" />
-              <h3 className="text-2xl font-semibold text-gray-900">Phone</h3>
-              <p className="text-lg text-gray-700">+1 (234) 567-8900</p>
+
+            {/* Phone Numbers */}
+            <div className="flex items-center bg-white p-6 rounded-lg shadow-lg">
+              <FaPhoneAlt className="text-yellow-500 text-4xl mr-6" />
+              <div>
+                <h3 className="text-2xl font-bold mb-2">Contact Numbers</h3>
+                <p className="text-gray-600">
+                  +254 720 612 649
+                  <br />
+                  +254 732 246 065
+                  <br />
+                  +254 731 454 809
+                </p>
+              </div>
             </div>
-            <div className="bg-gray-100 p-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 space-y-4">
-              <FaMapMarkerAlt size={40} className="mx-auto text-yellow-500" />
-              <h3 className="text-2xl font-semibold text-gray-900">Address</h3>
-              <p className="text-lg text-gray-700">
-                123 Culinary Ave, Food City, Nairobi
-              </p>
+
+            {/* Email Address */}
+            <div className="flex items-center bg-white p-6 rounded-lg shadow-lg">
+              <FaEnvelope className="text-yellow-500 text-4xl mr-6" />
+              <div>
+                <h3 className="text-2xl font-bold mb-2">Email Address</h3>
+                <p className="text-gray-600">info@ans-engineers.co.ke</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-100">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-900">
-            Find Us Here
-          </h2>
-          <div className="relative w-full h-96 rounded-lg overflow-hidden shadow-lg">
-            <iframe
-              className="absolute inset-0 w-full h-full"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434507313!2d144.95373531531684!3d-37.81627997975177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f0b07f7%3A0x5045675218cedc0!2s123%20Culinary%20Ave%2C%20Food%20City%2C%20CA%2090210!5e0!3m2!1sen!2sus!4v1627075639275!5m2!1sen!2sus"
-              allowFullScreen
-              loading="lazy"
-            ></iframe>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Form Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-900">
+      {/* Contact Form */}
+      <section
+        id="contact-form"
+        className="py-20 px-4 sm:px-6 bg-gradient-to-b from-white to-gray-100"
+      >
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 drop-shadow-lg animate-fadeIn">
             Send Us a Message
           </h2>
-          <form className="bg-gray-100 p-8 rounded-lg shadow-lg">
-            <div className="grid md:grid-cols-2 gap-6">
+          <form
+            action="/send-message"
+            method="POST"
+            className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg space-y-6"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-lg font-semibold text-gray-700">
+                <label className="block mb-2 text-gray-700 font-semibold">
                   Name
                 </label>
                 <input
                   type="text"
-                  placeholder="Your Name"
-                  className="mt-1 p-3 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  name="name"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   required
                 />
               </div>
               <div>
-                <label className="block text-lg font-semibold text-gray-700">
+                <label className="block mb-2 text-gray-700 font-semibold">
                   Email
                 </label>
                 <input
                   type="email"
-                  placeholder="Your Email"
-                  className="mt-1 p-3 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  name="email"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   required
                 />
               </div>
             </div>
-            <div className="mt-6">
-              <label className="block text-lg font-semibold text-gray-700">
+            <div>
+              <label className="block mb-2 text-gray-700 font-semibold">
                 Message
               </label>
               <textarea
+                name="message"
                 rows="6"
-                placeholder="Your Message"
-                className="mt-1 p-3 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 required
               ></textarea>
             </div>
-            <button
-              type="submit"
-              className="mt-6 w-full py-3 bg-yellow-500 text-white font-bold rounded-lg shadow-lg transition duration-300 hover:bg-yellow-600"
-            >
-              Send Message
-            </button>
+            <div className="text-center">
+              <button
+                type="submit"
+                className="px-6 py-3 bg-yellow-500 text-white font-bold text-lg rounded-lg shadow-lg hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105"
+              >
+                Send Message
+              </button>
+            </div>
           </form>
         </div>
       </section>
