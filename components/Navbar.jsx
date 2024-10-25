@@ -2,11 +2,12 @@ import Link from "next/link";
 import React, { useState } from "react";
 import {
   FaHome,
-  FaUtensils,
-  FaTags,
+  FaUserFriends,
+  FaProjectDiagram,
   FaPhone,
   FaBars,
   FaAngleDown,
+  FaBriefcase,
 } from "react-icons/fa";
 
 const Navbar = () => {
@@ -23,7 +24,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-900 text-white shadow-lg">
-      <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-around items-center">
+      <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between md:justify-around items-center">
         {/* Logo Section */}
         <div className="text-2xl font-bold">
           <Link href="/">
@@ -118,7 +119,7 @@ const Navbar = () => {
             onClick={toggleServicesDropdown}
             className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300 w-full "
           >
-            <FaUtensils />
+            <FaUserFriends />
             <span>About Us</span>
             <FaAngleDown />
           </button>
@@ -129,7 +130,7 @@ const Navbar = () => {
                 href="/our-team"
                 className="block hover:text-yellow-500 transition duration-300"
               >
-                Civil Engineering
+                Our Team
               </a>
               <a
                 href="/areas-of-specialiazation"
@@ -151,14 +152,14 @@ const Navbar = () => {
           href="/projects"
           className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
         >
-          <FaTags />
+          <FaProjectDiagram />
           <span>Projects</span>
         </a>
         <a
           href="/careers"
           className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
         >
-          <FaTags />
+          <FaBriefcase />
           <span>Careers</span>
         </a>
         <a
