@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { client } from "../../utils/client"; // Assuming you have a configured Sanity client
-import DashboardLayout from "../../components/dashboard/Layout";
+import DashboardLayout from "../../components/admin/Layout";
 
 const UsersPage = () => {
   const [customers, setCustomers] = useState([]);

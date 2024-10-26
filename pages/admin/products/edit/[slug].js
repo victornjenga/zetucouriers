@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import DashboardLayout from "../../../../components/dashboard/Layout";
+import DashboardLayout from "../../../../components/admin/Layout";
 import { useRouter } from "next/router";
 import { client } from "../../../../utils/client";
 import Link from "next/link";
@@ -12,6 +12,7 @@ function EditProduct({ product, categories = [], variations = [] }) {
     name: product.name || "",
     price: product.price || "",
     description: product.description || "",
+    location: product.location || "", // Added location
     categories: product.category.map((cat) => cat._ref) || [],
     variations: product.variations?.map((varr) => varr._ref) || [],
   });
@@ -98,6 +99,7 @@ function EditProduct({ product, categories = [], variations = [] }) {
         name: formData.name,
         price: formData.price,
         description: formData.description,
+        location: formData.location, // Added location to product data
         category: formData.categories.map((categoryId) => ({
           _type: "reference",
           _ref: categoryId,
@@ -115,7 +117,7 @@ function EditProduct({ product, categories = [], variations = [] }) {
       await client.patch(product._id).set(updatedProduct).commit();
       toast.success("Product updated successfully!");
       // Navigate to product listing after successful update
-      router.push("/dashboard/products");
+      router.push("/admin/products");
     } catch (error) {
       console.error("Error updating product:", error);
       toast.error("Failed to update product. Please try again.");
@@ -128,24 +130,24 @@ function EditProduct({ product, categories = [], variations = [] }) {
     <DashboardLayout>
       <div className="container mx-auto">
         <nav className="flex py-3 justify-start w-full">
-          <Link href="/dashboard">
+          <Link href="/admin">
             <p className="hover:text-blue-600 text-lg">Home</p>
           </Link>
           &nbsp;&gt;&nbsp;
-          <Link href="/dashboard/products">
-            <p className="hover:text-blue-600 text-lg">Products</p>
+          <Link href="/admin/products">
+            <p className="hover:text-blue-600 text-lg">Projects</p>
           </Link>
           &nbsp;&gt;&nbsp;
-          <Link href={`/dashboard/products/edit/${product.slug.current}`}>
+          <Link href={`/admin/products/edit/${product.slug.current}`}>
             <span className="hover:text-blue-600 text-lg">{product.name}</span>
           </Link>
         </nav>
 
-        <h1 className="text-2xl font-bold mb-6">Edit Product</h1>
+        <h1 className="text-2xl font-bold mb-6">Edit Project</h1>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700">Product Name</label>
+            <label className="block text-gray-700">Project Name</label>
             <input
               type="text"
               name="name"
@@ -157,11 +159,11 @@ function EditProduct({ product, categories = [], variations = [] }) {
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700">Price</label>
+            <label className="block text-gray-700">Location</label>
             <input
-              type="number"
-              name="price"
-              value={formData.price}
+              type="text"
+              name="location"
+              value={formData.location}
               onChange={handleInputChange}
               className="border px-4 py-2 rounded w-full"
               required
@@ -200,7 +202,7 @@ function EditProduct({ product, categories = [], variations = [] }) {
           </div>
 
           {/* Variations */}
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label className="block text-gray-700">Variations</label>
             <div>
               {variations.map((variation) => (
@@ -218,11 +220,11 @@ function EditProduct({ product, categories = [], variations = [] }) {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Image Upload */}
           <div className="mb-4">
-            <label className="block text-gray-700">Product Images</label>
+            <label className="block text-gray-700">Project Images</label>
             <input
               type="file"
               multiple
@@ -265,7 +267,7 @@ function EditProduct({ product, categories = [], variations = [] }) {
             className="bg-blue-500 text-white px-4 py-2 rounded"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Saving..." : "Save Changes"}
+            {isSubmitting ? "Saving..." : "Save Product"}
           </button>
         </form>
       </div>
@@ -273,23 +275,36 @@ function EditProduct({ product, categories = [], variations = [] }) {
   );
 }
 
-export default EditProduct;
+export async function getServerSideProps({ params }) {
+  const { slug } = params;
 
-// Fetching product, categories, and variations from Sanity
-export const getServerSideProps = async ({ params: { slug } }) => {
-  const productQuery = `*[_type == "products" && slug.current == '${slug}'][0]`;
-  const categoryQuery = `*[_type == "category"]{_id, title}`;
-  const variationQuery = `*[_type == "variations"]{_id, title}`;
+  // Fetch product by slug
+  const query = `*[_type == "products" && slug.current == $slug][0]{
+    _id,
+    name,
+    price,
+    description,
+    location,
+    "image": image[]{
+      asset->{
+        _id,
+        url
+      }
+    },
+    "category": category[]->,
+    "variations": variations[]->,
+    slug
+  }`;
 
-  const product = await client.fetch(productQuery);
-  const categories = await client.fetch(categoryQuery);
-  const variations = await client.fetch(variationQuery);
+  const product = await client.fetch(query, { slug });
 
-  if (!product) {
-    return {
-      notFound: true,
-    };
-  }
+  // Fetch categories
+  const categoriesQuery = '*[_type == "categories"]';
+  const categories = await client.fetch(categoriesQuery);
+
+  // Fetch variations (if applicable)
+  const variationsQuery = '*[_type == "variations"]';
+  const variations = await client.fetch(variationsQuery);
 
   return {
     props: {
@@ -298,4 +313,6 @@ export const getServerSideProps = async ({ params: { slug } }) => {
       variations,
     },
   };
-};
+}
+
+export default EditProduct;

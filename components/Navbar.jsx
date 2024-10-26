@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaHome,
   FaUserFriends,
@@ -8,11 +8,29 @@ import {
   FaBars,
   FaAngleDown,
   FaBriefcase,
+  FaNewspaper,
 } from "react-icons/fa";
+import { client } from "../utils/client"; // Adjust the path as needed
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    // Fetch categories from Sanity
+    const fetchCategories = async () => {
+      try {
+        const categoriesQuery = `*[_type == "category"]{ _id, title, slug { current } }`;
+        const fetchedCategories = await client.fetch(categoriesQuery);
+        setCategories(fetchedCategories || []);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
@@ -23,13 +41,16 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-900 text-white shadow-lg">
+    <nav className="bg-gray-900 z-50 text-white shadow-lg">
       <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between md:justify-around items-center">
         {/* Logo Section */}
-        <div className="text-2xl font-bold">
+        <div className="text-2xl font-bold flex items-center">
           <Link href="/">
             <img className="h-[40px]" src="/logo.png" alt="/" />
           </Link>
+          <span className="text-white-500 hidden md:flex text-2xl bold">
+            Ans Engineering
+          </span>
         </div>
 
         {/* Mobile Menu Button */}
@@ -45,59 +66,82 @@ const Navbar = () => {
 
         {/* Nav Links (Hidden on Mobile) */}
         <div className="hidden md:flex space-x-8 items-center">
-          <a
+          <Link
             href="/"
             className="hover:text-yellow-500 text-xl transition duration-300"
           >
             Home
-          </a>
-          <div className="relative group justify-start">
-            <button className="flex text-xl items-center hover:text-yellow-500 transition duration-300">
+          </Link>
+
+          {/* About Us Dropdown */}
+          <div className="relative group z-50">
+            <button className="flex items-center text-xl hover:text-yellow-500 transition duration-300">
               About Us <FaAngleDown className="ml-1" />
             </button>
-
-            {/* Dropdown Menu */}
             <div className="absolute left-0 mt-2 w-48 bg-gray-800 text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-              <a
+              <Link
+                href="/our-history"
+                className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
+              >
+                Our History
+              </Link>
+              <Link
                 href="/our-team"
                 className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
               >
                 Our Team
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/areas-of-specialization"
                 className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
               >
                 Areas Of Specialization
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/bim"
                 className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
               >
                 Working with BIM
-              </a>
+              </Link>
             </div>
           </div>
 
-          <a
-            href="/projects"
-            className="hover:text-yellow-500 text-xl transition duration-300"
-          >
-            Projects
-          </a>
+          {/* Projects Dropdown with Categories */}
+          <div className="relative group z-50">
+            <button className="flex items-center text-xl hover:text-yellow-500 transition duration-300">
+              Projects <FaAngleDown className="ml-1" />
+            </button>
+            <div className="absolute left-0 mt-2 w-48 bg-gray-800 text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+              {categories.map((category) => (
+                <Link
+                  key={category._id}
+                  href={`/projects/${category.slug.current}`}
+                  className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
+                >
+                  {category.title}
+                </Link>
+              ))}
+            </div>
+          </div>
 
-          <a
+          <Link
             href="/careers"
             className="hover:text-yellow-500 text-xl transition duration-300"
           >
             Careers
-          </a>
-          <a
+          </Link>
+          <Link
+            href="/media"
+            className="hover:text-yellow-500 text-xl transition duration-300"
+          >
+            Media
+          </Link>
+          <Link
             href="/contact"
             className="hover:text-yellow-500 text-xl transition duration-300"
           >
             Contact
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -107,68 +151,94 @@ const Navbar = () => {
           isMobileMenuOpen ? "block" : "hidden"
         }`}
       >
-        <a
+        <Link
           href="/"
           className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
         >
           <FaHome />
           <span>Home</span>
-        </a>
+        </Link>
+
+        {/* Mobile About Us Dropdown */}
+        <button
+          onClick={toggleServicesDropdown}
+          className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300 w-full"
+        >
+          <FaUserFriends />
+          <span>About Us</span>
+          <FaAngleDown />
+        </button>
+        {isServicesOpen && (
+          <div className="space-y-2 mt-2">
+            <Link
+              href="/our-history"
+              className="block hover:text-yellow-500 transition duration-300"
+            >
+              Our History
+            </Link>
+            <Link
+              href="/our-team"
+              className="block hover:text-yellow-500 transition duration-300"
+            >
+              Our Team
+            </Link>
+            <Link
+              href="/areas-of-specialization"
+              className="block hover:text-yellow-500 transition duration-300"
+            >
+              Areas Of Specialization
+            </Link>
+            <Link
+              href="/bim"
+              className="block hover:text-yellow-500 transition duration-300"
+            >
+              Working with BIM
+            </Link>
+          </div>
+        )}
+
+        {/* Projects with Categories */}
         <div>
           <button
-            onClick={toggleServicesDropdown}
-            className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300 w-full "
+            onClick={() => setIsServicesOpen(!isServicesOpen)}
+            className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300 w-full"
           >
-            <FaUserFriends />
-            <span>About Us</span>
+            <FaProjectDiagram />
+            <span>Projects</span>
             <FaAngleDown />
           </button>
-          {/* Mobile Dropdown for Services */}
-          {isServicesOpen && (
-            <div className="space-y-2 mt-2">
-              <a
-                href="/our-team"
+          {isServicesOpen &&
+            categories.map((category) => (
+              <Link
+                key={category._id}
+                href={`/projects/${category.slug.current}`}
                 className="block hover:text-yellow-500 transition duration-300"
               >
-                Our Team
-              </a>
-              <a
-                href="/areas-of-specialiazation"
-                className="block hover:text-yellow-500 transition duration-300"
-              >
-                Areas Of Specialization
-              </a>
-              <a
-                href="/bim"
-                className="block hover:text-yellow-500 transition duration-300"
-              >
-                Working with BIM
-              </a>
-            </div>
-          )}
+                {category.title}
+              </Link>
+            ))}
         </div>
-
-        <a
-          href="/projects"
-          className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
-        >
-          <FaProjectDiagram />
-          <span>Projects</span>
-        </a>
-        <a
+        <Link
           href="/careers"
           className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
         >
           <FaBriefcase />
           <span>Careers</span>
-        </a>
-        <a
+        </Link>
+        <Link
+          href="/media"
+          className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
+        >
+          <FaNewspaper />
+          <span>Media</span>
+        </Link>
+        <Link
           href="/contact"
           className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
         >
           <FaPhone />
           <span>Contact</span>
-        </a>
+        </Link>
       </div>
     </nav>
   );

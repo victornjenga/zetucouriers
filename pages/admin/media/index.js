@@ -1,51 +1,59 @@
 import React, { useState } from "react";
-import DashboardLayout from "../../../components/dashboard/Layout";
+import DashboardLayout from "../../../components/admin/Layout";
 import { client } from "../../../utils/client";
 import { useRouter } from "next/router";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Link from "next/link";
 
-function Products({ products }) {
+function Media({ media, error }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedMedia, setSelectedMedia] = useState(null);
 
   const router = useRouter();
 
-  const handleEditProduct = (slug) => {
-    router.push(`/dashboard/products/edit/${slug}`);
+  if (error) {
+    return (
+      <DashboardLayout>
+        <div className="container mx-auto">
+          <p className="text-center text-red-500">{error}</p>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  const handleEditMedia = (slug) => {
+    router.push(`/admin/media/edit/${slug}`);
   };
 
-  const openDeleteModal = (product) => {
-    setSelectedProduct(product);
+  const openDeleteModal = (mediaItem) => {
+    setSelectedMedia(mediaItem);
     setShowDeleteModal(true);
   };
 
   const closeDeleteModal = () => {
     setShowDeleteModal(false);
-    setSelectedProduct(null);
+    setSelectedMedia(null);
   };
 
-  const handleDeleteProduct = async () => {
-    if (selectedProduct) {
+  const handleDeleteMedia = async () => {
+    if (selectedMedia) {
       try {
-        await client.delete(selectedProduct._id); // Delete product from Sanity
+        await client.delete(selectedMedia._id); // Delete media from Sanity
         closeDeleteModal();
 
         // Show success toast notification
-        toast.success(`Product ${selectedProduct.name} deleted successfully!`);
+        toast.success(`Media item ${selectedMedia.name} deleted successfully!`);
 
-        // Optionally, remove the deleted product from the UI
-        // router.reload(); // No longer needed
+        router.reload(); // Reload the page to update the media list
       } catch (error) {
-        console.error("Error deleting product:", error);
-        // Show error toast notification
-        toast.error("Failed to delete product. Please try again.");
+        console.error("Error deleting media:", error);
+        toast.error("Failed to delete media. Please try again.");
       }
     }
   };
 
-  const handleAddProduct = () => {
-    router.push("/dashboard/products/add");
+  const handleAddMedia = () => {
+    router.push("/admin/media/add");
   };
 
   return (
@@ -53,54 +61,60 @@ function Products({ products }) {
       <div className="container mx-auto">
         {/* Breadcrumb */}
         <nav className="flex py-3 justify-start w-full">
-          <Link href="/dashboard">
+          <Link href="/admin">
             <p className="hover:text-blue-600 text-lg">Dashboard</p>
           </Link>
           &nbsp;&gt;&nbsp;
-          <Link href="/dashboard/products">
-            <p className="hover:text-blue-600 text-lg">Products</p>
+          <Link href="/admin/media">
+            <p className="hover:text-blue-600 text-lg">Media</p>
           </Link>
         </nav>
 
         {/* Header Section */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">All Products</h1>
+          <h1 className="text-2xl font-bold">All Media</h1>
           <button
-            onClick={handleAddProduct}
+            onClick={handleAddMedia}
             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
           >
-            Add New Product
+            Add New Media
           </button>
         </div>
 
-        {/* Products Table */}
+        {/* Media Table */}
         <div className="overflow-x-auto sites scrollbar-hide">
           <table className="min-w-full">
             <thead>
               <tr>
-                <th className="py-2">Product Name</th>
-                <th className="py-2">Price</th>
-                <th className="py-2">Actions</th>
+                <th className="py-2">Image</th>
+                <th className="py-2">Name</th>
+                {/* <th className="py-2">Actions</th> */}
                 <th className="py-2">Delete</th>
               </tr>
             </thead>
             <tbody>
-              {products && products.length > 0 ? (
-                products.map((product) => (
-                  <tr key={product._id}>
-                    <td className="border px-4 py-2">{product.name}</td>
-                    <td className="border px-4 py-2">{product.price}</td>
-                    <td className="border px-4 py-2">
+              {media && media.length > 0 ? (
+                media.map((mediaItem) => (
+                  <tr key={mediaItem._id}>
+                    <td className="border px-1 md:px py-2">
+                      <img
+                        src={mediaItem.image?.[0]?.asset?.url}
+                        alt={mediaItem.name}
+                        className="w-12 h-12 sm:w-16 sm:h-16 object-cover"
+                      />
+                    </td>
+                    <td className="border px-4 py-2">{mediaItem.name}</td>
+                    {/* <td className="border px-4 py-2">
                       <button
-                        onClick={() => handleEditProduct(product.slug.current)}
+                        onClick={() => handleEditMedia(mediaItem.slug.current)}
                         className="bg-blue-500 text-white px-4 py-2 rounded"
                       >
                         Edit
                       </button>
-                    </td>
+                    </td> */}
                     <td className="border px-4 py-2">
                       <button
-                        onClick={() => openDeleteModal(product)}
+                        onClick={() => openDeleteModal(mediaItem)}
                         className="bg-red-500 text-white px-4 py-2 rounded"
                       >
                         Delete
@@ -111,7 +125,7 @@ function Products({ products }) {
               ) : (
                 <tr>
                   <td colSpan="4" className="text-center py-4">
-                    No products found.
+                    No media found.
                   </td>
                 </tr>
               )}
@@ -120,13 +134,13 @@ function Products({ products }) {
         </div>
 
         {/* Delete Confirmation Modal */}
-        {showDeleteModal && selectedProduct && (
+        {showDeleteModal && selectedMedia && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
             <div className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg max-w-sm w-[90%] md:w-full">
               <h2 className="text-lg font-bold mb-4">Confirm Deletion</h2>
               <p className="mb-6">
                 Are you sure you want to delete{" "}
-                <strong>{selectedProduct.name}</strong>?
+                <strong>{selectedMedia.name}</strong>?
               </p>
               <div className="flex justify-end space-x-4">
                 <button
@@ -136,7 +150,7 @@ function Products({ products }) {
                   Cancel
                 </button>
                 <button
-                  onClick={handleDeleteProduct}
+                  onClick={handleDeleteMedia}
                   className="bg-red-500 text-white px-4 py-2 rounded"
                 >
                   Delete
@@ -145,47 +159,40 @@ function Products({ products }) {
             </div>
           </div>
         )}
-
-        {/* Toast Container */}
-        {/* <ToastContainer /> */}
       </div>
     </DashboardLayout>
   );
 }
 
-export default Products;
+export default Media;
 
-export const getServerSideProps = async ({ query: { category } }) => {
+export const getServerSideProps = async () => {
   try {
-    let products;
+    const query = `*[_type == "media"]{
+      _id,
+      name,
+      slug,
+      image[]{
+        asset->{
+          url
+        }
+      },
+      postedBy->{
+        name,
+        email
+      }
+    }`;
 
-    if (category) {
-      // Query Sanity for products under the selected category
-      const query = `*[_type == "products" && "${category}" in category[]->title]{
-        _id,
-        name,
-        price,
-        slug,
-      }`;
-      products = await client.fetch(query);
-    } else {
-      const allPostsQuery = `*[_type == "products"]{
-        _id,
-        name,
-        price,
-        slug,
-      }`;
-      products = await client.fetch(allPostsQuery);
-    }
+    const media = await client.fetch(query);
 
     return {
-      props: { products: products || [] }, // Ensure products is always an array
+      props: { media: media || [] },
     };
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching media:", error);
 
     return {
-      props: { products: [], error: "Failed to fetch products" }, // Handle error case
+      props: { media: [], error: "Failed to fetch media" },
     };
   }
 };

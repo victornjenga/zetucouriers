@@ -31,55 +31,56 @@ const Navbar = () => {
   const [isResponsiveclose, setResponsiveclose] = useState(false);
   const router = useRouter();
   const { userProfile, addUser, removeUser } = useAuthStore(); // Zustand store hooks
+
   // Handle logout
   const handleLogout = () => {
     removeUser(); // Remove user from Zustand store
     console.log("User logged out");
   };
+
   const toggleClass = () => {
     setisMenu(isMenu === false ? true : false);
     setResponsiveclose(isResponsiveclose === false ? true : false);
   };
+
   let boxClass = ["main-menu menu-right menuq1"];
   if (isMenu) {
     boxClass.push("menuq2");
   } else {
     boxClass.push("");
   }
+
   const [isMenuSubMenu, setMenuSubMenu] = useState(false);
   const toggleSubmenu = () => {
     setMenuSubMenu(isMenuSubMenu === false ? true : false);
   };
+
   let boxClassSubMenu = ["sub__menus"];
   if (isMenuSubMenu) {
     boxClassSubMenu.push("sub__menus__Active");
   } else {
     boxClassSubMenu.push("");
   }
+
   return (
     <header
       id="top-header"
-      className="fixed top-0 left-0 right-0 w-full h-20 z-20 sm:z-50 bg-inherit dark:bg-gray-950  dark:border-b-gray-900  dark:border-b-[1px]"
+      className="fixed top-0 left-0 right-0 w-full h-20 z-20 sm:z-50 bg-inherit dark:bg-gray-950 dark:border-b-gray-900 dark:border-b-[1px]"
     >
-      <nav className="flex flex-row bg-white dark:bg-inherit dark:text-white shadow-sm shadow-neutral-300 dark:shadow-gray-600  border border-gray-100 dark:border-none border-t-0 border-x-0 text-black  w-full py-0 h-[100%]">
+      <nav className="flex flex-row bg-white dark:bg-inherit dark:text-white shadow-sm shadow-neutral-300 dark:shadow-gray-600 border border-gray-100 dark:border-none border-t-0 border-x-0 text-black w-full py-0 h-[100%]">
         <div className="flex items-center justify-between w-full px-3">
-          {/* toggler start */}
-          <div className=" flex flex-row items-center space-x-4">
+          {/* Toggler start */}
+          <div className="flex flex-row items-center space-x-4">
             <div className="logo">
               <a href="/">
                 <Image width={70} height={70} src="/logo.png" alt="/" />
               </a>
             </div>
           </div>
-          {/* toggler end */}
+          {/* Toggler end */}
 
           <div className="justify-center space-x-3 items-center flex">
             <div className="md:px-3 items-center flex">
-              {/* <Link href="/dashboard">
-                <p className="text-xl hover:text-red-600 cursor-pointer font-medium">
-                  Account
-                </p>
-              </Link> */}
               <ThemeSwitch />
             </div>
             <div className="md:hidden flex items-center justify-center ">
@@ -92,7 +93,7 @@ const Navbar = () => {
         </div>
       </nav>
       {open && (
-        <div className="light: bg-gray-200 dark:bg-gray-800 z-20  md:hidden top-0 h-full px-5 w-[80%] b-0 fixed  duration-300 ">
+        <div className="bg-gray-200 dark:bg-gray-800 z-20 md:hidden top-0 h-full px-5 w-[80%] b-0 fixed duration-300 ">
           <div className="flex py-3 items-center justify-between">
             <div onClick={() => setOpen(false)} className="">
               <a href="/">
@@ -101,7 +102,7 @@ const Navbar = () => {
             </div>
             <AiOutlineClose
               onClick={() => setOpen(false)}
-              className="text-3xl cursor-pointer   p-1  font-bold "
+              className="text-3xl cursor-pointer p-1 font-bold "
             />
           </div>
           <div className="overflow-auto sites h-[90vh]">
@@ -115,73 +116,39 @@ const Navbar = () => {
                   className="font-sm hover:text-orange-600 flex text-lg space-x-2 items-center "
                 >
                   <FcHome />
-                  <Link href="/dashboard">Home</Link>
+                  <Link href="/admin">Home</Link>
                 </li>
-
-                {/* <li
-                  onClick={() => setOpen(false)}
-                  className=" font-sm cursor-pointer hover:text-orange-600 flex text-lg space-x-2 items-center"
-                >
-                  <IoMdPerson />
-                  <Link href="/dashboard/users">Users</Link>
-                </li> */}
 
                 <li
                   onClick={() => setOpen(false)}
-                  className="font-sm  hover:text-orange-600 flex text-lg space-x-2 items-center"
+                  className="font-sm hover:text-orange-600 flex text-lg space-x-2 items-center"
                 >
                   <FcMultipleInputs />
-                  <Link href="/dashboard/products">Products</Link>
+                  <Link href="/admin/products">Projects</Link>
                 </li>
+
+                {/* New Media Section */}
                 <li
                   onClick={() => setOpen(false)}
-                  className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
-                >
-                  <FcMindMap />
-                  <Link href="/dashboard/categories">Categories</Link>
-                </li>
-                <li
-                  onClick={() => setOpen(false)}
-                  className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
+                  className="font-sm hover:text-orange-600 flex text-lg space-x-2 items-center"
                 >
                   <FcNews />
-                  <Link href="/dashboard/orders">Orders</Link>
+                  <Link href="/admin/media">Media</Link>
                 </li>
+
                 <li
                   onClick={() => setOpen(false)}
-                  className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
-                >
-                  <FcMediumPriority />
-                  <Link href="/dashboard/featured">Featured</Link>
-                </li>
-                <li
-                  onClick={() => setOpen(false)}
-                  className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
-                >
-                  <FcImport />
-                  <Link href="/dashboard/sizes">Variations</Link>
-                </li>
-                <li
-                  onClick={() => setOpen(false)}
-                  className="font-sm  hover:text-orange-600 flex text-xl space-x-2 items-center"
-                >
-                  <FcShop />
-                  <Link href="/dashboard/flash">Flash Sale</Link>
-                </li>
-                <li
-                  onClick={() => setOpen(false)}
-                  className=" font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"
+                  className="font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcEngineering />
-                  <Link href="/dashboard/settings">Setting</Link>
+                  <Link href="/admin/settings">Settings</Link>
                 </li>
                 <li
                   onClick={handleLogout}
-                  className=" font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"
+                  className="font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <IoMdLogOut />
-
-                  <Link href="/dashboard">Logout</Link>
+                  <Link href="/admin">Logout</Link>
                 </li>
               </ul>
             </div>

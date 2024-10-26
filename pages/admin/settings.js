@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { client } from "../../utils/client"; // Sanity client
-import DashboardLayout from "../../components/dashboard/Layout";
+import DashboardLayout from "../../components/admin/Layout";
 import useAuthStore from "../../store/authStore"; // Zustand for logged-in user
 import Image from "next/image";
 import { toast } from "react-toastify";

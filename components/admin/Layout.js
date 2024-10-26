@@ -202,7 +202,7 @@ const DashboardLayout = ({ children }) => {
                 </button>
               </form>
               {/* Toggle between Login/Register */}
-              {/* <p className="text-center">
+              <p className="text-center">
                 {isRegisterMode ? (
                   <>
                     Already have an account?{" "}
@@ -224,7 +224,7 @@ const DashboardLayout = ({ children }) => {
                     </span>
                   </>
                 )}
-              </p> */}
+              </p>
 
               {/* Google Login */}
               {/* <div className="text-center justify-center items-center flex w-full">

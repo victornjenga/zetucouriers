@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DashboardLayout from "../../../components/dashboard/Layout";
+import DashboardLayout from "../../../components/admin/Layout";
 import { client } from "../../../utils/client";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
@@ -22,7 +22,7 @@ function Products({ products, error }) {
   }
 
   const handleEditProduct = (slug) => {
-    router.push(`/dashboard/products/edit/${slug}`);
+    router.push(`/admin/products/edit/${slug}`);
   };
 
   const openDeleteModal = (product) => {
@@ -44,18 +44,16 @@ function Products({ products, error }) {
         // Show success toast notification
         toast.success(`Product ${selectedProduct.name} deleted successfully!`);
 
-        // Optionally, reload the page or update the state to remove the deleted product from the UI
-        router.reload();
+        router.reload(); // Reload the page to update the products list
       } catch (error) {
         console.error("Error deleting product:", error);
-        // Show error toast notification
         toast.error("Failed to delete product. Please try again.");
       }
     }
   };
 
   const handleAddProduct = () => {
-    router.push("/dashboard/products/add");
+    router.push("/admin/products/add");
   };
 
   return (
@@ -63,11 +61,11 @@ function Products({ products, error }) {
       <div className="container mx-auto">
         {/* Breadcrumb */}
         <nav className="flex py-3 justify-start w-full">
-          <Link href="/dashboard">
+          <Link href="/admin">
             <p className="hover:text-blue-600 text-lg">Dashboard</p>
           </Link>
           &nbsp;&gt;&nbsp;
-          <Link href="/dashboard/products">
+          <Link href="/admin/products">
             <p className="hover:text-blue-600 text-lg">Products</p>
           </Link>
         </nav>
@@ -88,9 +86,9 @@ function Products({ products, error }) {
           <table className="min-w-full">
             <thead>
               <tr>
-                <th className="py-2">Product Name</th>
-                <th className="py-2">Price</th>
-                <th className="py-2">Vendor</th>
+                <th className="py-2">Image</th>
+                <th className="py-2">Project Name</th>
+                {/* <th className="py-2">Price</th> */}
                 <th className="py-2">Actions</th>
                 <th className="py-2">Delete</th>
               </tr>
@@ -99,11 +97,15 @@ function Products({ products, error }) {
               {products && products.length > 0 ? (
                 products.map((product) => (
                   <tr key={product._id}>
-                    <td className="border px-4 py-2">{product.name}</td>
-                    <td className="border px-4 py-2">{product.price}</td>
-                    <td className="border px-4 py-2">
-                      {product.postedBy.name}
+                    <td className="border px-1 md:px py-2">
+                      <img
+                        src={product.image?.[0]?.asset?.url}
+                        alt={product.name}
+                        className="w-12 h-12 sm:w-16 sm:h-16 object-cover "
+                      />
                     </td>
+                    <td className="border px-4 py-2">{product.name}</td>
+                    {/* <td className="border px-4 py-2">{product.price}</td> */}
                     <td className="border px-4 py-2">
                       <button
                         onClick={() => handleEditProduct(product.slug.current)}
@@ -173,6 +175,11 @@ export const getServerSideProps = async () => {
       name,
       price,
       slug,
+      image[]{
+        asset->{
+          url
+        }
+      },
       postedBy->{
         name,
         email

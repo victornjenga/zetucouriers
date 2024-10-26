@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { client } from "../../utils/client"; // Assuming you have a configured Sanity client
-import DashboardLayout from "../../components/dashboard/Layout";
-import InfoCard from "../../components/dashboard/InfoCard";
-import { FaFileAlt, FaPeopleArrows } from "react-icons/fa";
+import DashboardLayout from "../../components/admin/Layout";
+
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);

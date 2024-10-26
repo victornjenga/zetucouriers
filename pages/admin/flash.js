@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { client } from "../../utils/client";
-import DashboardLayout from "../../components/dashboard/Layout";
+import DashboardLayout from "../../components/admin/Layout";
 import { toast } from "react-toastify";
 
 function FlashSaleProducts({ products = [], flashSaleEndTime }) {

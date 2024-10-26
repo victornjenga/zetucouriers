@@ -19,6 +19,7 @@ import {
 function SideBar() {
   const router = useRouter();
   const { userProfile, addUser, removeUser } = useAuthStore(); // Zustand store hooks
+
   // Handle logout
   const handleLogout = () => {
     removeUser(); // Remove user from Zustand store
@@ -33,82 +34,44 @@ function SideBar() {
     >
       <div className="overflow-y-auto py-5 pb-10  h-full bg-inherit border-r  border-white dark:border-gray-700">
         <ul>
-          <li
-            onClick={() => router.push("/admin")}
-            className="sidebar-link"
-          >
+          <li onClick={() => router.push("/admin")} className="sidebar-link">
             <FcHome className="text-xl" />
-
             <p className="font-semibold text-xl">Home</p>
           </li>
 
-          <li
-            onClick={() => router.push("/admin/users")}
-            className="sidebar-link"
-          >
-            <IoMdPerson className="text-xl" />
-
-            <p className="font-semibold text-xl">users</p>
-          </li>
           <li
             onClick={() => router.push("/admin/products")}
             className="sidebar-link"
           >
             <FcMultipleInputs className="text-xl" />
-
-            <p className="font-semibold text-xl">Products</p>
+            <p className="font-semibold text-xl">Projects</p>
           </li>
           <li
             onClick={() => router.push("/admin/categories")}
             className="sidebar-link"
           >
             <FcMindMap className="text-xl" />
-
             <p className="font-semibold text-xl">Categories</p>
           </li>
+
+          {/* New Media Section */}
           <li
-            onClick={() => router.push("/admin/orders")}
+            onClick={() => router.push("/admin/media")}
             className="sidebar-link"
           >
             <FcNews className="text-xl" />
-
-            <p className="font-semibold text-xl">Orders</p>
+            <p className="font-semibold text-xl">Media</p>
           </li>
-          <li
-            onClick={() => router.push("/admin/featured")}
-            className="sidebar-link"
-          >
-            <FcMediumPriority className="text-xl" />
 
-            <p className="font-semibold text-xl">Featured</p>
-          </li>
-          <li
-            onClick={() => router.push("/admin/flash")}
-            className="sidebar-link"
-          >
-            <FcShop className="text-xl" />
-
-            <p className="font-semibold text-xl">Flash Sale</p>
-          </li>
-          <li
-            onClick={() => router.push("/admin/sizes")}
-            className="sidebar-link"
-          >
-            <FcImport className="text-xl" />
-
-            <p className="font-semibold text-xl">Variations</p>
-          </li>
           <li
             onClick={() => router.push("/admin/settings")}
             className="sidebar-link"
           >
             <FcEngineering className="text-xl" />
-
             <p className="font-semibold text-xl">Settings</p>
           </li>
           <li onClick={handleLogout} className="sidebar-link">
             <IoMdLogOut className="text-xl" />
-
             <p className="font-semibold text-xl">Logout</p>
           </li>
         </ul>

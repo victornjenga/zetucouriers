@@ -42,7 +42,8 @@ const AddMedia = ({ categories = [] }) => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setFormData((prev) => ({ ...prev, mediaFiles: files })); // Store the selected files
+    console.log("Selected Files:", files); // Log selected files
+    setFormData((prev) => ({ ...prev, mediaFiles: files }));
 
     // Generate media previews
     const filePreviews = files.map((file) => {
@@ -54,7 +55,10 @@ const AddMedia = ({ categories = [] }) => {
       });
     });
 
-    Promise.all(filePreviews).then((previews) => setImagePreviews(previews));
+    Promise.all(filePreviews).then((previews) => {
+      console.log("Image Previews:", previews); // Log previews
+      setImagePreviews(previews);
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -70,21 +74,27 @@ const AddMedia = ({ categories = [] }) => {
     try {
       let mediaAssets = [];
 
-      // Upload each media file and store its asset reference with a unique key
-      for (let file of formData.mediaFiles) {
-        const uploadResponse = await client.assets.upload("image", file);
-        mediaAssets.push({
-          _type: "image",
-          asset: { _ref: uploadResponse._id },
-          _key: uuidv4(), // Add a unique key for each media
-        });
+      // Ensure mediaFiles are available
+      if (formData.mediaFiles && formData.mediaFiles.length > 0) {
+        for (let file of formData.mediaFiles) {
+          const uploadResponse = await client.assets.upload("image", file);
+          console.log("Upload Response:", uploadResponse); // Log upload response
+          mediaAssets.push({
+            _type: "image",
+            asset: { _ref: uploadResponse._id },
+            _key: uuidv4(),
+          });
+        }
+      } else {
+        console.error("No media files selected.");
+        setIsSubmitting(false);
+        return;
       }
 
-      // Generate the slug if not provided
       const slug =
         formData.slug || formData.title.toLowerCase().replace(/ /g, "-");
 
-      // Prepare the new media data
+      // Prepare new media data
       const newMedia = {
         _type: "media", // Ensure this matches your media document type
         title: formData.title,
@@ -93,23 +103,26 @@ const AddMedia = ({ categories = [] }) => {
           _type: "slug",
           current: slug,
         },
-        category: formData.categories.map((categoryId) => ({
+        categories: formData.categories.map((categoryId) => ({
           _type: "reference",
-          _ref: categoryId, // Reference to the category document ID
-          _key: uuidv4(), // Add a unique key for each category reference
+          _ref: categoryId,
+          _key: uuidv4(),
         })),
-        media: mediaAssets, // Array of uploaded media assets with unique keys
+        media: mediaAssets,
         postedBy: {
           _type: "postedBy",
           _ref: userProfile?._id,
         },
-        location: formData.location, // Include the location if needed
+        location: formData.location,
       };
 
+      console.log("New Media Data:", newMedia); // Log the media data
+
       // Create the new media in Sanity
-      await client.create(newMedia);
+      const createdMedia = await client.create(newMedia);
+      console.log("Created Media Response:", createdMedia); // Log response from creation
       toast.success("Media added successfully!");
-      router.push("/admin/media"); // Adjust the routing to your media section
+      router.push("/admin/media");
     } catch (error) {
       console.error("Error adding media:", error);
     } finally {
@@ -168,26 +181,6 @@ const AddMedia = ({ categories = [] }) => {
               className="border px-4 py-2 rounded w-full"
               required
             />
-          </div>
-
-          <div className="mb-4">
-            <label className="block">Categories</label>
-            <div>
-              {categories.map((category) => (
-                <div key={category._id} className="flex items-center mb-2">
-                  <input
-                    type="checkbox"
-                    id={category._id}
-                    value={category._id}
-                    onChange={handleCategoryChange}
-                    checked={formData.categories.includes(category._id)}
-                  />
-                  <label htmlFor={category._id} className="ml-2">
-                    {category.title}
-                  </label>
-                </div>
-              ))}
-            </div>
           </div>
 
           <div className="mb-4">

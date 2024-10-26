@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { client } from "../../utils/client"; // Assuming you have a configured Sanity client
-import DashboardLayout from "../../components/dashboard/Layout";
-import InfoCard from "../../components/dashboard/InfoCard";
+import DashboardLayout from "../../components/admin/Layout";
+import InfoCard from "../../components/admin/InfoCard";
 import { FaFileAlt, FaPeopleArrows } from "react-icons/fa";
 
 function Dashboard() {

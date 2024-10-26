@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DashboardLayout from "../../../components/dashboard/Layout";
+import DashboardLayout from "../../../components/admin/Layout";
 import { client } from "../../../utils/client";
 import Link from "next/link";
 import { toast } from "react-toastify";

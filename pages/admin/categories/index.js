@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DashboardLayout from "../../../components/dashboard/Layout";
+import DashboardLayout from "../../../components/admin/Layout";
 import { client } from "../../../utils/client";
 import Link from "next/link";
 import { toast } from "react-toastify";
@@ -67,16 +67,16 @@ function Categories({ categories }) {
       <div className="container mx-auto">
         {/* Breadcrumb */}
         <nav className="flex py-3 justify-start w-full">
-          <Link href="/dashboard">
+          <Link href="/admin">
             <p className="hover:text-blue-600 text-lg">Dashboard</p>
           </Link>
           &nbsp;&gt;&nbsp;
-          <Link href="/dashboard/categories">
+          <Link href="/admin/categories">
             <p className="hover:text-blue-600 text-lg">Categories</p>
           </Link>
         </nav>
 
-        <h1 className="text-2xl font-bold mb-6">Product Categories</h1>
+        <h1 className="text-2xl font-bold mb-6">Project Categories</h1>
 
         {/* Add Category Form */}
         <form onSubmit={handleAddCategory} className="mb-6">

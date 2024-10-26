@@ -1,6 +1,6 @@
 export default {
-  name: 'products',
-  title: 'Products',
+  name: 'media',
+  title: 'Media',
   type: 'document',
   fields: [
     {
@@ -37,11 +37,13 @@ export default {
       type: 'array',
       of: [{type: 'reference', to: [{type: 'category'}]}],
     },
+
     {
       name: 'location',
       title: 'Location',
       type: 'string',
     },
+
     {
       name: 'postedBy',
       title: 'Posted By',
