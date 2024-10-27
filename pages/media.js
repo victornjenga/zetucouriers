@@ -25,11 +25,11 @@ const MediaPage = ({ media }) => {
             </div>
             <div className="p-4">
               <h2 className="text-xl font-semibold">{item.name}</h2>
-              <p className="text-gray-600">{item.description}</p>
-              <p className="text-gray-500">{item.location}</p>
-              <Link href={`/media/${item.slug.current}`}>
-                <a className="text-blue-500 hover:underline">View Details</a>
-              </Link>
+              {/* <p className="text-gray-600">{item.description}</p> */}
+              <p className="text-gray-500 italic">{item.location}</p>
+              {/* <Link href={`/media/${item.slug.current}`}>
+                <p className="text-blue-500 hover:underline">View Details</p>
+              </Link> */}
             </div>
           </div>
         ))}

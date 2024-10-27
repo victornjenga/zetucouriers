@@ -142,12 +142,32 @@ const Navbar = () => {
           >
             Contact
           </Link>
+          <div className="relative group z-50">
+            <button className="flex items-center text-xl hover:text-yellow-500 transition duration-300">
+              More <FaAngleDown className="ml-1" />
+            </button>
+            <div className="absolute left-0 mt-2 w-48 bg-gray-800 text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+              <Link
+                href="/companyprofile.pdf"
+                className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
+              >
+                Company Profile
+              </Link>
+              {/* <Link
+                href="/our-team"
+                className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
+              >
+                Publications
+              </Link> */}
+              
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden bg-gray-800 text-white space-y-4 px-4 py-4 text-center ${
+        className={`md:hidden bg-gray-800 text-white space-y-4 px-4 py-4 ${
           isMobileMenuOpen ? "block" : "hidden"
         }`}
       >
@@ -169,7 +189,7 @@ const Navbar = () => {
           <FaAngleDown />
         </button>
         {isServicesOpen && (
-          <div className="space-y-2 mt-2">
+          <div className="space-y-2 mt-2 px-4 text-left">
             <Link
               href="/our-history"
               className="block hover:text-yellow-500 transition duration-300"
@@ -212,12 +232,13 @@ const Navbar = () => {
               <Link
                 key={category._id}
                 href={`/projects/${category.slug.current}`}
-                className="block hover:text-yellow-500 transition duration-300"
+                className="block hover:text-yellow-500 px-4 transition duration-300 text-left"
               >
                 {category.title}
               </Link>
             ))}
         </div>
+
         <Link
           href="/careers"
           className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
@@ -239,6 +260,31 @@ const Navbar = () => {
           <FaPhone />
           <span>Contact</span>
         </Link>
+        <button
+          onClick={toggleServicesDropdown}
+          className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300 w-full"
+        >
+          <FaUserFriends />
+          <span>More</span>
+          <FaAngleDown />
+        </button>
+        {isServicesOpen && (
+          <div className="space-y-2 mt-2 px-4 text-left">
+            <Link
+              href="/companyprofile.pdf"
+              className="block hover:text-yellow-500 transition duration-300"
+            >
+              Company Profile
+            </Link>
+            {/* <Link
+              href="/our-team"
+              className="block hover:text-yellow-500 transition duration-300"
+            >
+              Publications
+            </Link> */}
+           
+          </div>
+        )}
       </div>
     </nav>
   );

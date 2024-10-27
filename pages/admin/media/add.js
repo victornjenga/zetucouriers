@@ -3,20 +3,20 @@ import { useRouter } from "next/router";
 import { client } from "../../../utils/client";
 import useAuthStore from "../../../store/authStore";
 import DashboardLayout from "../../../components/admin/Layout";
-import { v4 as uuidv4 } from "uuid"; // Import uuid to generate unique keys
+import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
 const AddMedia = ({ categories = [] }) => {
   const [formData, setFormData] = useState({
-    title: "", // Change 'name' to 'title' for media
+    name: "",
     description: "",
-    categories: [], // Multiple category selection with checkboxes
+    categories: [],
     mediaFiles: null,
     slug: "",
-    location: "", // Add location field if needed
+    location: "",
   });
-  const [imagePreviews, setImagePreviews] = useState([]); // For media previews
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
@@ -35,17 +35,15 @@ const AddMedia = ({ categories = [] }) => {
     setFormData((prev) => ({
       ...prev,
       categories: checked
-        ? [...prev.categories, value] // Add the category if checked
-        : prev.categories.filter((category) => category !== value), // Remove the category if unchecked
+        ? [...prev.categories, value]
+        : prev.categories.filter((category) => category !== value),
     }));
   };
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    console.log("Selected Files:", files); // Log selected files
     setFormData((prev) => ({ ...prev, mediaFiles: files }));
 
-    // Generate media previews
     const filePreviews = files.map((file) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -55,10 +53,7 @@ const AddMedia = ({ categories = [] }) => {
       });
     });
 
-    Promise.all(filePreviews).then((previews) => {
-      console.log("Image Previews:", previews); // Log previews
-      setImagePreviews(previews);
-    });
+    Promise.all(filePreviews).then((previews) => setImagePreviews(previews));
   };
 
   const handleSubmit = async (e) => {
@@ -74,53 +69,40 @@ const AddMedia = ({ categories = [] }) => {
     try {
       let mediaAssets = [];
 
-      // Ensure mediaFiles are available
-      if (formData.mediaFiles && formData.mediaFiles.length > 0) {
-        for (let file of formData.mediaFiles) {
-          const uploadResponse = await client.assets.upload("image", file);
-          console.log("Upload Response:", uploadResponse); // Log upload response
-          mediaAssets.push({
-            _type: "image",
-            asset: { _ref: uploadResponse._id },
-            _key: uuidv4(),
-          });
-        }
-      } else {
-        console.error("No media files selected.");
-        setIsSubmitting(false);
-        return;
+      for (let file of formData.mediaFiles) {
+        const uploadResponse = await client.assets.upload("image", file);
+        mediaAssets.push({
+          _type: "image",
+          asset: { _ref: uploadResponse._id },
+          _key: uuidv4(),
+        });
       }
 
       const slug =
-        formData.slug || formData.title.toLowerCase().replace(/ /g, "-");
+        formData.slug || formData.name.toLowerCase().replace(/ /g, "-");
 
-      // Prepare new media data
       const newMedia = {
-        _type: "media", // Ensure this matches your media document type
-        title: formData.title,
+        _type: "media",
+        name: formData.name,
         description: formData.description,
         slug: {
           _type: "slug",
           current: slug,
         },
-        categories: formData.categories.map((categoryId) => ({
+        category: formData.categories.map((categoryId) => ({
           _type: "reference",
           _ref: categoryId,
           _key: uuidv4(),
         })),
-        media: mediaAssets,
+        image: mediaAssets,
         postedBy: {
-          _type: "postedBy",
+          _type: "reference",
           _ref: userProfile?._id,
         },
         location: formData.location,
       };
 
-      console.log("New Media Data:", newMedia); // Log the media data
-
-      // Create the new media in Sanity
-      const createdMedia = await client.create(newMedia);
-      console.log("Created Media Response:", createdMedia); // Log response from creation
+      await client.create(newMedia);
       toast.success("Media added successfully!");
       router.push("/admin/media");
     } catch (error) {
@@ -150,11 +132,11 @@ const AddMedia = ({ categories = [] }) => {
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block">Media Title</label>
+            <label className="block">Media Name</label>
             <input
               type="text"
-              name="title" // Change 'name' to 'title'
-              value={formData.title}
+              name="name"
+              value={formData.name}
               onChange={handleInputChange}
               className="border px-4 py-2 rounded w-full"
               required
@@ -182,6 +164,26 @@ const AddMedia = ({ categories = [] }) => {
               required
             />
           </div>
+
+          {/* <div className="mb-4">
+            <label className="block">Categories</label>
+            <div>
+              {categories.map((category) => (
+                <div key={category._id} className="flex items-center mb-2">
+                  <input
+                    type="checkbox"
+                    id={category._id}
+                    value={category._id}
+                    onChange={handleCategoryChange}
+                    checked={formData.categories.includes(category._id)}
+                  />
+                  <label htmlFor={category._id} className="ml-2">
+                    {category.title}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div> */}
 
           <div className="mb-4">
             <label className="block">Media Files</label>
@@ -225,7 +227,6 @@ const AddMedia = ({ categories = [] }) => {
 
 export default AddMedia;
 
-// Fetch categories from Sanity
 export const getServerSideProps = async () => {
   try {
     const categoryQuery = `*[_type == "category"]{_id, title}`;
