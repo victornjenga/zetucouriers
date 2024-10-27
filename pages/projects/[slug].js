@@ -23,9 +23,10 @@ const CategoryProducts = ({ products, categoryTitle }) => {
                 className="h-40 w-full object-cover mb-4"
               />
               <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
-              <p className="">{product.description}</p>
+              <p>{product.description}</p>
               <p className="text-gray-600 italic">{product.location}</p>
 
+              {/* Uncomment this if you have a page for product details */}
               {/* <Link href={`/product/${product.slug.current}`}>
                 <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">
                   View Details
@@ -46,9 +47,12 @@ export async function getStaticPaths() {
   const categoriesQuery = `*[_type == "category"]{ slug { current } }`;
   const categories = await client.fetch(categoriesQuery);
 
-  const paths = categories.map((category) => ({
-    params: { slug: category.slug.current },
-  }));
+  // Filter out any categories that do not have a valid slug
+  const paths = categories
+    .filter((category) => category.slug?.current)
+    .map((category) => ({
+      params: { slug: category.slug.current },
+    }));
 
   return {
     paths,
@@ -70,7 +74,8 @@ export async function getStaticProps({ params }) {
       _id,
       name,
       description,
-      slug,location,
+      slug,
+      location,
       image[]{
         asset -> { url }
       }
