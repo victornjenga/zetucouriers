@@ -66,7 +66,7 @@ function Products({ products, error }) {
           </Link>
           &nbsp;&gt;&nbsp;
           <Link href="/admin/products">
-            <p className="hover:text-blue-600 text-lg">Products</p>
+            <p className="hover:text-blue-600 text-lg">Project</p>
           </Link>
         </nav>
 
@@ -77,7 +77,7 @@ function Products({ products, error }) {
             onClick={handleAddProduct}
             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
           >
-            Add New Product
+            Add New Project
           </button>
         </div>
 
@@ -127,7 +127,7 @@ function Products({ products, error }) {
               ) : (
                 <tr>
                   <td colSpan="5" className="text-center py-4">
-                    No products found.
+                    No projects found.
                   </td>
                 </tr>
               )}

@@ -7,16 +7,19 @@ import { v4 as uuidv4 } from "uuid"; // Import uuid to generate unique keys
 import Link from "next/link";
 import toast from "react-hot-toast";
 
-const AddMedia = ({ categories = [] }) => {
+const AddProduct = ({ categories = [], variations = [] }) => {
   const [formData, setFormData] = useState({
-    title: "", // Change 'name' to 'title' for media
+    name: "",
     description: "",
+    price: "",
     categories: [], // Multiple category selection with checkboxes
-    mediaFiles: null,
+    variations: [], // Multiple variation selection
+    image: null,
     slug: "",
-    location: "", // Add location field if needed
+    location: "", // Add location field
   });
-  const [imagePreviews, setImagePreviews] = useState([]); // For media previews
+  const [imageFiles, setImageFiles] = useState([]); // For handling multiple image uploads
+  const [imagePreviews, setImagePreviews] = useState([]); // For image preview
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
@@ -40,11 +43,22 @@ const AddMedia = ({ categories = [] }) => {
     }));
   };
 
+  // Handle variation checkbox change
+  const handleVariationChange = (e) => {
+    const { value, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      variations: checked
+        ? [...prev.variations, value]
+        : prev.variations.filter((variation) => variation !== value),
+    }));
+  };
+
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setFormData((prev) => ({ ...prev, mediaFiles: files })); // Store the selected files
+    setImageFiles(files); // Store the selected files
 
-    // Generate media previews
+    // Generate image previews
     const filePreviews = files.map((file) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -68,50 +82,56 @@ const AddMedia = ({ categories = [] }) => {
     }
 
     try {
-      let mediaAssets = [];
+      let imageAssets = [];
 
-      // Upload each media file and store its asset reference with a unique key
-      for (let file of formData.mediaFiles) {
+      // Upload each image and store its asset reference with a unique key
+      for (let file of imageFiles) {
         const uploadResponse = await client.assets.upload("image", file);
-        mediaAssets.push({
+        imageAssets.push({
           _type: "image",
           asset: { _ref: uploadResponse._id },
-          _key: uuidv4(), // Add a unique key for each media
+          _key: uuidv4(), // Add a unique key for each image
         });
       }
 
       // Generate the slug if not provided
       const slug =
-        formData.slug || formData.title.toLowerCase().replace(/ /g, "-");
+        formData.slug || formData.name.toLowerCase().replace(/ /g, "-");
 
-      // Prepare the new media data
-      const newMedia = {
-        _type: "media", // Ensure this matches your media document type
-        title: formData.title,
+      // Prepare the new product data
+      const newProduct = {
+        _type: "products", // Ensure this matches your product document type
+        name: formData.name,
         description: formData.description,
         slug: {
           _type: "slug",
           current: slug,
         },
+        price: formData.price,
         category: formData.categories.map((categoryId) => ({
           _type: "reference",
           _ref: categoryId, // Reference to the category document ID
           _key: uuidv4(), // Add a unique key for each category reference
         })),
-        media: mediaAssets, // Array of uploaded media assets with unique keys
+        variations: formData.variations.map((variationId) => ({
+          _type: "reference",
+          _ref: variationId,
+          _key: uuidv4(),
+        })),
+        image: imageAssets, // Array of uploaded image assets with unique keys
         postedBy: {
           _type: "postedBy",
           _ref: userProfile?._id,
         },
-        location: formData.location, // Include the location if needed
+        location: formData.location, // Include the location
       };
 
-      // Create the new media in Sanity
-      await client.create(newMedia);
-      toast.success("Media added successfully!");
-      router.push("/admin/media"); // Adjust the routing to your media section
+      // Create the new product in Sanity
+      await client.create(newProduct);
+      toast.success("Product added successfully!");
+      router.push("/admin/products");
     } catch (error) {
-      console.error("Error adding media:", error);
+      console.error("Error adding product:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -125,23 +145,23 @@ const AddMedia = ({ categories = [] }) => {
             <p className="hover:text-blue-600 text-lg">Home</p>
           </Link>
           &nbsp;&gt;&nbsp;
-          <Link href="/admin/media">
-            <p className="hover:text-blue-600 text-lg">Media</p>
+          <Link href="/admin/products">
+            <p className="hover:text-blue-600 text-lg">Projects</p>
           </Link>
           &nbsp;&gt;&nbsp;
-          <Link href="/admin/media/add">
+          <Link href="/admin/products/add">
             <span className="hover:text-blue-600 text-lg">Add</span>
           </Link>
         </nav>
-        <h1 className="text-2xl font-bold mb-6">Add New Media</h1>
+        <h1 className="text-2xl font-bold mb-6">Add New Project</h1>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block">Media Title</label>
+            <label className="block">Project Name</label>
             <input
               type="text"
-              name="title" // Change 'name' to 'title'
-              value={formData.title}
+              name="name"
+              value={formData.name}
               onChange={handleInputChange}
               className="border px-4 py-2 rounded w-full"
               required
@@ -149,7 +169,7 @@ const AddMedia = ({ categories = [] }) => {
           </div>
 
           <div className="mb-4">
-            <label className="block">Description</label>
+            <label className="block ">Description</label>
             <textarea
               name="description"
               value={formData.description}
@@ -159,7 +179,7 @@ const AddMedia = ({ categories = [] }) => {
           </div>
 
           <div className="mb-4">
-            <label className="block">Location</label>
+            <label className="block ">Location</label>
             <input
               type="text"
               name="location"
@@ -171,7 +191,7 @@ const AddMedia = ({ categories = [] }) => {
           </div>
 
           <div className="mb-4">
-            <label className="block">Categories</label>
+            <label className="block ">Categories</label>
             <div>
               {categories.map((category) => (
                 <div key={category._id} className="flex items-center mb-2">
@@ -191,7 +211,7 @@ const AddMedia = ({ categories = [] }) => {
           </div>
 
           <div className="mb-4">
-            <label className="block">Media Files</label>
+            <label className="block ">Product Images</label>
             <input
               type="file"
               multiple
@@ -203,7 +223,7 @@ const AddMedia = ({ categories = [] }) => {
 
           {imagePreviews.length > 0 && (
             <div className="mb-4">
-              <label className="block">Image Preview</label>
+              <label className="block ">Image Preview</label>
               <div className="grid grid-cols-3 gap-2">
                 {imagePreviews.map((preview, index) => (
                   <img
@@ -222,7 +242,7 @@ const AddMedia = ({ categories = [] }) => {
             className="bg-blue-500 text-white px-4 py-2 rounded"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Submitting..." : "Add Media"}
+            {isSubmitting ? "Submitting..." : "Add Product"}
           </button>
         </form>
       </div>
@@ -230,18 +250,21 @@ const AddMedia = ({ categories = [] }) => {
   );
 };
 
-export default AddMedia;
+export default AddProduct;
 
 // Fetch categories from Sanity
 export const getServerSideProps = async () => {
   try {
     const categoryQuery = `*[_type == "category"]{_id, title}`;
+    const variationQuery = `*[_type == "variations"]{_id, title}`;
 
     const categories = await client.fetch(categoryQuery);
+    const variations = await client.fetch(variationQuery);
 
     return {
       props: {
         categories: categories || [],
+        variations: variations || [],
       },
     };
   } catch (error) {
@@ -249,6 +272,7 @@ export const getServerSideProps = async () => {
     return {
       props: {
         categories: [],
+        variations: [],
       },
     };
   }
