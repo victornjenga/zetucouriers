@@ -121,10 +121,10 @@ export default function Home() {
             Quality, safety, and innovation in every project.
           </p>
           <a
-            href="/projects"
+            href="/contact"
             className="mt-6 md:mt-8 inline-block bg-yellow-500 text-gray-900 px-6 md:px-8 py-2 md:py-3 rounded-lg shadow-lg hover:bg-yellow-600 font-semibold animate-bounce transition-transform transform hover:scale-105"
           >
-            Explore Our Projects
+            Contact Us
           </a>
         </div>
 
