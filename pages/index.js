@@ -105,7 +105,10 @@ export default function Home() {
 
         {/* Hero Content */}
         <div className="relative z-10 space-y-4 sm:space-y-6 text-white px-4">
-          <h1 className="text-4xl md:text-6xl font-bold animate-fadeInDown">
+        <h1 className="text-4xl md:text-6xl font-bold animate-fadeInDown">
+           Ans Engineering Group Limited
+          </h1>
+          <h1 className="text-2xl md:text-4xl font-bold animate-fadeInDown">
             Building a Sustainable Future
           </h1>
           <p className="text-lg md:text-xl animate-fadeInUp">
