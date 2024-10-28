@@ -48,9 +48,9 @@ const Navbar = () => {
           <Link href="/">
             <img className="h-[40px]" src="/logo.png" alt="/" />
           </Link>
-          <span className="text-white-500 hidden md:flex text-2xl bold">
+          {/* <span className="text-white-500 hidden md:flex text-2xl bold">
             Ans Engineering
-          </span>
+          </span> */}
         </div>
 
         {/* Mobile Menu Button */}
