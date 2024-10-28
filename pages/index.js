@@ -23,64 +23,44 @@ export default function Home() {
 
   const services = [
     {
-      name: "Civil Engineering",
+      name: "Architectural Services",
       description:
-        "Delivering innovative civil engineering solutions for roads, bridges, and infrastructure.",
-      image: "/civil-engineering.jpg",
+        "Comprehensive architectural solutions from design to execution.",
+      image: "/architectural-services.jpg",
+      href: "/services/architectural-services",
     },
     {
-      name: "Structural Engineering",
+      name: "Engineering Services",
       description:
-        "Designing safe, efficient, and sustainable structures for a variety of sectors.",
-      image: "/structural-engineering.jpg",
+        "Innovative engineering solutions across various disciplines.",
+      image: "/engineering-services.jpg",
+      href: "/services/engineering-services",
     },
     {
-      name: "Construction Supervision",
-      description:
-        "Providing on-site supervision and ensuring projects meet industry standards and client expectations.",
-      image: "/construction-supervision.jpg",
+      name: "Environmental Services",
+      description: "Environmental assessments and impact mitigation services.",
+      image: "/environmental-services.jpg",
+      href: "/services/environmental-services",
     },
     {
-      name: "Frontend Engineering Design",
+      name: "Infrastructure Services",
       description:
-        "Comprehensive design solutions in the initial stages of project planning for effective outcomes.",
-      image: "/frontend-engineering-design.jpg",
+        "Infrastructure design and supervision for roads, bridges, and more.",
+      image: "/infrastructure-services.jpg",
+      href: "/services/infrastructure-services",
     },
     {
-      name: "Geotechnical Engineering",
+      name: "Road/Bridge Engineering",
       description:
-        "Specialized analysis and design solutions to understand subsurface conditions for safe foundations.",
-      image: "/geotechnical-engineering.jpg",
+        "Specialized services in road and bridge design and construction.",
+      image: "/road-bridge-engineering.jpg",
+      href: "/services/road-bridge-engineering",
     },
     {
-      name: "Structural Condition and Integrity Assessment",
-      description:
-        "Assessing existing structures for safety, durability, and structural integrity.",
-      image: "/structural-assessment.jpg",
-    },
-    {
-      name: "Environmental Impact Assessment",
-      description:
-        "Analyzing environmental factors to mitigate impacts and comply with regulations.",
-      image: "/environmental-impact.jpg",
-    },
-    {
-      name: "Project Management and Construction Supervision",
-      description:
-        "Efficient project management and construction oversight for timely, high-quality project completion.",
-      image: "/project-management.jpg",
-    },
-    {
-      name: "BIM Modelling",
-      description:
-        "Advanced BIM modeling for precise design, planning, and collaboration in projects.",
-      image: "/bim-modelling.jpg",
-    },
-    {
-      name:"Survey Engineering",
-      description:
-        "Specialized survey solutions for accurate data collection and analysis.",
-      image: "/survey-engineering.jpg",
+      name: "Land Surveying Services",
+      description: "Professional land surveying and data analysis.",
+      image: "/land-surveying-services.jpg",
+      href: "/services/land-surveying-services",
     },
   ];
 
@@ -111,8 +91,8 @@ export default function Home() {
 
         {/* Hero Content */}
         <div className="relative z-10 space-y-4 sm:space-y-6 text-white px-4">
-        <h1 className="text-4xl md:text-6xl font-bold animate-fadeInDown">
-           Ans Engineering Group Limited
+          <h1 className="text-4xl md:text-6xl font-bold animate-fadeInDown">
+            Ans Engineering Group Limited
           </h1>
           <h1 className="text-2xl md:text-4xl font-bold animate-fadeInDown">
             Building a Sustainable Future
@@ -216,29 +196,31 @@ export default function Home() {
             Our Engineering Services
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 px-4 gap-12">
-            {services.map((service, index) => (
-              <div
-                key={index}
-                className="relative group overflow-hidden rounded-lg shadow-xl transform transition-transform duration-300 hover:scale-105"
-              >
-                {/* Service Background Image */}
-                <div
-                  className="w-full h-64 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                  style={{ backgroundImage: `url(${service.image})` }}
-                ></div>
+  {services.map((service, index) => (
+    <a
+      key={index}
+      href={service.href}
+      className="relative group overflow-hidden rounded-lg shadow-xl transform transition-transform duration-300 hover:scale-105"
+    >
+      {/* Service Background Image */}
+      <div
+        className="w-full h-64 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+        style={{ backgroundImage: `url(${service.image})` }}
+      ></div>
 
-                {/* Text Overlay */}
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4 text-center">
-                  <h3 className="text-3xl font-bold text-white mb-2">
-                    {service.name}
-                  </h3>
-                  <p className="text-sm text-gray-300 mb-2">
-                    {service.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* Text Overlay */}
+      <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-4 text-center">
+        <h3 className="text-3xl font-bold text-white mb-2">
+          {service.name}
+        </h3>
+        <p className="text-sm text-gray-300 mb-2">
+          {service.description}
+        </p>
+      </div>
+    </a>
+  ))}
+</div>
+
         </div>
       </section>
 
