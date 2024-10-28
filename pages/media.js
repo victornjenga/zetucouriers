@@ -15,7 +15,7 @@ const MediaPage = ({ media }) => {
             className="border rounded-lg overflow-hidden shadow-lg"
           >
             <div className="h-56">
-              {item.image.length > 0 && (
+              {item.image && item.image.length > 0 && (
                 <img
                   src={urlFor(item.image[0]).url()}
                   alt={item.name}
