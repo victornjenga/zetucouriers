@@ -76,6 +76,12 @@ export default function Home() {
         "Advanced BIM modeling for precise design, planning, and collaboration in projects.",
       image: "/bim-modelling.jpg",
     },
+    {
+      name:"Survey Engineering",
+      description:
+        "Specialized survey solutions for accurate data collection and analysis.",
+      image: "/survey-engineering.jpg",
+    },
   ];
 
   const nextSlide = () =>
