@@ -6,37 +6,39 @@ const EnvironmentalServices = () => {
       {/* Header Image */}
       <div
         className="w-full h-64 bg-cover bg-center mb-12 rounded-lg shadow-md"
-        style={{ backgroundImage: "url('/raod-header.jpg')" }}
+        style={{ backgroundImage: "url('/land-header.jpg')" }}
       ></div>
 
       <h1 className="text-4xl font-bold text-center mb-8">
-        Road/Bridge Engineering
+        Land Surveying Services
       </h1>
 
       {/* Introduction Section with Image */}
       <div className="flex flex-col md:flex-row items-center mb-12">
         <img
-          src="/road.jpg"
+          src="/land-intro.jpg"
           alt="Environmental Intro"
           className="w-full md:w-1/2 h-64 object-cover rounded-lg shadow-md mb-6 md:mb-0 md:mr-6"
         />
         <p className="text-lg text-gray-700 leading-relaxed justify-center  item-center max-w-3xl">
-          Apex Engineering has the experience and the tools to successfully
-          design minor and major roadways. Our sta is uniquely quali ed to work
-          on private and public roadway projects in East Africa.
+          Ans Engineering provides a full-service Land Surveying department
+          including four Registered Land Surveyors licensed by the Surveyors of
+          Kenya (SoK). Using the most state-of-the-art equipment available, we
+          are able to provide our clients with the most e cient methods of eld
+          data collection and layout work in the following areas:
         </p>
       </div>
 
       {/* Service Areas Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {[
-          "Development of the access design solution for the site,",
-          "Auto track analysis of the vehicle access movements",
-          "Site 3D ground modeling and proﬁling",
-          "The horizontal and vertical alignment geometry of the highway",
-          "Production of civil engineering detailed drawings and construction speciﬁcations, BoQs",
-          "Project management, tendering and appointment of contractors",
-          "Site attendance and supervision.",
+          "GPS Surveys",
+          "Boundary Surveys",
+          "Site Planning Surveys",
+          "Topographic Surveys",
+          "Land Boundary Surveys",
+          "Subdivision Plan",
+          "Photogrammetric Ground Control",
         ].map((service, index) => (
           <div
             key={index}

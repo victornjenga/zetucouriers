@@ -98,6 +98,12 @@ const Navbar = () => {
                 Areas Of Specialization
               </Link>
               <Link
+                href="/our-clients"
+                className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
+              >
+                Our Clients
+              </Link>
+              <Link
                 href="/bim"
                 className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
               >
@@ -204,6 +210,12 @@ const Navbar = () => {
               className="block hover:text-yellow-500 transition duration-300"
             >
               Areas Of Specialization
+            </Link>
+            <Link
+              href="/our-clients"
+              className="block hover:text-yellow-500 transition duration-300"
+            >
+              Our Clients
             </Link>
             <Link
               href="/bim"

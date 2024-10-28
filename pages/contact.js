@@ -76,7 +76,9 @@ export default function Contact() {
               <FaEnvelope className="text-yellow-500 text-4xl mr-6" />
               <div>
                 <h3 className="text-2xl font-bold mb-2">Email Address</h3>
-                <p className="text-gray-600">info@aegl.co.ke</p>
+                <p className="text-gray-600 py-2">info@aegl.co.ke</p>
+                <p className="text-gray-600">ansengin@gmail.com</p>
+
               </div>
             </div>
           </div>
