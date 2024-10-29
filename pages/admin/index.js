@@ -22,11 +22,12 @@ function Dashboard() {
         const categoriesQuery = `count(*[_type == "category"])`;
         const ordersQuery = `count(*[_type == "orders"])`;
 
-        const [productCountResult, categoryCountResult, ordersCountResult] = await Promise.all([
-          client.fetch(productsQuery),
-          client.fetch(categoriesQuery),
-          client.fetch(ordersQuery),
-        ]);
+        const [productCountResult, categoryCountResult, ordersCountResult] =
+          await Promise.all([
+            client.fetch(productsQuery),
+            client.fetch(categoriesQuery),
+            client.fetch(ordersQuery),
+          ]);
 
         setProductsCount(productCountResult);
         setCategoriesCount(categoryCountResult);
@@ -57,15 +58,15 @@ function Dashboard() {
             icon={<FaPeopleArrows />}
           />
 
-          <InfoCard
+          {/* <InfoCard
             title="Orders"
             quantity={ordersCount} // Show the actual orders count
             background="bg-blue-700"
             icon={<FaFileAlt />}
-          />
+          /> */}
           <InfoCard
             title="Users"
-            quantity="10" // Static or can be fetched similarly
+            quantity="1" // Static or can be fetched similarly
             background="bg-green-700"
             icon={<FaPeopleArrows />}
           />
