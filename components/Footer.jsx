@@ -28,42 +28,42 @@ export default function Footer() {
           <ul className="space-y-2">
             <li>
               <a
-                href="#about"
+                href="/our-team"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
-                About Us
+                Our Team
               </a>
             </li>
             <li>
               <a
-                href="#services"
+                href="/our-clients"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
-                Our Services
+                Our Clients
               </a>
             </li>
             <li>
               <a
-                href="#projects"
+                href="/contacts"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
-                Projects
+                Contacts
               </a>
             </li>
             <li>
               <a
-                href="#testimonials"
+                href="/media"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
-                Testimonials
+                Media
               </a>
             </li>
             <li>
               <a
-                href="#cta"
+                href="/career"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
-                Contact Us
+                Career
               </a>
             </li>
           </ul>
