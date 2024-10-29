@@ -25,13 +25,12 @@ const CategoryProducts = ({ products, categoryTitle }) => {
               <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
               <p>{product.description}</p>
               <p className="text-gray-600 italic">{product.location}</p>
-              <p className="text-gray-600 italic">{product.location}</p>
               <p className="text-gray-600 ">
                 Status{" "}
                 <span className="px-1 text-green-600">{product.status}</span>
               </p>
               <p className="text-gray-600 ">
-                Cost <span className="px-1 text-green-600">{product.cost}</span>
+                Cost <span className="px-1 text-red-600">{product.cost}</span>
               </p>
 
               {/* Uncomment this if you have a page for product details */}
@@ -83,7 +82,8 @@ export async function getStaticProps({ params }) {
       name,
       description,
       slug,
-      location,
+      location,cost,
+      status,
       image[]{
         asset -> { url }
       }

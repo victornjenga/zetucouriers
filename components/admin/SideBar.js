@@ -63,13 +63,13 @@ function SideBar() {
             <p className="font-semibold text-xl">Media</p>
           </li>
 
-          <li
+          {/* <li
             onClick={() => router.push("/admin/settings")}
             className="sidebar-link"
           >
             <FcEngineering className="text-xl" />
             <p className="font-semibold text-xl">Settings</p>
-          </li>
+          </li> */}
           <li onClick={handleLogout} className="sidebar-link">
             <IoMdLogOut className="text-xl" />
             <p className="font-semibold text-xl">Logout</p>

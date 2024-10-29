@@ -13,10 +13,10 @@ function EditProduct({ product, categories = [], variations = [] }) {
     price: product.price || "",
     description: product.description || "",
     location: product.location || "",
-    status: product.status || "", // Added status field
-    cost: product.cost || "", // Added cost field
-    categories: product.category.map((cat) => cat._ref) || [],
-    variations: product.variations?.map((varr) => varr._ref) || [],
+    status: product.status || "",
+    cost: product.cost || "",
+    categories: (product.category || []).map((cat) => cat._ref), // Fallback to an empty array
+    variations: (product.variations || []).map((varr) => varr._ref), // Fallback to an empty array
   });
 
   const [existingImages, setExistingImages] = useState(product.image || []);
@@ -278,23 +278,23 @@ export async function getServerSideProps({ params }) {
 
   // Fetch the product by slug
   const query = `*[_type == "products" && slug.current == $slug][0]{
-    _id,
-    name,
-    price,
-    description,
-    location,
-    status,
-    cost,
-    "image": image[]{
-      asset->{
-        _id,
-        url
-      }
-    },
-    "category": category[]->,
-    "variations": variations[]->,
-    slug
-  }`;
+      _id,
+      name,
+      price,
+      description,
+      location,
+      status,
+      cost,
+      "image": image[]{
+        asset->{
+          _id,
+          url
+        }
+      },
+      "category": category[]->,
+      "variations": variations[]->,
+      slug
+    }`;
 
   const product = await client.fetch(query, { slug });
 
@@ -314,6 +314,5 @@ export async function getServerSideProps({ params }) {
     },
   };
 }
-
 
 export default EditProduct;

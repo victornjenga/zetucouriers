@@ -136,13 +136,13 @@ const Navbar = () => {
                   <Link href="/admin/media">Media</Link>
                 </li>
 
-                <li
+                {/* <li
                   onClick={() => setOpen(false)}
                   className="font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"
                 >
                   <FcEngineering />
                   <Link href="/admin/settings">Settings</Link>
-                </li>
+                </li> */}
                 <li
                   onClick={handleLogout}
                   className="font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"
