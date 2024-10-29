@@ -3,8 +3,8 @@ import DashboardLayout from "../../../../components/admin/Layout";
 import { useRouter } from "next/router";
 import { client } from "../../../../utils/client";
 import Link from "next/link";
-import { urlFor } from "../../../../utils/client"; // To display image preview
-import { v4 as uuidv4 } from "uuid"; // For unique keys
+import { urlFor } from "../../../../utils/client";
+import { v4 as uuidv4 } from "uuid";
 import toast from "react-hot-toast";
 
 function EditProduct({ product, categories = [], variations = [] }) {
@@ -12,7 +12,9 @@ function EditProduct({ product, categories = [], variations = [] }) {
     name: product.name || "",
     price: product.price || "",
     description: product.description || "",
-    location: product.location || "", // Added location
+    location: product.location || "",
+    status: product.status || "", // Added status field
+    cost: product.cost || "", // Added cost field
     categories: product.category.map((cat) => cat._ref) || [],
     variations: product.variations?.map((varr) => varr._ref) || [],
   });
@@ -67,7 +69,6 @@ function EditProduct({ product, categories = [], variations = [] }) {
     Promise.all(filePreviews).then((previews) => setImagePreviews(previews));
   };
 
-  // Handle image removal from existing images
   const handleRemoveImage = (imageKey) => {
     setExistingImages((prev) =>
       prev.filter((image) => image._key !== imageKey)
@@ -79,10 +80,9 @@ function EditProduct({ product, categories = [], variations = [] }) {
     setIsSubmitting(true);
 
     try {
-      // Check if new images are uploaded, else use existing ones
       let updatedImages = existingImages;
       if (imageFiles.length > 0) {
-        updatedImages = []; // Reset images if new images are being uploaded
+        updatedImages = [];
         for (let file of imageFiles) {
           const uploadResponse = await client.assets.upload("image", file);
           updatedImages.push({
@@ -93,13 +93,14 @@ function EditProduct({ product, categories = [], variations = [] }) {
         }
       }
 
-      // Prepare updated product data
       const updatedProduct = {
         _type: "products",
         name: formData.name,
         price: formData.price,
         description: formData.description,
-        location: formData.location, // Added location to product data
+        location: formData.location,
+        status: formData.status, // Added status field to product data
+        cost: formData.cost, // Added cost field to product data
         category: formData.categories.map((categoryId) => ({
           _type: "reference",
           _ref: categoryId,
@@ -113,10 +114,8 @@ function EditProduct({ product, categories = [], variations = [] }) {
         image: updatedImages,
       };
 
-      // Update product in Sanity
       await client.patch(product._id).set(updatedProduct).commit();
       toast.success("Product updated successfully!");
-      // Navigate to product listing after successful update
       router.push("/admin/products");
     } catch (error) {
       console.error("Error updating product:", error);
@@ -171,6 +170,30 @@ function EditProduct({ product, categories = [], variations = [] }) {
           </div>
 
           <div className="mb-4">
+            <label className="block text-gray-700">Status</label>
+            <input
+              type="text"
+              name="status"
+              value={formData.status}
+              onChange={handleInputChange}
+              className="border px-4 py-2 rounded w-full"
+              required
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700">Cost</label>
+            <input
+              type="text"
+              name="cost"
+              value={formData.cost}
+              onChange={handleInputChange}
+              className="border px-4 py-2 rounded w-full"
+              required
+            />
+          </div>
+
+          <div className="mb-4">
             <label className="block text-gray-700">Description</label>
             <textarea
               name="description"
@@ -180,7 +203,6 @@ function EditProduct({ product, categories = [], variations = [] }) {
             />
           </div>
 
-          {/* Categories */}
           <div className="mb-4">
             <label className="block text-gray-700">Categories</label>
             <div>
@@ -201,28 +223,6 @@ function EditProduct({ product, categories = [], variations = [] }) {
             </div>
           </div>
 
-          {/* Variations */}
-          {/* <div className="mb-4">
-            <label className="block text-gray-700">Variations</label>
-            <div>
-              {variations.map((variation) => (
-                <div key={variation._id} className="flex items-center mb-2">
-                  <input
-                    type="checkbox"
-                    id={variation._id}
-                    value={variation._id}
-                    onChange={handleVariationChange}
-                    checked={formData.variations.includes(variation._id)}
-                  />
-                  <label htmlFor={variation._id} className="ml-2">
-                    {variation.title}
-                  </label>
-                </div>
-              ))}
-            </div>
-          </div> */}
-
-          {/* Image Upload */}
           <div className="mb-4">
             <label className="block text-gray-700">Project Images</label>
             <input
@@ -233,7 +233,6 @@ function EditProduct({ product, categories = [], variations = [] }) {
               className="border px-4 py-2 rounded w-full"
             />
             <div className="flex gap-2 mt-2">
-              {/* Existing Images */}
               {existingImages.map((image, idx) => (
                 <div key={idx} className="relative">
                   <img
@@ -250,7 +249,6 @@ function EditProduct({ product, categories = [], variations = [] }) {
                   </button>
                 </div>
               ))}
-              {/* New Image Previews */}
               {imagePreviews.map((preview, idx) => (
                 <img
                   key={idx}
@@ -278,13 +276,15 @@ function EditProduct({ product, categories = [], variations = [] }) {
 export async function getServerSideProps({ params }) {
   const { slug } = params;
 
-  // Fetch product by slug
+  // Fetch the product by slug
   const query = `*[_type == "products" && slug.current == $slug][0]{
     _id,
     name,
     price,
     description,
     location,
+    status,
+    cost,
     "image": image[]{
       asset->{
         _id,
@@ -302,7 +302,7 @@ export async function getServerSideProps({ params }) {
   const categoriesQuery = '*[_type == "categories"]';
   const categories = await client.fetch(categoriesQuery);
 
-  // Fetch variations (if applicable)
+  // Fetch variations
   const variationsQuery = '*[_type == "variations"]';
   const variations = await client.fetch(variationsQuery);
 
@@ -314,5 +314,6 @@ export async function getServerSideProps({ params }) {
     },
   };
 }
+
 
 export default EditProduct;

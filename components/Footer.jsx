@@ -1,4 +1,12 @@
-import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaTwitter,
+  FaInstagram,
+  FaYoutube,
+  FaPhone,
+  FaEnvelope,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -92,26 +100,28 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Newsletter Subscription Section */}
+        {/* Contact Information Section */}
         <div>
-          <h3 className="text-xl font-bold text-white mb-4">Stay Updated</h3>
+          <h3 className="text-xl font-bold text-white mb-4">Contact Us</h3>
           <p className="text-gray-400 mb-4">
-            Subscribe to our newsletter for the latest news on our engineering
-            services and projects.
+            Reach out for any inquiries or support:
           </p>
-          <form className="flex flex-col space-y-3">
-            <input
-              type="email"
-              placeholder="Your Email"
-              className="px-4 py-2 bg-gray-700 text-gray-200 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="px-4 py-2 bg-yellow-500 text-gray-900 rounded-lg font-semibold hover:bg-yellow-600 transition duration-300"
-            >
-              Subscribe
-            </button>
-          </form>
+          <ul className="space-y-3 text-gray-400">
+            <li className="flex items-center">
+              <FaPhone className="mr-2 text-yellow-500" />
+              <span>+254 720 612 649 </span>
+              {/* <span>+254 732 246 065</span>
+              <span>+254 731 454 809</span> */}
+            </li>
+            <li className="flex items-center">
+              <FaEnvelope className="mr-2 text-yellow-500" />
+              <span>info@aegl.co.ke</span>
+            </li>
+            <li className="flex items-center">
+              <FaMapMarkerAlt className="mr-2 text-yellow-500" />
+              <span>123 Engineering Way, Nairobi, Kenya</span>
+            </li>
+          </ul>
         </div>
       </div>
 

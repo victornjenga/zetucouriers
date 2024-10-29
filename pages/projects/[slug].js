@@ -20,11 +20,19 @@ const CategoryProducts = ({ products, categoryTitle }) => {
               <img
                 src={product.image[0].asset.url}
                 alt={product.name}
-                className="h-40 w-full object-cover mb-4"
+                className="w-full object-cover mb-4"
               />
               <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
               <p>{product.description}</p>
               <p className="text-gray-600 italic">{product.location}</p>
+              <p className="text-gray-600 italic">{product.location}</p>
+              <p className="text-gray-600 ">
+                Status{" "}
+                <span className="px-1 text-green-600">{product.status}</span>
+              </p>
+              <p className="text-gray-600 ">
+                Cost <span className="px-1 text-green-600">{product.cost}</span>
+              </p>
 
               {/* Uncomment this if you have a page for product details */}
               {/* <Link href={`/product/${product.slug.current}`}>

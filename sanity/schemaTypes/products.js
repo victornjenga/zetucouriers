@@ -43,6 +43,16 @@ export default {
       type: 'string',
     },
     {
+      name: 'status',
+      title: 'Status',
+      type: 'string',
+    },
+    {
+      name: 'cost',
+      title: 'Cost',
+      type: 'string',
+    },
+    {
       name: 'postedBy',
       title: 'Posted By',
       type: 'reference',

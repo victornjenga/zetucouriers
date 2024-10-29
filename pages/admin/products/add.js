@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { client } from "../../../utils/client";
 import useAuthStore from "../../../store/authStore";
 import DashboardLayout from "../../../components/admin/Layout";
-import { v4 as uuidv4 } from "uuid"; // Import uuid to generate unique keys
+import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
@@ -12,14 +12,16 @@ const AddProduct = ({ categories = [], variations = [] }) => {
     name: "",
     description: "",
     price: "",
-    categories: [], // Multiple category selection with checkboxes
-    variations: [], // Multiple variation selection
+    cost: "", // Add cost field
+    status: "", // Add status field
+    categories: [],
+    variations: [],
     image: null,
     slug: "",
-    location: "", // Add location field
+    location: "",
   });
-  const [imageFiles, setImageFiles] = useState([]); // For handling multiple image uploads
-  const [imagePreviews, setImagePreviews] = useState([]); // For image preview
+  const [imageFiles, setImageFiles] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
@@ -38,12 +40,11 @@ const AddProduct = ({ categories = [], variations = [] }) => {
     setFormData((prev) => ({
       ...prev,
       categories: checked
-        ? [...prev.categories, value] // Add the category if checked
-        : prev.categories.filter((category) => category !== value), // Remove the category if unchecked
+        ? [...prev.categories, value]
+        : prev.categories.filter((category) => category !== value),
     }));
   };
 
-  // Handle variation checkbox change
   const handleVariationChange = (e) => {
     const { value, checked } = e.target;
     setFormData((prev) => ({
@@ -56,9 +57,8 @@ const AddProduct = ({ categories = [], variations = [] }) => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setImageFiles(files); // Store the selected files
+    setImageFiles(files);
 
-    // Generate image previews
     const filePreviews = files.map((file) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -84,49 +84,44 @@ const AddProduct = ({ categories = [], variations = [] }) => {
     try {
       let imageAssets = [];
 
-      // Upload each image and store its asset reference with a unique key
       for (let file of imageFiles) {
         const uploadResponse = await client.assets.upload("image", file);
         imageAssets.push({
           _type: "image",
           asset: { _ref: uploadResponse._id },
-          _key: uuidv4(), // Add a unique key for each image
+          _key: uuidv4(),
         });
       }
 
-      // Generate the slug if not provided
       const slug =
         formData.slug || formData.name.toLowerCase().replace(/ /g, "-");
 
-      // Prepare the new product data
       const newProduct = {
-        _type: "products", // Ensure this matches your product document type
+        _type: "products",
         name: formData.name,
         description: formData.description,
-        slug: {
-          _type: "slug",
-          current: slug,
-        },
+        slug: { _type: "slug", current: slug },
         price: formData.price,
+        cost: formData.cost, // Include cost field
+        status: formData.status, // Include status field
         category: formData.categories.map((categoryId) => ({
           _type: "reference",
-          _ref: categoryId, // Reference to the category document ID
-          _key: uuidv4(), // Add a unique key for each category reference
+          _ref: categoryId,
+          _key: uuidv4(),
         })),
         variations: formData.variations.map((variationId) => ({
           _type: "reference",
           _ref: variationId,
           _key: uuidv4(),
         })),
-        image: imageAssets, // Array of uploaded image assets with unique keys
+        image: imageAssets,
         postedBy: {
           _type: "postedBy",
           _ref: userProfile?._id,
         },
-        location: formData.location, // Include the location
+        location: formData.location,
       };
 
-      // Create the new product in Sanity
       await client.create(newProduct);
       toast.success("Product added successfully!");
       router.push("/admin/products");
@@ -179,7 +174,7 @@ const AddProduct = ({ categories = [], variations = [] }) => {
           </div>
 
           <div className="mb-4">
-            <label className="block ">Location</label>
+            <label className="block">Location</label>
             <input
               type="text"
               name="location"
@@ -191,7 +186,29 @@ const AddProduct = ({ categories = [], variations = [] }) => {
           </div>
 
           <div className="mb-4">
-            <label className="block ">Categories</label>
+            <label className="block">Cost</label>
+            <input
+              type="text"
+              name="cost"
+              value={formData.cost}
+              onChange={handleInputChange}
+              className="border px-4 py-2 rounded w-full"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block">Status</label>
+            <input
+              type="text"
+              name="status"
+              value={formData.status}
+              onChange={handleInputChange}
+              className="border px-4 py-2 rounded w-full"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block">Categories</label>
             <div>
               {categories.map((category) => (
                 <div key={category._id} className="flex items-center mb-2">
@@ -211,7 +228,7 @@ const AddProduct = ({ categories = [], variations = [] }) => {
           </div>
 
           <div className="mb-4">
-            <label className="block ">Product Images</label>
+            <label className="block">Product Images</label>
             <input
               type="file"
               multiple
@@ -223,7 +240,7 @@ const AddProduct = ({ categories = [], variations = [] }) => {
 
           {imagePreviews.length > 0 && (
             <div className="mb-4">
-              <label className="block ">Image Preview</label>
+              <label className="block">Image Preview</label>
               <div className="grid grid-cols-3 gap-2">
                 {imagePreviews.map((preview, index) => (
                   <img
