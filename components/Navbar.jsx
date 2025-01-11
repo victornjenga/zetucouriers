@@ -1,56 +1,37 @@
-import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { FaHome, FaUtensils, FaTags, FaPhone, FaBars } from "react-icons/fa";
+import { useRouter } from "next/router";
+import { Link as LinkScroll } from "react-scroll";
+import { BsPeopleFill } from "react-icons/bs";
 import {
-  FaHome,
-  FaUserFriends,
-  FaProjectDiagram,
-  FaPhone,
-  FaBars,
-  FaAngleDown,
-  FaBriefcase,
-  FaNewspaper,
-} from "react-icons/fa";
+  FiAlignRight,
+  FiXCircle,
+  FiChevronDown,
+  FiChevronUp,
+} from "react-icons/fi";
+import { IoFastFood } from "react-icons/io5";
+import { AiFillMessage } from "react-icons/ai";
+import { HiPlus } from "react-icons/hi"; // Plus icon for the button
 import { client } from "../utils/client"; // Adjust the path as needed
+import Link from "next/link";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    // Fetch categories from Sanity
-    const fetchCategories = async () => {
-      try {
-        const categoriesQuery = `*[_type == "category"]{ _id, title, slug { current } }`;
-        const fetchedCategories = await client.fetch(categoriesQuery);
-        setCategories(fetchedCategories || []);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
-
+  const [activeLink, setActiveLink] = useState("");
+  const [scrollActive, setScrollActive] = useState(false);
+  const router = useRouter();
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const toggleServicesDropdown = () => {
-    setIsServicesOpen(!isServicesOpen);
-  };
-
   return (
-    <nav className="bg-gray-900 z-50 text-white shadow-lg">
-      <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between md:justify-around items-center">
+    <nav className="bg-gray-900 text-white shadow-lg z-10 ">
+      <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
         {/* Logo Section */}
-        <div className="text-2xl font-bold flex items-center">
+        <div className="text-2xl font-bold">
           <Link href="/">
             <img className="h-[40px]" src="/logo.png" alt="/" />
           </Link>
-          {/* <span className="text-white-500 hidden md:flex text-2xl bold">
-            Ans Engineering
-          </span> */}
         </div>
 
         {/* Mobile Menu Button */}
@@ -65,215 +46,168 @@ const Navbar = () => {
         </div>
 
         {/* Nav Links (Hidden on Mobile) */}
-        <div className="hidden md:flex space-x-8 items-center">
-          <Link
-            href="/"
-            className="hover:text-yellow-500 text-xl transition duration-300"
+        <div className="hidden items-center md:flex space-x-8">
+          <a
+            href="/about"
+            className="hover:text-yellow-500 transition duration-300"
           >
-            Home
-          </Link>
-
-          {/* About Us Dropdown */}
-          <div className="relative group z-50">
-            <button className="flex items-center text-xl hover:text-yellow-500 transition duration-300">
-              About Us <FaAngleDown className="ml-1" />
-            </button>
-            <div className="absolute left-0 mt-2 w-48 bg-gray-800 text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-              <Link
-                href="/our-history"
-                className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
-              >
-                Our History
-              </Link>
-              <Link
-                href="/our-team"
-                className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
-              >
-                Our Team
-              </Link>
-              <Link
-                href="/areas-of-specialization"
-                className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
-              >
-                Areas Of Specialization
-              </Link>
-              <Link
-                href="/our-clients"
-                className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
-              >
-                Our Clients
-              </Link>
-              <Link
-                href="/bim"
-                className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
-              >
-                Working with BIM
-              </Link>
-            </div>
-          </div>
-
-          {/* Projects Dropdown with Categories */}
-          <div className="relative group z-50">
-            <button className="flex items-center text-xl hover:text-yellow-500 transition duration-300">
-              Projects <FaAngleDown className="ml-1" />
-            </button>
-            <div className="absolute left-0 mt-2 w-48 bg-gray-800 text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-              {categories.map((category) => (
-                <Link
-                  key={category._id}
-                  href={
-                    category.slug?.current
-                      ? `/projects/${category.slug.current}`
-                      : "#"
-                  }
-                  className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
-                >
-                  {category.title}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <Link
-            href="/careers"
-            className="hover:text-yellow-500 text-xl transition duration-300"
+            About
+          </a>
+          <a
+            href="/hotels"
+            className="hover:text-yellow-500 transition duration-300"
           >
-            Careers
-          </Link>
-          <Link
-            href="/media"
-            className="hover:text-yellow-500 text-xl transition duration-300"
+            Hotels
+          </a>
+          <a
+            href="/account"
+            className="hover:text-yellow-500 transition duration-300"
           >
-            Media
-          </Link>
-          <Link
+            Account
+          </a>
+          <a
             href="/contact"
-            className="hover:text-yellow-500 text-xl transition duration-300"
+            className="hover:text-yellow-500 transition duration-300"
           >
             Contact
-          </Link>
-          <div className="relative group z-50">
-            <button className="flex items-center text-xl hover:text-yellow-500 transition duration-300">
-              More <FaAngleDown className="ml-1" />
-            </button>
-            <div className="absolute left-0 mt-2 w-48 bg-gray-800 text-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-              <Link
-                href="/companyprofile.pdf"
-                className="block px-4 py-2 text-left hover:bg-gray-700 hover:text-yellow-500"
-              >
-                Company Profile
-              </Link>
-            </div>
-          </div>
+          </a>
+          {/* "Sign Up" Button */}
+          <a
+            href="/vendor"
+            className="flex items-center space-x-2 bg-yellow-500 text-white px-4 py-2 rounded-full hover:bg-yellow-600 transition duration-300 font-semibold shadow-md"
+          >
+            <HiPlus className="w-5 h-5" />
+            <span>Sign Up</span>
+          </a>
         </div>
       </div>
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden bg-gray-800 text-white space-y-4 px-4 py-4 ${
+        className={`md:hidden bg-gray-800 text-white space-y-4 px-4 py-4 text-center ${
           isMobileMenuOpen ? "block" : "hidden"
         }`}
       >
-        <Link
-          href="/"
+        <a
+          href="/about"
           className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
         >
-          <FaHome />
-          <span>Home</span>
-        </Link>
-
-        {/* Mobile About Us Dropdown */}
-        <button
-          onClick={toggleServicesDropdown}
-          className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300 w-full"
-        >
-          <FaUserFriends />
-          <span>About Us</span>
-          <FaAngleDown />
-        </button>
-        {isServicesOpen && (
-          <div className="space-y-2 mt-2 px-4 text-left">
-            <Link
-              href="/our-history"
-              className="block hover:text-yellow-500 transition duration-300"
-            >
-              Our History
-            </Link>
-            <Link
-              href="/our-team"
-              className="block hover:text-yellow-500 transition duration-300"
-            >
-              Our Team
-            </Link>
-            <Link
-              href="/areas-of-specialization"
-              className="block hover:text-yellow-500 transition duration-300"
-            >
-              Areas Of Specialization
-            </Link>
-            <Link
-              href="/our-clients"
-              className="block hover:text-yellow-500 transition duration-300"
-            >
-              Our Clients
-            </Link>
-            <Link
-              href="/bim"
-              className="block hover:text-yellow-500 transition duration-300"
-            >
-              Working with BIM
-            </Link>
-          </div>
-        )}
-
-        {/* Projects with Categories */}
-        <div>
-          <button
-            onClick={() => setIsServicesOpen(!isServicesOpen)}
-            className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300 w-full"
-          >
-            <FaProjectDiagram />
-            <span>Projects</span>
-            <FaAngleDown />
-          </button>
-          {isServicesOpen &&
-            categories.map((category) => (
-              <Link
-                key={category._id}
-                href={
-                  category.slug?.current
-                    ? `/projects/${category.slug.current}`
-                    : "#"
-                }
-                className="block hover:text-yellow-500 px-4 transition duration-300 text-left"
-              >
-                {category.title}
-              </Link>
-            ))}
-        </div>
-
-        <Link
-          href="/careers"
+          <FaUtensils />
+          <span>About</span>
+        </a>
+        <a
+          href="/hotels"
           className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
         >
-          <FaBriefcase />
-          <span>Careers</span>
-        </Link>
-        <Link
-          href="/media"
+          <IoFastFood />
+          <span>Hotels</span>
+        </a>
+        <a
+          href="/account"
           className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
         >
-          <FaNewspaper />
-          <span>Media</span>
-        </Link>
-        <Link
+          <FaTags />
+          <span>Account</span>
+        </a>
+        <a
           href="/contact"
           className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
         >
           <FaPhone />
           <span>Contact</span>
-        </Link>
+        </a>
+        <a
+          href="/vendor"
+          className="flex items-center justify-center space-x-2 bg-yellow-500 text-white px-4 py-2 rounded-full hover:bg-yellow-600 transition duration-300 font-semibold shadow-md m-auto w-1/2"
+        >
+          <HiPlus className="w-5 h-5" />
+          <span>Sign Up</span>
+        </a>
       </div>
+      {router.pathname === "/" && (
+        <nav className="fixed lg:hidden bottom-0  left-0 right-0 z-20  shadow-t ">
+          <div className="bg-white sm:px-3">
+            <ul className="flex w-full justify-between items-center text-gray-800">
+              <LinkScroll
+                activeClass="active"
+                to="home"
+                spy={true}
+                smooth={true}
+                duration={1000}
+                onSetActive={() => {
+                  setActiveLink("home");
+                }}
+                className={
+                  "mx-1 sm:mx-2 px-3 sm:px-4 py-2 flex flex-col items-center text-xs border-t-2 transition-all " +
+                  (activeLink === "home"
+                    ? "  border-yellow-500 text-yellow-500"
+                    : " border-transparent")
+                }
+              >
+                <FaHome className="w-6 h-6" />
+                Home
+              </LinkScroll>
+              <LinkScroll
+                activeClass="active"
+                to="foods"
+                spy={true}
+                smooth={true}
+                duration={1000}
+                onSetActive={() => {
+                  setActiveLink("foods");
+                }}
+                className={
+                  "mx-1 sm:mx-2 px-3 sm:px-4 py-2 flex flex-col items-center text-xs border-t-2 transition-all " +
+                  (activeLink === "foods"
+                    ? "  border-yellow-500 text-yellow-500"
+                    : " border-transparent ")
+                }
+              >
+                <IoFastFood className="w-6 h-6" />
+                Restaurants
+              </LinkScroll>
+              <LinkScroll
+                activeClass="active"
+                to="about"
+                spy={true}
+                smooth={true}
+                duration={1000}
+                onSetActive={() => {
+                  setActiveLink("about");
+                }}
+                className={
+                  "mx-1 sm:mx-2 px-3 sm:px-4 py-2 flex flex-col items-center text-xs border-t-2 transition-all " +
+                  (activeLink === "about"
+                    ? "  border-yellow-500 text-yellow-500"
+                    : " border-transparent ")
+                }
+              >
+                <AiFillMessage className="w-6 h-6" />
+                About
+              </LinkScroll>
+              <LinkScroll
+                activeClass="active"
+                to="reviews"
+                spy={true}
+                smooth={true}
+                duration={1000}
+                onSetActive={() => {
+                  setActiveLink("reviews");
+                }}
+                className={
+                  "mx-1 sm:mx-2 px-3 sm:px-4 py-2 flex flex-col items-center text-xs border-t-2 transition-all " +
+                  (activeLink === "reviews"
+                    ? "  border-yellow-500 text-yellow-500"
+                    : " border-transparent ")
+                }
+              >
+                <BsPeopleFill className="w-6 h-6" />
+                Testimonial
+              </LinkScroll>
+            </ul>
+          </div>
+        </nav>
+      )}
     </nav>
   );
 };

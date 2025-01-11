@@ -1,6 +1,13 @@
 import Head from "next/head";
 import { useState } from "react";
-import { FaArrowDown } from "react-icons/fa";
+import {
+  FaArrowDown,
+  FaChartLine,
+  FaGlobe,
+  FaMobile,
+  FaLock,
+  FaDesktop,
+} from "react-icons/fa";
 import { client } from "../utils/client";
 
 export default function Home() {
@@ -23,50 +30,46 @@ export default function Home() {
 
   const services = [
     {
-      name: "Architectural Services",
+      name: "Agricultural Futures",
       description:
-        "Comprehensive architectural solutions from design to execution.",
-      image: "/architectural-services.jpg",
-      href: "/services/architectural-services",
+        "Agricultural futures contracts are standardized according to the amount of commodity being bought or sold, the expected time and place of delivery, and quality of the product.",
+      image: "/agricultural-futures.jpg",
+      href: "/products/agricultural-futures",
     },
     {
-      name: "Engineering Services",
+      name: "Currency Futures",
       description:
-        "Innovative engineering solutions across various disciplines.",
-      image: "/engineering-services.jpg",
-      href: "/services/engineering-services",
+        "CMX offers active traders, portfolio managers, proprietary trading groups and corporations with access to exchange traded currency futures markets an alternative venue or liquidity source.",
+      image: "/currency-futures.jpg",
+      href: "/products/currency-futures",
     },
     {
-      name: "Environmental Services",
-      description: "Environmental assessments and impact mitigation services.",
-      image: "/environmental-services.jpg",
-      href: "/services/environmental-services",
-    },
-    {
-      name: "Infrastructure Services",
+      name: "Energy Futures",
       description:
-        "Infrastructure design and supervision for roads, bridges, and more.",
-      image: "/infrastructure-services.jpg",
-      href: "/services/infrastructure-services",
+        "Energy Futures assists clients in all segments of the energy spectrum including access to one of the most diverse and sophisticated energy market solutions.",
+      image: "/energy-futures.jpg",
+      href: "/products/energy-futures",
     },
     {
-      name: "Road/Bridge Engineering",
+      name: "Interest Rate Derivatives",
       description:
-        "Specialized services in road and bridge design and construction.",
-      image: "/road-bridge-engineering.jpg",
-      href: "/services/road-bridge-engineering",
+        "Interest rate derivatives are instruments used to hedge against adverse changes of interest rates.",
+      image: "/interest-rate-derivatives.jpg",
+      href: "/products/interest-rate-derivatives",
     },
     {
-      name: "Land Surveying Services",
-      description: "Professional land surveying and data analysis.",
-      image: "/land-surveying-services.jpg",
-      href: "/services/land-surveying-services",
+      name: "Equity Index Futures",
+      description:
+        "Equity index futures are derivatives that enable investors to speculate on or hedge against the future value of a stock market index.",
+      image: "/equity-index-futures.jpg",
+      href: "/products/equity-index-futures",
     },
     {
-      name: "BIM Technologies",
-      description: "Building Information Modeling (BIM) services.",
-      image: "/bim-services.jpg",
-      href: "/bim",
+      name: "Metal Futures",
+      description:
+        "Metal futures provide producers, manufacturers, traders, and speculators with cost-efficient trading and risk management opportunities.",
+      image: "/metal-futures.jpg",
+      href: "/products/metal-futures",
     },
   ];
 
@@ -87,119 +90,180 @@ export default function Home() {
       {/* Hero Section with Parallax */}
       <section
         id="hero"
-        className="relative h-[60vh] md:h-[80vh] bg-fixed bg-center flex flex-col items-center justify-center text-center"
+        className="relative  bg-fixed bg-center bg-cover flex flex-col items-center justify-center text-center overflow-hidden"
         style={{
-          backgroundImage: `url('/engineering-hero.jpg')`,
+          backgroundImage: `url('/commodity-trading-hero.jpg')`,
         }}
       >
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black opacity-60"></div>
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
+
+        {/* Animated Particles/Shapes (optional) */}
+        <div className="absolute inset-0">
+          <div className="absolute top-10 left-10 w-32 h-32 border-2 border-yellow-500/20 rounded-full animate-spin-slow"></div>
+          <div className="absolute bottom-10 right-10 w-40 h-40 border-2 border-yellow-500/20 rounded-full animate-spin-slow-reverse"></div>
+          <div className="absolute top-1/3 right-1/4 w-24 h-24 border-2 border-yellow-500/20 rounded-full animate-pulse"></div>
+        </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 space-y-4 sm:space-y-6 text-white px-4">
-          <h1 className="text-4xl md:text-6xl font-bold animate-fadeInDown">
-            Ans Engineering Group Limited
+        <div className="relative z-10 container mx-auto px-4 space-y-8">
+          {/* Small Pre-heading */}
+          <div className="animate-fadeInDown">
+            <span className="inline-block px-4 py-1 bg-yellow-500 text-gray-900 text-sm font-bold rounded-full mb-4 transform hover:scale-105 transition-transform">
+              Welcome to CMX
+            </span>
+          </div>
+
+          {/* Main Heading with Gradient */}
+          <h1 className="text-5xl md:text-7xl font-extrabold animate-fadeInDown text-transparent bg-clip-text bg-gradient-to-r from-white via-yellow-100 to-white leading-tight">
+            Africa's Premier <br />
+            <span className="text-yellow-500">Commodity Brokerage</span>
           </h1>
-          <h1 className="text-2xl md:text-4xl font-bold animate-fadeInDown">
-            Building a Sustainable Future
-          </h1>
-          <p className="text-lg md:text-xl animate-fadeInUp">
-            Quality, safety, and innovation in every project.
+
+          {/* Subheading with enhanced typography */}
+          <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto animate-fadeInUp font-light">
+            Your trusted partner in commodity trading and futures markets
           </p>
-          <a
-            href="/contact"
-            className="mt-6 md:mt-8 inline-block bg-yellow-500 text-gray-900 px-6 md:px-8 py-2 md:py-3 rounded-lg shadow-lg hover:bg-yellow-600 font-semibold animate-bounce transition-transform transform hover:scale-105"
-          >
-            Contact Us
-          </a>
-        </div>
 
-        {/* Arrow Down Icon */}
-        <FaArrowDown className="absolute bottom-6 md:bottom-10 text-xl md:text-2xl text-yellow-500 animate-bounce" />
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row justify-center gap-4 pt-8 animate-fadeInUp">
+            <a
+              href="/about"
+              className="px-8 py-4 bg-transparent text-white border-2 border-white rounded-lg font-bold text-lg hover:bg-white/10 transform hover:scale-105 transition-all duration-300"
+            >
+              Learn More
+            </a>
+          </div>
+
+          {/* Stats Section - Redesigned */}
+          <div className="w-full max-w-6xl mx-auto px-4 mt-12 md:mt-16">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+              {[
+                { number: "50+", label: "Global Markets" },
+                { number: "24/7", label: "Support" },
+              ].map((stat, index) => (
+                <div
+                  key={index}
+                  className="bg-black/30 backdrop-blur-sm rounded-lg p-4 md:p-6 
+                    transform hover:scale-105 transition-all duration-300
+                    border border-white/10 hover:border-yellow-500/50"
+                >
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-yellow-500 mb-1">
+                    {stat.number}
+                  </div>
+                  <div className="text-xs sm:text-sm md:text-base text-gray-300">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Scroll Indicator - Adjusted position */}
+          <div className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <FaArrowDown className="text-xl md:text-2xl text-yellow-500" />
+          </div>
+
+          {/* Decorative Elements */}
+          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent"></div>
+        </div>
       </section>
 
-      {/* Vision & Mission Section */}
-      <section id="vision-mission" className="py-16 px-4 sm:px-6 bg-gray-50">
+      {/* Why Choose Us Section */}
+      <section id="why-choose-us" className="py-16 px-4 sm:px-6 bg-gray-50">
         <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
-            Our Vision & Mission
-          </h2>
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Vision Section */}
-            <div className="bg-white p-8 rounded-lg shadow-lg text-center md:w-1/2">
-              <h3 className="text-3xl font-semibold mb-4 text-yellow-500">
-                Vision
-              </h3>
-              <p className="text-gray-600">
-                To be a best-in-class integrated engineering consultancy and
-                construction services provider, executing projects to
-                world-class standards for our clients and delivering industry
-                benchmarked value to our stakeholders.
-              </p>
+          <div className="flex flex-col lg:flex-row gap-12 items-center">
+            {/* Left side - Image */}
+            <div className="lg:w-1/2">
+              <div className="relative">
+                <img
+                  src="/trading-floor.jpg"
+                  alt="Trading floor"
+                  className="rounded-lg shadow-2xl object-cover h-[500px] w-full"
+                />
+                <div className="absolute inset-0 bg-yellow-500 opacity-20 rounded-lg"></div>
+                <div className="absolute -bottom-6 -right-6 w-64 h-64 bg-yellow-500 opacity-10 rounded-full -z-10"></div>
+                <div className="absolute -top-6 -left-6 w-48 h-48 bg-gray-800 opacity-10 rounded-full -z-10"></div>
+              </div>
             </div>
 
-            {/* Mission Section */}
-            <div className="bg-white p-8 rounded-lg shadow-lg text-center md:w-1/2">
-              <h3 className="text-3xl font-semibold mb-4 text-yellow-500">
-                Mission
-              </h3>
-              <p className="text-gray-600">
-                To achieve excellence in engineering consultancy and
-                construction services through a proactive culture based on team
-                spirit and the will to deliver against targets. We uphold
-                accountability, implement best practices in project management,
-                and maintain industry-leading standards in health and safety.
-              </p>
-            </div>
-          </div>
+            {/* Right side - Content */}
+            <div className="lg:w-1/2">
+              <div className="space-y-8">
+                <div className="space-y-4">
+                  <h2 className="text-4xl font-bold text-gray-800">
+                    Why Choose Us
+                  </h2>
+                  <p className="text-xl text-yellow-600 font-semibold">
+                    Providing Full Range of Industrial Solution
+                  </p>
+                </div>
 
-          {/* Core Values Section */}
-          <div className="mt-12">
-            <h2 className="text-4xl font-bold text-center mb-8 text-gray-800">
-              Our Core Values
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-                <h3 className="text-2xl font-bold text-yellow-500 mb-4">
-                  Quality
-                </h3>
-                <p className="text-gray-600">
-                  We conduct on-site awareness programs to ensure continuous
-                  focus on quality. Our projects are designed to deliver value
-                  at every stage, emphasizing our commitment to excellence.
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-                <h3 className="text-2xl font-bold text-yellow-500 mb-4">
-                  Sustainability
-                </h3>
-                <p className="text-gray-600">
-                  We aim to minimize environmental impact and reduce waste,
-                  promoting sustainable practices across all operations.
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-                <h3 className="text-2xl font-bold text-yellow-500 mb-4">
-                  Safety
-                </h3>
-                <p className="text-gray-600">
-                  Every incident prevented is a life potentially saved. We
-                  prioritize safe operating practices and continuous safety
-                  training across all projects.
-                </p>
+                {/* Cards */}
+                <div className="space-y-6">
+                  <div className="bg-white p-6 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 border-l-4 border-yellow-500">
+                    <div className="flex items-start gap-4">
+                      <span className="text-3xl font-bold text-yellow-500">
+                        01
+                      </span>
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-800 mb-2">
+                          Expertise and Experience
+                        </h3>
+                        <p className="text-gray-600">
+                          Our team consists of seasoned professionals with years
+                          of experience in the commodity trading industry.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-6 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 border-l-4 border-yellow-500">
+                    <div className="flex items-start gap-4">
+                      <span className="text-3xl font-bold text-yellow-500">
+                        02
+                      </span>
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-800 mb-2">
+                          Transparency and Trust
+                        </h3>
+                        <p className="text-gray-600">
+                          We believe in building long-lasting relationships
+                          based on trust and integrity.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-6 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 border-l-4 border-yellow-500">
+                    <div className="flex items-start gap-4">
+                      <span className="text-3xl font-bold text-yellow-500">
+                        03
+                      </span>
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-800 mb-2">
+                          Global Reach
+                        </h3>
+                        <p className="text-gray-600">
+                          With a widespread network and international presence,
+                          we offer access to a diverse range of markets and
+                          commodities.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
       {/* Services Section with Parallax */}
-      <section
-        // id="services"
-        className="py-20 px-4 sm:px-6 bg-fixed bg-gradient-to-b from-gray-50 to-gray-100"
-      >
+      <section className="py-20 px-4 sm:px-6 bg-fixed bg-gradient-to-b from-gray-50 to-gray-100">
         <div className="container mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 drop-shadow-lg animate-fadeIn">
-            Our Engineering Services
+            Our Products
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 px-4 gap-12">
             {services.map((service, index) => (
@@ -228,144 +292,6 @@ export default function Home() {
                 </div>
               </a>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Health, Safety, and Environmental Management Policy Section */}
-      <section
-        id="hse-policy"
-        className="py-16 px-4 sm:px-6 bg-gradient-to-b from-gray-50 to-gray-100"
-      >
-        <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
-            Health, Safety, and Environmental Management Policy
-          </h2>
-          <p className="text-lg text-gray-700 mb-6 text-center">
-            Our commitment to a safe, healthy, and environmentally responsible
-            workplace.
-          </p>
-
-          <div className="space-y-8 text-gray-700">
-            <p>
-              The management of Ans Engineering Group Ltd recognizes the
-              importance of safety, health, and environmental management to the
-              success of the organization. Our staff are vital to the delivery
-              of high-quality products and services for our clients. To this
-              end, we are committed to taking all reasonable steps to ensure a
-              safe and healthy workplace for all staff, while acknowledging our
-              responsibility for environmental protection.
-            </p>
-
-            <p>
-              Our goal is to design a safe workplace for all staff and reduce
-              the potential for injuries to zero. Employees will benefit from a
-              secure work environment that provides protection from injury,
-              allowing each person to focus on delivering top-quality products
-              and services. Each of us has responsibilities and accountability
-              for various aspects of Ans Engineering Group Ltd’s safety program.
-            </p>
-
-            <div className="space-y-6">
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <h3 className="text-2xl font-semibold text-yellow-500 mb-4">
-                  Senior Management
-                </h3>
-                <p>
-                  The organization and its senior management are committed to
-                  developing the program, providing financial resources,
-                  monitoring progress, offering training, contracting necessary
-                  services and staff, and adhering to rehabilitation and
-                  recognition practices. At a minimum, we meet all legislative
-                  requirements.
-                </p>
-              </div>
-
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <h3 className="text-2xl font-semibold text-yellow-500 mb-4">
-                  Managers and Supervisors
-                </h3>
-                <p>
-                  Managers and supervisors are responsible for implementing
-                  programs, reinforcing and coaching employees, and monitoring
-                  workplace conditions. They also identify and control hazards
-                  to maintain a safe environment.
-                </p>
-              </div>
-
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <h3 className="text-2xl font-semibold text-yellow-500 mb-4">
-                  Employees
-                </h3>
-                <p>
-                  Each employee has a responsibility to participate in the
-                  company’s safety program, attend training sessions, inform
-                  management of any HSE concerns or hazards, and monitor the HSE
-                  performance of colleagues and third parties.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Resources Section */}
-      <section id="resources" className="py-16 px-4 sm:px-6 bg-gray-50">
-        <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">
-            Our Resources
-          </h2>
-          <p className="text-lg text-gray-700 mb-6 text-center">
-            Optimizing operational efficiency with equipped offices, expert
-            teams, and advanced technology.
-          </p>
-
-          <div className="space-y-12 text-gray-700">
-            {/* Office Infrastructure */}
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h3 className="text-3xl font-semibold text-yellow-500 mb-4">
-                Office Infrastructure
-              </h3>
-              <p>
-                Our office in Nairobi is fully furnished to provide an optimal
-                environment for engineering analysis and design work. With
-                in-house facilities such as workstations, drawing/document
-                printing, plotting, and scanning, we ensure seamless project
-                workflow. A backup power system supports urgent tasks during
-                sudden power outages, enabling continuity and efficiency.
-              </p>
-            </div>
-
-            {/* Human Resource */}
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h3 className="text-3xl font-semibold text-yellow-500 mb-4">
-                Human Resource
-              </h3>
-              <p>
-                As a professional services firm, we recognize our staff as our
-                most important asset. Our team of engineers, technicians, and
-                support staff possess expertise across a wide range of
-                engineering disciplines. Additionally, we have standing
-                agreements with external experts, ensuring specialized skills
-                are readily available for various projects.
-              </p>
-            </div>
-
-            {/* Computer Aided Design and Drafting (CADD) */}
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h3 className="text-3xl font-semibold text-yellow-500 mb-4">
-                Computer Aided Design and Drafting (CADD)
-              </h3>
-              <p>
-                Since 2015, Ans Engineering Group Ltd. has integrated
-                computer-aided design software for analysis, design, drawing
-                preparation, and project planning. Our customized CADD system
-                includes symbol libraries, macros, and standard details, which
-                enhance productivity and quality of work. Drafting standards,
-                layering conventions, and detailed construction templates ensure
-                consistent and high-quality outputs across all disciplines.
-              </p>
-            </div>
           </div>
         </div>
       </section>
@@ -404,25 +330,84 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Trading Platforms Section */}
+      <section className="py-20 bg-gray-900 text-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">
+              Advanced Trading Platforms
+            </h2>
+            <p className="text-gray-400 text-lg">
+              Trade anywhere, anytime with our cutting-edge platforms
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div className="space-y-8">
+              <div className="bg-gray-800 p-6 rounded-lg">
+                <div className="flex items-center mb-4">
+                  <FaDesktop className="text-yellow-500 text-3xl mr-4" />
+                  <h3 className="text-xl font-bold">CMX Trading Desktop</h3>
+                </div>
+                <ul className="space-y-3 text-gray-300">
+                  <li>• Advanced charting capabilities</li>
+                  <li>• Real-time market data</li>
+                  <li>• Multiple order types</li>
+                  <li>• Custom indicators and alerts</li>
+                </ul>
+              </div>
+
+              <div className="bg-gray-800 p-6 rounded-lg">
+                <div className="flex items-center mb-4">
+                  <FaMobile className="text-yellow-500 text-3xl mr-4" />
+                  <h3 className="text-xl font-bold">Mobile Trading App</h3>
+                </div>
+                <ul className="space-y-3 text-gray-300">
+                  <li>• Trade on-the-go</li>
+                  <li>• Real-time notifications</li>
+                  <li>• Biometric security</li>
+                  <li>• Portfolio monitoring</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="relative">
+              <img
+                src="/trading-platform.png"
+                alt="CMX Trading Platform"
+                className="rounded-lg shadow-2xl"
+              />
+              <div className="absolute -bottom-6 -right-6 w-64 h-64 bg-yellow-500 opacity-10 rounded-full -z-10"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Call to Action Section */}
-      <section
-        id="cta"
-        className="relative py-16 bg-gradient-to-r from-yellow-500 to-yellow-400 text-white"
-      >
-        <div className="container mx-auto text-center">
-          <h2 className="text-4xl font-extrabold mb-6 drop-shadow-lg animate-fadeIn">
-            Ready to Start Your Next Project?
+      <section className="py-20 bg-gray-900">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-4xl font-bold text-white mb-8">
+            Ready to Start Trading?
           </h2>
-          <p className="text-xl mb-8 opacity-90 animate-fadeIn delay-200">
-            Let’s build together. Contact us for consultancy or project
-            execution.
+          <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+            Join thousands of traders who choose CMX for their commodity trading
+            needs
           </p>
-          <a
-            href="/contact"
-            className="inline-block px-10 py-4 bg-gray-100 text-yellow-500 font-bold text-lg rounded-full shadow-lg hover:bg-gray-200 transition-all duration-300 transform hover:scale-105"
-          >
-            Get in Touch
-          </a>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              href="/register"
+              className="px-8 py-4 bg-yellow-500 text-gray-900 rounded-lg font-bold text-lg hover:bg-yellow-400 transition-colors"
+            >
+              Open Account
+            </a>
+            <a
+              href="/contact"
+              className="px-8 py-4 bg-transparent text-white border-2 border-white rounded-lg font-bold text-lg hover:bg-white/10 transition-colors"
+            >
+              Contact Sales
+            </a>
+          </div>
         </div>
       </section>
     </div>
