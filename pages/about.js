@@ -24,10 +24,10 @@ export default function About() {
   return (
     <div className="bg-gray-50 w-full">
       <Head>
-        <title>About Us | Elevating Culinary Experiences</title>
+        <title>About Us | Visible Industries Ltd</title>
         <meta
           name="description"
-          content="Learn more about our mission to provide world-class dining experiences from top hotels across the globe."
+          content="Visible Industries Ltd - Leading commodity derivative trading company in Kenya and East Africa."
         />
       </Head>
 
@@ -39,10 +39,10 @@ export default function About() {
         <div className="absolute inset-0 bg-black opacity-70"></div>
         <div className="relative z-10 text-white px-4">
           <h1 className="text-5xl md:text-6xl font-bold">
-            Discover the Art of Fine Dining
+            Welcome to Visible Industries Ltd
           </h1>
           <p className="text-xl md:text-2xl mt-4">
-            A world of taste, elegance, and unforgettable moments.
+            We Provide Commodity Trading Services
           </p>
         </div>
       </section>
@@ -53,70 +53,24 @@ export default function About() {
           <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 fade-in">
             Our Story
           </h2>
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="space-y-6 fade-in">
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Welcome to a culinary journey that transcends the ordinary. Our
-                platform brings together the finest hotels, each offering
-                handpicked menus curated by world-renowned chefs. We believe
-                that dining is not just a meal—it’s an experience that engages
-                all the senses.
-              </p>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                From cosmopolitan cities to coastal escapes, our selection of
-                restaurants promises unforgettable tastes, luxurious
-                atmospheres, and exceptional service. Whether you're a local or
-                a traveler, we ensure that every meal is a celebration.
-              </p>
-            </div>
-            <div className="fade-in">
-              <img
-                src="/about-image.jpg"
-                alt="Fine dining experience"
-                className="w-full h-auto rounded-lg shadow-lg"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Values Section */}
-      <section className="py-20 bg-gray-50 text-center">
-        <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-5xl font-extrabold mb-8 text-gray-900 fade-in">
-            Our Core Values
-          </h2>
-          <div className="grid md:grid-cols-3 gap-12">
-            <div className="bg-white p-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 space-y-4 fade-in">
-              <FaMapMarkerAlt size={30} className="mx-auto text-yellow-500" />
-              <h3 className="text-3xl font-semibold text-gray-900">
-                Global Excellence
-              </h3>
-              <p className="text-gray-700">
-                Our partners are global icons of luxury, bringing you the finest
-                dining from top hotels in every corner of the world.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 space-y-4 fade-in">
-              <FaMapMarkerAlt size={30} className="mx-auto text-yellow-500" />
-              <h3 className="text-3xl font-semibold text-gray-900">
-                Curated Menus
-              </h3>
-              <p className="text-gray-700">
-                Every dish we feature has been handpicked to ensure quality,
-                creativity, and a memorable dining experience.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 space-y-4 fade-in">
-              <FaMapMarkerAlt size={30} className="mx-auto text-yellow-500" />
-              <h3 className="text-3xl font-semibold text-gray-900">
-                Unforgettable Moments
-              </h3>
-              <p className="text-gray-700">
-                We aim to create dining experiences that leave a lasting
-                impression, turning meals into extraordinary memories.
-              </p>
-            </div>
+          <div className="space-y-6 fade-in">
+            <p className="text-lg text-gray-700 leading-relaxed">
+              Visible was established in 2022 and headquartered in Westland's,
+              Nairobi is a dynamic commodity derivative trading company poised
+              to make a significant impact in the Kenyan and East African
+              commodity markets. Our focus encompasses a diverse range of
+              commodities, including agricultural products, sillage, milk, Mango
+              Puree, Tomato Puree & energy resources and minerals.
+            </p>
+            <p className="text-lg text-gray-700 leading-relaxed">
+              Our aim is to become a leading entity in the commodity trading
+              sector by providing reliable services and innovative solutions to
+              both producers and consumers through a platform built with top
+              tier features security features encapsulating the latest web based
+              technology by CMX. Through a team of highly skilled derivative
+              traders and well trained Representatives we bring together a whole
+              Value chain that will uberize commodity trades across the region.
+            </p>
           </div>
         </div>
       </section>
@@ -133,9 +87,13 @@ export default function About() {
                 Our Vision
               </h3>
               <p className="text-lg text-gray-700 leading-relaxed">
-                To be the world's leading platform for fine dining, connecting
-                luxury hotels with discerning guests who value quality, taste,
-                and experience.
+                Is to be the leading global derivatives brokerage firm
+                specializing in commodities, transforming market access through
+                innovative trading solutions, unparalleled expertise, and a
+                commitment to integrity. We envision a future where our advanced
+                technology and deep market insights empower investors and
+                producers alike, driving sustainable growth and maximizing value
+                across the global commodity landscape.
               </p>
             </div>
             <div className="space-y-6 fade-in">
@@ -143,16 +101,21 @@ export default function About() {
                 Our Mission
               </h3>
               <p className="text-lg text-gray-700 leading-relaxed">
-                To elevate the art of dining by partnering with the most
-                prestigious hotels and offering curated culinary experiences
-                that tantalize the palate and stir the soul.
+                To empower clients with comprehensive and innovative trading
+                solutions across both derivative and physical commodities
+                markets. Our mission is to facilitate effective risk management,
+                optimize returns, and enhance operational efficiencies. We are
+                dedicated to providing exceptional service, transparent
+                operations, and ongoing education, fostering trust and long-term
+                partnerships. By seamlessly integrating access to derivative
+                instruments and physical commodities, we aim to be the preferred
+                partner for clients navigating the complexities of the global
+                commodities market.
               </p>
             </div>
           </div>
         </div>
       </section>
-
-     
     </div>
   );
 }

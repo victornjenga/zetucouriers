@@ -16,9 +16,11 @@ export default function Footer() {
         <div className="mb-6 md:mb-0">
           <h3 className="text-xl font-bold text-white mb-4">About Us</h3>
           <p className="text-gray-400 leading-relaxed">
-            Ans Engineering Group Ltd. is a leading engineering consultancy
-            firm, delivering innovative and sustainable civil and structural
-            solutions across East Africa.
+            CNC Commodities is a premier commodity trading platform,
+            specializing in agricultural products, derivatives, and
+            comprehensive trading solutions across East Africa. We connect
+            producers and buyers while ensuring market efficiency and
+            transparency.
           </p>
         </div>
 
@@ -28,42 +30,42 @@ export default function Footer() {
           <ul className="space-y-2">
             <li>
               <a
-                href="/our-team"
+                href="/trading-platform"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
-                Our Team
+                Trading Platform
               </a>
             </li>
             <li>
               <a
-                href="/our-clients"
+                href="/market-insights"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
-                Our Clients
+                Market Insights
               </a>
             </li>
             <li>
               <a
-                href="/contacts"
+                href="/products"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
-                Contacts
+                Our Products
               </a>
             </li>
             <li>
               <a
-                href="/media"
+                href="/resources"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
-                Media
+                Resources
               </a>
             </li>
             <li>
               <a
-                href="/career"
+                href="/contact"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
-                Career
+                Contact Us
               </a>
             </li>
           </ul>
@@ -71,29 +73,33 @@ export default function Footer() {
 
         {/* Social Media Section */}
         <div className="mb-6 md:mb-0">
-          <h3 className="text-xl font-bold text-white mb-4">Follow Us</h3>
+          <h3 className="text-xl font-bold text-white mb-4">Connect With Us</h3>
           <div className="flex space-x-6 justify-center lg:justify-start">
             <a
               href="#"
               className="text-2xl text-gray-400 hover:text-yellow-500 transition duration-300"
+              aria-label="Facebook"
             >
               <FaFacebook />
             </a>
             <a
               href="#"
               className="text-2xl text-gray-400 hover:text-yellow-500 transition duration-300"
+              aria-label="Twitter"
             >
               <FaTwitter />
             </a>
             <a
               href="#"
               className="text-2xl text-gray-400 hover:text-yellow-500 transition duration-300"
+              aria-label="Instagram"
             >
               <FaInstagram />
             </a>
             <a
               href="#"
               className="text-2xl text-gray-400 hover:text-yellow-500 transition duration-300"
+              aria-label="YouTube"
             >
               <FaYoutube />
             </a>
@@ -104,22 +110,20 @@ export default function Footer() {
         <div>
           <h3 className="text-xl font-bold text-white mb-4">Contact Us</h3>
           <p className="text-gray-400 mb-4">
-            Reach out for any inquiries or support:
+            Get in touch for trading inquiries and support:
           </p>
           <ul className="space-y-3 text-gray-400">
             <li className="flex items-center">
               <FaPhone className="mr-2 text-yellow-500" />
-              <span>+254 720 612 649 </span>
-              {/* <span>+254 732 246 065</span>
-              <span>+254 731 454 809</span> */}
+              <span>+254 722 000 000</span>
             </li>
             <li className="flex items-center">
               <FaEnvelope className="mr-2 text-yellow-500" />
-              <span>info@aegl.co.ke</span>
+              <span>info@cnccommodities.com</span>
             </li>
             <li className="flex items-center">
               <FaMapMarkerAlt className="mr-2 text-yellow-500" />
-              <span>123 Engineering Way, Nairobi, Kenya</span>
+              <span>Westlands Business Center, Nairobi, Kenya</span>
             </li>
           </ul>
         </div>
@@ -127,7 +131,10 @@ export default function Footer() {
 
       {/* Copyright Section */}
       <div className="border-t border-gray-700 mt-10 pt-6 text-center text-gray-500">
-        <p>&copy; 2024 Ans Engineering Group Ltd. All rights reserved.</p>
+        <p>
+          &copy; {new Date().getFullYear()} CNC Commodities. All rights
+          reserved.
+        </p>
       </div>
     </footer>
   );
