@@ -14,7 +14,7 @@ const fadeInUp = {
 
 export default function Contact() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden w-full">
       <Head>
         <title>Contact Us | CNC Commodities</title>
         <meta
@@ -24,8 +24,8 @@ export default function Contact() {
       </Head>
 
       {/* Hero Section */}
-      <section className="relative h-[40vh] flex items-center justify-center">
-        <div className="text-center px-4 max-w-4xl mx-auto">
+      <section className="relative h-[40vh] flex items-center justify-center px-4">
+        <div className="text-center w-full max-w-4xl mx-auto">
           <motion.h1
             className="text-5xl md:text-6xl font-bold text-gray-900 mb-6"
             initial={{ opacity: 0, y: 20 }}
@@ -46,9 +46,9 @@ export default function Contact() {
       </section>
 
       {/* Contact Information Cards */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <section className="py-16 bg-white w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
             {[
               {
                 icon: <FaPhoneAlt className="text-3xl" />,
@@ -100,8 +100,8 @@ export default function Contact() {
       </section>
 
       {/* Contact Form Section */}
-      <section className="py-20 bg-gray-900">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-gray-900 w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <motion.div
               className="bg-white rounded-xl shadow-2xl overflow-hidden"
@@ -116,7 +116,7 @@ export default function Contact() {
                 </h2>
               </div>
               <form className="p-8 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div>
                     <label className="block text-gray-700 font-semibold mb-2">
                       First Name
@@ -198,7 +198,7 @@ export default function Contact() {
       </section>
 
       {/* Map Section */}
-      <section id="map" className="h-[400px] bg-gray-200">
+      <section id="map" className="h-[400px] w-full">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255281.19036281522!2d36.70730744863279!3d-1.3032079999999908!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi%2C%20Kenya!5e0!3m2!1sen!2sus!4v1650458531749!3m2!1sen!2sus"
           width="100%"

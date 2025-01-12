@@ -2,14 +2,40 @@ import Head from "next/head";
 import { motion } from "framer-motion";
 import { FaChartLine, FaHandshake, FaGlobe, FaUserTie } from "react-icons/fa";
 
+// Animation variants
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
   animate: { opacity: 1, y: 0 },
 };
 
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const fadeIn = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  transition: { duration: 0.8 },
+};
+
+const scaleUp = {
+  initial: { scale: 0.8, opacity: 0 },
+  animate: { scale: 1, opacity: 1 },
+  transition: { duration: 0.5 },
+};
+
 export default function About() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <motion.div
+      className="min-h-screen bg-gray-50 overflow-x-hidden w-full"
+      initial="initial"
+      animate="animate"
+      variants={fadeIn}
+    >
       <Head>
         <title>About Us | CNC Commodities</title>
         <meta
@@ -19,13 +45,16 @@ export default function About() {
       </Head>
 
       {/* Hero Section */}
-      <section className="relative h-[40vh] flex items-center justify-center">
-        <div className="text-center px-4 max-w-4xl mx-auto">
+      <motion.section
+        className="relative h-[40vh] flex items-center justify-center px-4"
+        variants={scaleUp}
+      >
+        <div className="text-center w-full max-w-4xl mx-auto">
           <motion.h1
             className="text-5xl md:text-6xl font-bold text-gray-900 mb-6"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
             About CNC Commodities
           </motion.h1>
@@ -33,17 +62,23 @@ export default function About() {
             className="text-xl text-yellow-500"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
           >
             Leading the Future of Commodity Trading
           </motion.p>
         </div>
-      </section>
+      </motion.section>
 
       {/* Core Values Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <section className="py-16 bg-white w-full">
+        <motion.div
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+          variants={staggerContainer}
+        >
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8"
+            variants={staggerContainer}
+          >
             {[
               {
                 icon: <FaChartLine className="text-3xl" />,
@@ -74,89 +109,86 @@ export default function About() {
                 key={index}
                 className="bg-gray-50 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
                 variants={fadeInUp}
-                initial="initial"
-                whileInView="animate"
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.2 }}
               >
-                <div className="text-yellow-500 mb-4">{value.icon}</div>
+                <motion.div
+                  className="text-yellow-500 mb-4"
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  {value.icon}
+                </motion.div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
                   {value.title}
                 </h3>
                 <p className="text-gray-600">{value.description}</p>
               </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* About Us Section */}
-      <section className="py-20 bg-gray-900">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-gray-900 w-full">
+        <motion.div
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+          variants={fadeInUp}
+          whileInView="animate"
+          initial="initial"
+          viewport={{ once: true }}
+        >
           <motion.div
             className="max-w-4xl mx-auto text-center"
-            variants={fadeInUp}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
+            variants={scaleUp}
           >
             <h2 className="text-4xl font-bold text-yellow-400 mb-8">
               Our Story
             </h2>
-            <div className="space-y-6 text-gray-300">
+            <motion.div className="space-y-6 text-gray-300" variants={fadeInUp}>
               <p className="text-lg leading-relaxed">
                 CNC was established in 2022 and headquartered in Westland's,
-                Nairobi. We are a dynamic commodity derivative trading company
-                poised to make a significant impact in the Kenyan and East
-                African commodity markets. Our focus encompasses a diverse range
-                of commodities, including agricultural products, sillage, milk,
-                Mango Puree, Tomato Puree & energy resources and minerals.
+                Nairobi...
               </p>
               <p className="text-lg leading-relaxed">
                 Our aim is to become a leading entity in the commodity trading
-                sector by providing reliable services and innovative solutions
-                to both producers and consumers through a platform built with
-                top tier security features encapsulating the latest web-based
-                technology by CMX. Through a team of highly skilled derivative
-                traders and well-trained Representatives, we bring together a
-                whole Value chain that will uberize commodity trades across the
-                region.
+                sector...
               </p>
-            </div>
+            </motion.div>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Vision & Mission */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+      <section className="py-20 bg-white w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            className="grid md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 max-w-6xl mx-auto"
+            variants={staggerContainer}
+          >
             <motion.div
               className="bg-gray-50 p-8 rounded-xl shadow-lg"
               variants={fadeInUp}
-              initial="initial"
+              whileHover={{ y: -10 }}
               whileInView="animate"
+              initial="initial"
               viewport={{ once: true }}
             >
               <h3 className="text-3xl font-bold text-gray-900 mb-6">
                 Our Vision
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                To be the leading global derivatives brokerage firm specializing
-                in commodities, transforming market access through innovative
-                trading solutions, unparalleled expertise, and a commitment to
-                integrity. We envision a future where our advanced technology
-                and deep market insights empower investors and producers alike,
-                driving sustainable growth and maximizing value across the
-                global commodity landscape.
+                To be the leading global derivatives brokerage firm...
               </p>
             </motion.div>
 
             <motion.div
               className="bg-gray-50 p-8 rounded-xl shadow-lg"
               variants={fadeInUp}
-              initial="initial"
+              whileHover={{ y: -10 }}
               whileInView="animate"
+              initial="initial"
               viewport={{ once: true }}
             >
               <h3 className="text-3xl font-bold text-gray-900 mb-6">
@@ -164,40 +196,37 @@ export default function About() {
               </h3>
               <p className="text-gray-600 leading-relaxed">
                 To empower clients with comprehensive and innovative trading
-                solutions across both derivative and physical commodities
-                markets. Our mission is to facilitate effective risk management,
-                optimize returns, and enhance operational efficiencies. We are
-                dedicated to providing exceptional service, transparent
-                operations, and ongoing education, fostering trust and long-term
-                partnerships.
+                solutions...
               </p>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gray-900">
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            variants={fadeInUp}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
+      <section className="py-16 bg-gray-900 w-full">
+        <motion.div
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+          variants={fadeInUp}
+          whileInView="animate"
+          initial="initial"
+          viewport={{ once: true }}
+        >
+          <h2 className="text-3xl font-bold text-white mb-6">
+            Ready to Start Trading?
+          </h2>
+          <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+            Join CNC Commodities and experience the future of commodity trading
+          </p>
+          <motion.button
+            className="px-8 py-3 bg-yellow-500 text-gray-900 font-bold rounded-lg hover:bg-yellow-400 transition-colors duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <h2 className="text-3xl font-bold text-white mb-6">
-              Ready to Start Trading?
-            </h2>
-            <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-              Join CNC Commodities and experience the future of commodity
-              trading
-            </p>
-            <button className="px-8 py-3 bg-yellow-500 text-gray-900 font-bold rounded-lg hover:bg-yellow-400 transition-colors duration-300">
-              Get Started
-            </button>
-          </motion.div>
-        </div>
+            Get Started
+          </motion.button>
+        </motion.div>
       </section>
-    </div>
+    </motion.div>
   );
 }

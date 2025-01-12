@@ -87,9 +87,7 @@ export default function Home() {
   return (
     <div className="bg-gray-50 w-full z-0">
       <Head>
-        <title>
-          Ans Engineering Group | Infrastructure & Consulting Experts
-        </title>
+        <title>CNC Commodities |</title>
       </Head>
       {/* Hero Section with Parallax */}
       <section
