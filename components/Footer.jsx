@@ -30,7 +30,7 @@ export default function Footer() {
           <ul className="space-y-2">
             <li>
               <a
-                href="/trading-platform"
+                href="/products"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
                 Trading Platform
@@ -38,7 +38,7 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="/market-insights"
+                href="/products"
                 className="hover:text-yellow-500 transition-colors duration-300"
               >
                 Market Insights
@@ -52,14 +52,7 @@ export default function Footer() {
                 Our Products
               </a>
             </li>
-            <li>
-              <a
-                href="/resources"
-                className="hover:text-yellow-500 transition-colors duration-300"
-              >
-                Resources
-              </a>
-            </li>
+            
             <li>
               <a
                 href="/contact"
