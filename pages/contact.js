@@ -1,149 +1,215 @@
 import Head from "next/head";
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import { motion } from "framer-motion";
+import {
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaClock,
+} from "react-icons/fa";
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 60 },
+  animate: { opacity: 1, y: 0 },
+};
 
 export default function Contact() {
   return (
-    <div className="bg-gray-50 w-full">
+    <div className="min-h-screen bg-gray-50">
       <Head>
-        <title>Ans Engineering Group | Contact Us</title>
+        <title>Contact Us | CNC Commodities</title>
+        <meta
+          name="description"
+          content="Get in touch with CNC Commodities for all your trading needs"
+        />
       </Head>
 
-      {/* Hero Section with Parallax */}
-      <section
-        id="hero"
-        className="relative h-[50vh] md:h-[60vh] bg-fixed bg-center flex flex-col items-center justify-center text-center"
-        style={{
-          backgroundImage: `url('/contact-hero.jpg')`,
-        }}
-      >
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black opacity-70"></div>
-
-        {/* Hero Content */}
-        <div className="relative z-10 space-y-4 sm:space-y-6 text-white px-4">
-          <h1 className="text-4xl md:text-6xl font-bold animate-fadeInDown">
-            Get in Touch with Us
-          </h1>
-          <p className="text-lg md:text-xl animate-fadeInUp">
-            We are here to assist you with your project needs.
-          </p>
+      {/* Hero Section */}
+      <section className="relative h-[40vh] flex items-center justify-center">
+        <div className="text-center px-4 max-w-4xl mx-auto">
+          <motion.h1
+            className="text-5xl md:text-6xl font-bold text-gray-900 mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            Get in Touch
+          </motion.h1>
+          <motion.p
+            className="text-xl text-yellow-500"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            We're here to help with your trading inquiries
+          </motion.p>
         </div>
       </section>
 
-      {/* Contact Info Section */}
-      <section
-        id="contact-info"
-        className="py-16 px-4 sm:px-6 bg-gradient-to-b from-gray-50 to-white"
-      >
-        <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 drop-shadow-lg">
-            Contact Information
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {/* Office Address */}
-            <div className="flex items-center bg-white p-6 rounded-lg shadow-lg">
-              <FaMapMarkerAlt className="text-yellow-500 text-4xl mr-6" />
-              <div>
-                <h3 className="text-2xl font-bold mb-2">Our Office</h3>
-                <p className="text-gray-600">
-                  LungaLunga Square, 2nd Floor, Room No.225
-                  <br />
-                  Linga Lunga Road
-                  <br />
-                  Nairobi, Kenya
-                </p>
-              </div>
-            </div>
-
-            {/* Phone Numbers */}
-            <div className="flex items-center bg-white p-6 rounded-lg shadow-lg">
-              <FaPhoneAlt className="text-yellow-500 text-4xl mr-6" />
-              <div>
-                <h3 className="text-2xl font-bold mb-2">Contact Numbers</h3>
-                <p className="text-gray-600">
-                  +254 720 612 649
-                  <br />
-                  +254 732 246 065
-                  <br />
-                  +254 731 454 809
-                </p>
-              </div>
-            </div>
-
-            {/* Email Address */}
-            <div className="flex items-center bg-white p-6 rounded-lg shadow-lg">
-              <FaEnvelope className="text-yellow-500 text-4xl mr-6" />
-              <div>
-                <h3 className="text-2xl font-bold mb-2">Email Address</h3>
-                <p className="text-gray-600 py-2">info@aegl.co.ke</p>
-                <p className="text-gray-600">ansengin@gmail.com</p>
-
-              </div>
-            </div>
+      {/* Contact Information Cards */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: <FaPhoneAlt className="text-3xl" />,
+                title: "Phone",
+                info: ["+254 720 612 649", "+254 732 246 065"],
+                action: "tel:+254720612649",
+              },
+              {
+                icon: <FaEnvelope className="text-3xl" />,
+                title: "Email",
+                info: ["info@cnc.co.ke", "support@cnc.co.ke"],
+                action: "mailto:info@cnc.co.ke",
+              },
+              {
+                icon: <FaMapMarkerAlt className="text-3xl" />,
+                title: "Location",
+                info: ["Westlands Business Center", "Nairobi, Kenya"],
+                action: "#map",
+              },
+              {
+                icon: <FaClock className="text-3xl" />,
+                title: "Trading Hours",
+                info: ["Monday - Friday", "9:00 AM - 5:00 PM EAT"],
+                action: null,
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                className="bg-gray-50 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
+                variants={fadeInUp}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <div className="text-yellow-500 mb-4">{item.icon}</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  {item.title}
+                </h3>
+                {item.info.map((line, i) => (
+                  <p key={i} className="text-gray-600">
+                    {line}
+                  </p>
+                ))}
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Contact Form */}
-      <section
-        id="contact-form"
-        className="py-20 px-4 sm:px-6 bg-gradient-to-b from-white to-gray-100"
-      >
-        <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 drop-shadow-lg animate-fadeIn">
-            Send Us a Message
-          </h2>
-          <form
-            action="/send-message"
-            method="POST"
-            className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg space-y-6"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block mb-2 text-gray-700 font-semibold">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                  required
-                />
+      {/* Contact Form Section */}
+      <section className="py-20 bg-gray-900">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              className="bg-white rounded-xl shadow-2xl overflow-hidden"
+              variants={fadeInUp}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+            >
+              <div className="p-8 bg-gray-900">
+                <h2 className="text-3xl font-bold text-yellow-400 text-center">
+                  Send Us a Message
+                </h2>
               </div>
-              <div>
-                <label className="block mb-2 text-gray-700 font-semibold">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                  required
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block mb-2 text-gray-700 font-semibold">
-                Message
-              </label>
-              <textarea
-                name="message"
-                rows="6"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                required
-              ></textarea>
-            </div>
-            <div className="text-center">
-              <button
-                type="submit"
-                className="px-6 py-3 bg-yellow-500 text-white font-bold text-lg rounded-lg shadow-lg hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105"
-              >
-                Send Message
-              </button>
-            </div>
-          </form>
+              <form className="p-8 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-gray-700 font-semibold mb-2">
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 font-semibold mb-2">
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                      required
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Subject
+                  </label>
+                  <select
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    required
+                  >
+                    <option value="">Select a subject</option>
+                    <option value="trading">Trading Inquiry</option>
+                    <option value="support">Technical Support</option>
+                    <option value="partnership">Partnership Opportunity</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    rows="6"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    required
+                  ></textarea>
+                </div>
+                <div className="text-center">
+                  <button
+                    type="submit"
+                    className="px-8 py-3 bg-yellow-500 text-gray-900 font-bold rounded-lg hover:bg-yellow-400 transition-colors duration-300"
+                  >
+                    Send Message
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
         </div>
+      </section>
+
+      {/* Map Section */}
+      <section id="map" className="h-[400px] bg-gray-200">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255281.19036281522!2d36.70730744863279!3d-1.3032079999999908!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi%2C%20Kenya!5e0!3m2!1sen!2sus!4v1650458531749!3m2!1sen!2sus"
+          width="100%"
+          height="100%"
+          style={{ border: 0 }}
+          allowFullScreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title="CNC Commodities Location"
+          className="w-full h-full"
+        ></iframe>
       </section>
     </div>
   );

@@ -15,16 +15,20 @@ export default function Home() {
 
   const testimonials = [
     {
-      text: "Ans Engineering provided exceptional services in our infrastructure project, ensuring quality and sustainability throughout.",
-      name: "James Mwangi, Kenya Infrastructure Group",
+      text: "CNC Commodities has transformed how we manage our agricultural futures trading. Their platform is intuitive and their team's expertise is unmatched.",
+      name: "James Kimani, Agricultural Cooperative Manager",
     },
     {
-      text: "Their expertise in structural engineering and project management was critical to our success.",
-      name: "Njeri Wambui, Nairobi City Planning",
+      text: "The market insights and trading support from CNC have been invaluable for our investment portfolio. Their currency futures platform is particularly impressive.",
+      name: "Sarah Omondi, Investment Fund Manager",
     },
     {
-      text: "Ans Engineering’s approach to safety and sustainability impressed us from the start. Truly a reliable partner.",
-      name: "Paul Otieno, East Africa Developers",
+      text: "As a commodity trader, CNC's platform gives me everything I need - from real-time market data to efficient execution. Their customer service is exceptional.",
+      name: "David Maina, Professional Trader",
+    },
+    {
+      text: "Working with CNC has helped us better manage our price risks in the agricultural sector. Their expertise in commodity derivatives is outstanding.",
+      name: "Alice Wanjiku, Agribusiness Director",
     },
   ];
 
@@ -34,42 +38,42 @@ export default function Home() {
       description:
         "Agricultural futures contracts are standardized according to the amount of commodity being bought or sold, the expected time and place of delivery, and quality of the product.",
       image: "/agricultural-futures.jpg",
-      href: "/products/agricultural-futures",
+      href: "/products",
     },
     {
       name: "Currency Futures",
       description:
-        "CMX offers active traders, portfolio managers, proprietary trading groups and corporations with access to exchange traded currency futures markets an alternative venue or liquidity source.",
+        "CNC offers active traders, portfolio managers, proprietary trading groups and corporations with access to exchange traded currency futures markets an alternative venue or liquidity source.",
       image: "/currency-futures.jpg",
-      href: "/products/currency-futures",
+      href: "/products",
     },
     {
       name: "Energy Futures",
       description:
         "Energy Futures assists clients in all segments of the energy spectrum including access to one of the most diverse and sophisticated energy market solutions.",
       image: "/energy-futures.jpg",
-      href: "/products/energy-futures",
+      href: "/products",
     },
     {
       name: "Interest Rate Derivatives",
       description:
         "Interest rate derivatives are instruments used to hedge against adverse changes of interest rates.",
       image: "/interest-rate-derivatives.jpg",
-      href: "/products/interest-rate-derivatives",
+      href: "/products",
     },
     {
       name: "Equity Index Futures",
       description:
         "Equity index futures are derivatives that enable investors to speculate on or hedge against the future value of a stock market index.",
       image: "/equity-index-futures.jpg",
-      href: "/products/equity-index-futures",
+      href: "/products",
     },
     {
       name: "Metal Futures",
       description:
         "Metal futures provide producers, manufacturers, traders, and speculators with cost-efficient trading and risk management opportunities.",
       image: "/metal-futures.jpg",
-      href: "/products/metal-futures",
+      href: "/products",
     },
   ];
 
@@ -89,7 +93,7 @@ export default function Home() {
       </Head>
       {/* Hero Section with Parallax */}
       <section
-        id="hero"
+        id="home"
         className="relative  bg-fixed bg-center bg-cover flex flex-col items-center justify-center text-center overflow-hidden"
         style={{
           backgroundImage: `url('/commodity-trading-hero.jpg')`,
@@ -110,7 +114,7 @@ export default function Home() {
           {/* Small Pre-heading */}
           <div className="animate-fadeInDown">
             <span className="inline-block px-4 py-1 bg-yellow-500 text-gray-900 text-sm font-bold rounded-full mb-4 transform hover:scale-105 transition-transform">
-              Welcome to CMX
+              Welcome to CNC
             </span>
           </div>
 
@@ -126,7 +130,7 @@ export default function Home() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center gap-4 pt-8 animate-fadeInUp">
+          <div className="flex flex-col transform -translate-x-1/2 animate-bounce sm:flex-row justify-center gap-4 bottom-10 ">
             <a
               href="/about"
               className="px-8 py-4 bg-transparent text-white border-2 border-white rounded-lg font-bold text-lg hover:bg-white/10 transform hover:scale-105 transition-all duration-300"
@@ -136,7 +140,7 @@ export default function Home() {
           </div>
 
           {/* Stats Section - Redesigned */}
-          <div className="w-full max-w-6xl mx-auto px-4 mt-12 md:mt-16">
+          {/* <div className="w-full max-w-6xl mx-auto px-4 mt-12 md:mt-16">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
               {[
                 { number: "50+", label: "Global Markets" },
@@ -157,15 +161,15 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Scroll Indicator - Adjusted position */}
-          <div className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <FaArrowDown className="text-xl md:text-2xl text-yellow-500" />
+          <div className=" bottom-4  md:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <FaArrowDown className="text-xl hidden md:text-2xl text-yellow-500" />
           </div>
 
           {/* Decorative Elements */}
-          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t  from-gray-50 to-transparent"></div>
         </div>
       </section>
 
@@ -260,7 +264,10 @@ export default function Home() {
       </section>
 
       {/* Services Section with Parallax */}
-      <section className="py-20 px-4 sm:px-6 bg-fixed bg-gradient-to-b from-gray-50 to-gray-100">
+      <section
+        id="products"
+        className="py-20 px-4 sm:px-6 bg-fixed bg-gradient-to-b from-gray-50 to-gray-100"
+      >
         <div className="container mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12 text-gray-800 drop-shadow-lg animate-fadeIn">
             Our Products
@@ -292,6 +299,59 @@ export default function Home() {
                 </div>
               </a>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trading Platforms Section */}
+      <section id="about" className="py-20 bg-gray-900 text-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">
+              Advanced Trading Platforms
+            </h2>
+            <p className="text-gray-400 text-lg">
+              Trade anywhere, anytime with our cutting-edge platforms
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div className="space-y-8">
+              <div className="bg-gray-800 p-6 rounded-lg">
+                <div className="flex items-center mb-4">
+                  <FaDesktop className="text-yellow-500 text-3xl mr-4" />
+                  <h3 className="text-xl font-bold">CNC Trading Desktop</h3>
+                </div>
+                <ul className="space-y-3 text-gray-300">
+                  <li>• Advanced charting capabilities</li>
+                  <li>• Real-time market data</li>
+                  <li>• Multiple order types</li>
+                  <li>• Custom indicators and alerts</li>
+                </ul>
+              </div>
+
+              <div className="bg-gray-800 p-6 rounded-lg">
+                <div className="flex items-center mb-4">
+                  <FaMobile className="text-yellow-500 text-3xl mr-4" />
+                  <h3 className="text-xl font-bold">Mobile Trading App</h3>
+                </div>
+                <ul className="space-y-3 text-gray-300">
+                  <li>• Trade on-the-go</li>
+                  <li>• Real-time notifications</li>
+                  <li>• Biometric security</li>
+                  <li>• Portfolio monitoring</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="relative">
+              <img
+                src="/trading-platform.png"
+                alt="CNC Trading Platform"
+                className="rounded-lg shadow-2xl"
+              />
+              <div className="absolute -bottom-6 -right-6 w-64 h-64 bg-yellow-500 opacity-10 rounded-full -z-10"></div>
+            </div>
           </div>
         </div>
       </section>
@@ -331,73 +391,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trading Platforms Section */}
-      <section className="py-20 bg-gray-900 text-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">
-              Advanced Trading Platforms
-            </h2>
-            <p className="text-gray-400 text-lg">
-              Trade anywhere, anytime with our cutting-edge platforms
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="space-y-8">
-              <div className="bg-gray-800 p-6 rounded-lg">
-                <div className="flex items-center mb-4">
-                  <FaDesktop className="text-yellow-500 text-3xl mr-4" />
-                  <h3 className="text-xl font-bold">CMX Trading Desktop</h3>
-                </div>
-                <ul className="space-y-3 text-gray-300">
-                  <li>• Advanced charting capabilities</li>
-                  <li>• Real-time market data</li>
-                  <li>• Multiple order types</li>
-                  <li>• Custom indicators and alerts</li>
-                </ul>
-              </div>
-
-              <div className="bg-gray-800 p-6 rounded-lg">
-                <div className="flex items-center mb-4">
-                  <FaMobile className="text-yellow-500 text-3xl mr-4" />
-                  <h3 className="text-xl font-bold">Mobile Trading App</h3>
-                </div>
-                <ul className="space-y-3 text-gray-300">
-                  <li>• Trade on-the-go</li>
-                  <li>• Real-time notifications</li>
-                  <li>• Biometric security</li>
-                  <li>• Portfolio monitoring</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="relative">
-              <img
-                src="/trading-platform.png"
-                alt="CMX Trading Platform"
-                className="rounded-lg shadow-2xl"
-              />
-              <div className="absolute -bottom-6 -right-6 w-64 h-64 bg-yellow-500 opacity-10 rounded-full -z-10"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Call to Action Section */}
-      <section className="py-20 bg-gray-900">
+      <section className="py-20 bg-yellow-600">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold text-white mb-8">
             Ready to Start Trading?
           </h2>
-          <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-            Join thousands of traders who choose CMX for their commodity trading
+          <p className="text-xl text-gray-100 mb-12 max-w-2xl mx-auto">
+            Join thousands of traders who choose CNC for their commodity trading
             needs
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a
-              href="/register"
-              className="px-8 py-4 bg-yellow-500 text-gray-900 rounded-lg font-bold text-lg hover:bg-yellow-400 transition-colors"
+              href="/contact"
+              className="px-8 py-4 bg-gray-900 text-gray-100 rounded-lg font-bold text-lg hover:bg-yellow-400 transition-colors"
             >
               Open Account
             </a>

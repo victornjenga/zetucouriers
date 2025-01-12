@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { FaHome, FaUtensils, FaTags, FaPhone, FaBars } from "react-icons/fa";
+import {
+  FaHome,
+  FaUtensils,
+  FaTags,
+  FaPhone,
+  FaBars,
+  FaBriefcase,
+  FaNewspaper,
+} from "react-icons/fa";
 import { useRouter } from "next/router";
 import { Link as LinkScroll } from "react-scroll";
 import { BsPeopleFill } from "react-icons/bs";
@@ -48,36 +56,28 @@ const Navbar = () => {
         {/* Nav Links (Hidden on Mobile) */}
         <div className="hidden items-center md:flex space-x-8">
           <a
+            href="/home"
+            className="hover:text-yellow-500 transition duration-300"
+          >
+            Home
+          </a>
+          <a
             href="/about"
             className="hover:text-yellow-500 transition duration-300"
           >
             About
           </a>
           <a
-            href="/hotels"
+            href="/products"
             className="hover:text-yellow-500 transition duration-300"
           >
-            Hotels
-          </a>
-          <a
-            href="/account"
-            className="hover:text-yellow-500 transition duration-300"
-          >
-            Account
+            Products
           </a>
           <a
             href="/contact"
             className="hover:text-yellow-500 transition duration-300"
           >
             Contact
-          </a>
-          {/* "Sign Up" Button */}
-          <a
-            href="/vendor"
-            className="flex items-center space-x-2 bg-yellow-500 text-white px-4 py-2 rounded-full hover:bg-yellow-600 transition duration-300 font-semibold shadow-md"
-          >
-            <HiPlus className="w-5 h-5" />
-            <span>Sign Up</span>
           </a>
         </div>
       </div>
@@ -88,41 +88,35 @@ const Navbar = () => {
           isMobileMenuOpen ? "block" : "hidden"
         }`}
       >
-        <a
+        <Link
+          href="/"
+          className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
+        >
+          <FaHome />
+          <span>Home</span>
+        </Link>
+
+        <Link
+          href="/products"
+          className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
+        >
+          <FaBriefcase />
+          <span>Products</span>
+        </Link>
+        <Link
           href="/about"
           className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
         >
-          <FaUtensils />
+          <FaNewspaper />
           <span>About</span>
-        </a>
-        <a
-          href="/hotels"
-          className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
-        >
-          <IoFastFood />
-          <span>Hotels</span>
-        </a>
-        <a
-          href="/account"
-          className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
-        >
-          <FaTags />
-          <span>Account</span>
-        </a>
-        <a
+        </Link>
+        <Link
           href="/contact"
           className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
         >
           <FaPhone />
           <span>Contact</span>
-        </a>
-        <a
-          href="/vendor"
-          className="flex items-center justify-center space-x-2 bg-yellow-500 text-white px-4 py-2 rounded-full hover:bg-yellow-600 transition duration-300 font-semibold shadow-md m-auto w-1/2"
-        >
-          <HiPlus className="w-5 h-5" />
-          <span>Sign Up</span>
-        </a>
+        </Link>
       </div>
       {router.pathname === "/" && (
         <nav className="fixed lg:hidden bottom-0  left-0 right-0 z-20  shadow-t ">
@@ -149,22 +143,22 @@ const Navbar = () => {
               </LinkScroll>
               <LinkScroll
                 activeClass="active"
-                to="foods"
+                to="products"
                 spy={true}
                 smooth={true}
                 duration={1000}
                 onSetActive={() => {
-                  setActiveLink("foods");
+                  setActiveLink("products");
                 }}
                 className={
                   "mx-1 sm:mx-2 px-3 sm:px-4 py-2 flex flex-col items-center text-xs border-t-2 transition-all " +
-                  (activeLink === "foods"
+                  (activeLink === "products"
                     ? "  border-yellow-500 text-yellow-500"
                     : " border-transparent ")
                 }
               >
-                <IoFastFood className="w-6 h-6" />
-                Restaurants
+                <FaBriefcase className="w-6 h-6" />
+                Products
               </LinkScroll>
               <LinkScroll
                 activeClass="active"
