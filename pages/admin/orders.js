@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { client } from "../../utils/client"; // Assuming you have a configured Sanity client
 import DashboardLayout from "../../components/admin/Layout";
 
-
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [productsCount, setProductsCount] = useState(0);
@@ -52,7 +51,7 @@ const Orders = () => {
   const getStatusColor = (status) => {
     switch (status) {
       case "pending":
-        return "bg-yellow-400";
+        return "bg-green-400";
       case "shipped":
         return "bg-blue-400";
       case "delivered":
@@ -118,7 +117,7 @@ const Orders = () => {
     <DashboardLayout>
       <div className="w-full">
         <h1 className="text-2xl font-bold dark:text-gray-100 p-4">Orders</h1>
-       
+
         {/* Add a Download CSV button */}
         <div className="mb-6">
           <button

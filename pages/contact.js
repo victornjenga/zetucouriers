@@ -16,10 +16,10 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-gray-50 overflow-x-hidden w-full">
       <Head>
-        <title>Contact Us | CNC Commodities</title>
+        <title>Contact Us | Zetu Couriers</title>
         <meta
           name="description"
-          content="Get in touch with CNC Commodities for all your trading needs"
+          content="Get in touch with Zetu Couriers for all your shipping and fulfillment needs"
         />
       </Head>
 
@@ -35,12 +35,12 @@ export default function Contact() {
             Get in Touch
           </motion.h1>
           <motion.p
-            className="text-xl text-yellow-500"
+            className="text-xl text-green-500"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            We're here to help with your trading inquiries
+            We’re here to assist with your courier needs
           </motion.p>
         </div>
       </section>
@@ -53,25 +53,25 @@ export default function Contact() {
               {
                 icon: <FaPhoneAlt className="text-3xl" />,
                 title: "Phone",
-                info: ["+254 720 612 649", "+254 732 246 065"],
-                action: "tel:+254720612649",
+                info: ["+254 709 155 578", "+254 743 225 930"],
+                action: "tel:+254709155578",
               },
               {
                 icon: <FaEnvelope className="text-3xl" />,
                 title: "Email",
-                info: ["info@cnc.co.ke", "support@cnc.co.ke"],
-                action: "mailto:info@cnc.co.ke",
+                info: ["info@zetucouriers.co.ke", "support@zetucouriers.co.ke"],
+                action: "mailto:info@zetucouriers.co.ke",
               },
               {
                 icon: <FaMapMarkerAlt className="text-3xl" />,
                 title: "Location",
-                info: ["Westlands Business Center", "Nairobi, Kenya"],
+                info: ["Akshrap Godowns, JKIA Junction", "Nairobi, Kenya"],
                 action: "#map",
               },
               {
                 icon: <FaClock className="text-3xl" />,
-                title: "Trading Hours",
-                info: ["Monday - Friday", "9:00 AM - 5:00 PM EAT"],
+                title: "Business Hours",
+                info: ["Monday - Saturday", "8:00 AM - 5:00 PM EAT"],
                 action: null,
               },
             ].map((item, index) => (
@@ -84,13 +84,19 @@ export default function Contact() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <div className="text-yellow-500 mb-4">{item.icon}</div>
+                <div className="text-green-500 mb-4">{item.icon}</div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
                   {item.title}
                 </h3>
                 {item.info.map((line, i) => (
                   <p key={i} className="text-gray-600">
-                    {line}
+                    {item.action ? (
+                      <a href={item.action} className="hover:text-green-500">
+                        {line}
+                      </a>
+                    ) : (
+                      line
+                    )}
                   </p>
                 ))}
               </motion.div>
@@ -111,7 +117,7 @@ export default function Contact() {
               viewport={{ once: true }}
             >
               <div className="p-8 bg-gray-900">
-                <h2 className="text-3xl font-bold text-yellow-400 text-center">
+                <h2 className="text-3xl font-bold text-green-400 text-center">
                   Send Us a Message
                 </h2>
               </div>
@@ -123,7 +129,7 @@ export default function Contact() {
                     </label>
                     <input
                       type="text"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                       required
                     />
                   </div>
@@ -133,7 +139,7 @@ export default function Contact() {
                     </label>
                     <input
                       type="text"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                       required
                     />
                   </div>
@@ -144,7 +150,7 @@ export default function Contact() {
                   </label>
                   <input
                     type="email"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                     required
                   />
                 </div>
@@ -154,7 +160,7 @@ export default function Contact() {
                   </label>
                   <input
                     type="tel"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                     required
                   />
                 </div>
@@ -163,13 +169,13 @@ export default function Contact() {
                     Subject
                   </label>
                   <select
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                     required
                   >
                     <option value="">Select a subject</option>
-                    <option value="trading">Trading Inquiry</option>
-                    <option value="support">Technical Support</option>
-                    <option value="partnership">Partnership Opportunity</option>
+                    <option value="shipping">Shipping Inquiry</option>
+                    <option value="tracking">Tracking Support</option>
+                    <option value="fulfillment">Fulfillment Services</option>
                     <option value="other">Other</option>
                   </select>
                 </div>
@@ -179,21 +185,21 @@ export default function Contact() {
                   </label>
                   <textarea
                     rows="6"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                     required
                   ></textarea>
                 </div>
                 <div className="text-center">
                   <button
                     type="submit"
-                    className="px-8 py-3 bg-yellow-500 text-gray-900 font-bold rounded-lg hover:bg-yellow-400 transition-colors duration-300"
+                    className="px-8 py-3 bg-green-500 text-gray-900 font-bold rounded-lg hover:bg-green-400 transition-colors duration-300"
                   >
                     Send Message
                   </button>
                 </div>
               </form>
             </motion.div>
-          </div>
+          </div>{" "}
         </div>
       </section>
 
@@ -207,7 +213,7 @@ export default function Contact() {
           allowFullScreen=""
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-          title="CNC Commodities Location"
+          title="Zetu Couriers Location"
           className="w-full h-full"
         ></iframe>
       </section>

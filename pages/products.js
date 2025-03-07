@@ -1,43 +1,50 @@
 import Head from "next/head";
 import { motion } from "framer-motion";
-import { FaChartLine, FaShieldAlt, FaHandshake } from "react-icons/fa";
+import {
+  FaTruck,
+  FaBox,
+  FaClock,
+  FaWarehouse,
+  FaLock,
+  FaShippingFast,
+} from "react-icons/fa";
 
 const services = [
   {
-    name: "Agricultural Futures",
+    name: "Express Courier",
     description:
-      "Agricultural futures contracts are standardized according to the amount of commodity being bought or sold, the expected time and place of delivery, and quality of the product.",
-    href: "/products/agricultural-futures",
+      "Same-day, scheduled, and overnight delivery services to meet your urgent needs with speed and reliability.",
+    href: "/services/express-courier",
   },
   {
-    name: "Currency Futures",
+    name: "Cash on Delivery",
     description:
-      "CNC offers active traders, portfolio managers, proprietary trading groups and corporations with access to exchange traded currency futures markets an alternative venue or liquidity source.",
-    href: "/products/currency-futures",
+      "Secure and convenient payment collection upon delivery, widely used across East Africa.",
+    href: "/services/cash-on-delivery",
   },
   {
-    name: "Energy Futures",
+    name: "Order Fulfillment",
     description:
-      "Energy Futures assists clients in all segments of the energy spectrum including access to one of the most diverse and sophisticated energy market solutions.",
-    href: "/products/energy-futures",
+      "From picking and packing to shipping, we ensure your orders reach customers accurately and on time.",
+    href: "/services/order-fulfillment",
   },
   {
-    name: "Interest Rate Derivatives",
+    name: "Warehousing",
     description:
-      "Interest rate derivatives are instruments used to hedge against adverse changes of interest rates.",
-    href: "/products/interest-rate-derivatives",
+      "Flexible short-term and long-term storage solutions with advanced warehouse management.",
+    href: "/services/warehousing",
   },
   {
-    name: "Equity Index Futures",
+    name: "Medical Courier",
     description:
-      "Equity index futures are derivatives that enable investors to speculate on or hedge against the future value of a stock market index.",
-    href: "/products/equity-index-futures",
+      "Specialized transport for pharmaceuticals and medical items, adhering to strict regulations.",
+    href: "/services/medical-courier",
   },
   {
-    name: "Metal Futures",
+    name: "Packaging Services",
     description:
-      "Metal futures provide producers, manufacturers, traders, and speculators with cost-efficient trading and risk management opportunities.",
-    href: "/products/metal-futures",
+      "Comprehensive packaging solutions to ensure your items are secure and ready for transit.",
+    href: "/services/packaging",
   },
 ];
 
@@ -46,14 +53,14 @@ const fadeInUp = {
   animate: { opacity: 1, y: 0 },
 };
 
-export default function Products() {
+export default function Services() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Head>
-        <title>Our Products | CNC Commodities</title>
+        <title>Our Services | Zetu Couriers</title>
         <meta
           name="description"
-          content="Explore CNC Commodities' comprehensive range of trading products and services"
+          content="Discover Zetu Couriers' comprehensive range of courier and fulfillment services across East Africa"
         />
       </Head>
 
@@ -66,15 +73,15 @@ export default function Products() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Our Trading Products
+            Our Courier Services
           </motion.h1>
           <motion.p
-            className="text-xl text-yellow-500"
+            className="text-xl text-green-500"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            Comprehensive trading solutions for every market
+            Fast, reliable, and tailored solutions for your shipping needs
           </motion.p>
         </div>
       </section>
@@ -85,22 +92,22 @@ export default function Products() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                icon: <FaChartLine className="text-4xl" />,
-                title: "Advanced Trading",
+                icon: <FaTruck className="text-4xl" />,
+                title: "Lightning-Fast Delivery",
                 description:
-                  "State-of-the-art platforms with real-time market data",
+                  "Same-day and overnight options to get your packages where they need to be, fast.",
               },
               {
-                icon: <FaShieldAlt className="text-4xl" />,
-                title: "Secure Operations",
+                icon: <FaBox className="text-4xl" />,
+                title: "Reliable Fulfillment",
                 description:
-                  "Enhanced security measures protecting your investments",
+                  "Accurate order processing with near-zero error rates for your peace of mind.",
               },
               {
-                icon: <FaHandshake className="text-4xl" />,
-                title: "Expert Support",
+                icon: <FaClock className="text-4xl" />,
+                title: "24/7 Availability",
                 description:
-                  "24/7 professional support from our trading experts",
+                  "Round-the-clock support and tracking to keep you connected to your shipments.",
               },
             ].map((feature, index) => (
               <motion.div
@@ -112,7 +119,7 @@ export default function Products() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.2 }}
               >
-                <div className="text-yellow-400 mb-4 flex justify-center">
+                <div className="text-green-400 mb-4 flex justify-center">
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">
@@ -125,7 +132,7 @@ export default function Products() {
         </div>
       </section>
 
-      {/* Products Grid */}
+      {/* Services Grid */}
       <section className="py-20 px-4 bg-gray-50">
         <div className="container mx-auto">
           <motion.h2
@@ -135,7 +142,7 @@ export default function Products() {
             whileInView="animate"
             viewport={{ once: true }}
           >
-            Trading Products
+            Explore Our Services
           </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
@@ -149,12 +156,18 @@ export default function Products() {
                 transition={{ delay: index * 0.1 }}
               >
                 <div className="p-6 bg-gray-900">
-                  <h3 className="text-2xl font-bold text-yellow-400 mb-2">
+                  <h3 className="text-2xl font-bold text-green-400 mb-2">
                     {service.name}
                   </h3>
                 </div>
                 <div className="p-6">
                   <p className="text-gray-600">{service.description}</p>
+                  <a
+                    href={service.href}
+                    className="mt-4 inline-block text-green-500 font-semibold hover:underline"
+                  >
+                    Learn More
+                  </a>
                 </div>
               </motion.div>
             ))}
@@ -163,7 +176,7 @@ export default function Products() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-yellow-600">
+      <section className="py-20 bg-green-600">
         <div className="container mx-auto px-4 text-center">
           <motion.h2
             className="text-3xl md:text-4xl font-bold text-white mb-6"
@@ -172,7 +185,7 @@ export default function Products() {
             whileInView="animate"
             viewport={{ once: true }}
           >
-            Ready to Start Trading?
+            Ready to Ship with Zetu?
           </motion.h2>
           <motion.p
             className="text-gray-900 mb-8 max-w-2xl mx-auto"
@@ -181,18 +194,19 @@ export default function Products() {
             whileInView="animate"
             viewport={{ once: true }}
           >
-            Join thousands of traders who trust CNC Commodities for their
-            trading needs
+            Partner with us for fast, reliable, and affordable courier services
+            across East Africa
           </motion.p>
-          <motion.button
-            className="px-8 py-3 bg-gray-900 text-gray-100 font-bold rounded-lg hover:bg-yellow-400 transition-colors duration-300"
+          <motion.a
+            href="/contact"
+            className="px-8 py-3 bg-gray-900 text-gray-100 font-bold rounded-lg hover:bg-green-400 transition-colors duration-300"
             variants={fadeInUp}
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
           >
-            Open Account
-          </motion.button>
+            Request a Quote
+          </motion.a>
         </div>
       </section>
     </div>

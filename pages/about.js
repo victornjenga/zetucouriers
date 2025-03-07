@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { motion } from "framer-motion";
-import { FaChartLine, FaHandshake, FaGlobe, FaUserTie } from "react-icons/fa";
+import { FaTruck, FaBox, FaClock, FaGlobe } from "react-icons/fa";
 
 // Animation variants
 const fadeInUp = {
@@ -37,10 +37,10 @@ export default function About() {
       variants={fadeIn}
     >
       <Head>
-        <title>About Us | CNC Commodities</title>
+        <title>About Us | Zetu Couriers</title>
         <meta
           name="description"
-          content="CNC Commodities - Leading commodity derivative trading company in Kenya and East Africa."
+          content="Learn about Zetu Couriers - Your trusted courier and fulfillment partner in East Africa."
         />
       </Head>
 
@@ -56,15 +56,15 @@ export default function About() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            About CNC Commodities
+            About Zetu Couriers
           </motion.h1>
           <motion.p
-            className="text-xl text-yellow-500"
+            className="text-xl text-green-500"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Leading the Future of Commodity Trading
+            Delivering Excellence Across East Africa
           </motion.p>
         </div>
       </motion.section>
@@ -81,28 +81,28 @@ export default function About() {
           >
             {[
               {
-                icon: <FaChartLine className="text-3xl" />,
-                title: "Excellence",
+                icon: <FaTruck className="text-3xl" />,
+                title: "Speed",
                 description:
-                  "Committed to delivering superior trading solutions and market insights",
+                  "Committed to lightning-fast deliveries with same-day and overnight options.",
               },
               {
-                icon: <FaHandshake className="text-3xl" />,
-                title: "Integrity",
+                icon: <FaBox className="text-3xl" />,
+                title: "Reliability",
                 description:
-                  "Operating with transparency and ethical standards in all transactions",
+                  "Ensuring your packages arrive on time with near-zero error rates.",
+              },
+              {
+                icon: <FaClock className="text-3xl" />,
+                title: "Innovation",
+                description:
+                  "Leveraging cutting-edge technology for tracking and fulfillment.",
               },
               {
                 icon: <FaGlobe className="text-3xl" />,
-                title: "Innovation",
+                title: "Reach",
                 description:
-                  "Pioneering advanced trading technologies and market solutions",
-              },
-              {
-                icon: <FaUserTie className="text-3xl" />,
-                title: "Expertise",
-                description:
-                  "Led by experienced professionals in commodity trading",
+                  "Serving Kenya, Uganda, and Tanzania with plans to expand across Africa.",
               },
             ].map((value, index) => (
               <motion.div
@@ -114,7 +114,7 @@ export default function About() {
                 transition={{ duration: 0.2 }}
               >
                 <motion.div
-                  className="text-yellow-500 mb-4"
+                  className="text-green-500 mb-4"
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
@@ -143,17 +143,26 @@ export default function About() {
             className="max-w-4xl mx-auto text-center"
             variants={scaleUp}
           >
-            <h2 className="text-4xl font-bold text-yellow-400 mb-8">
+            <h2 className="text-4xl font-bold text-green-400 mb-8">
               Our Story
             </h2>
             <motion.div className="space-y-6 text-gray-300" variants={fadeInUp}>
               <p className="text-lg leading-relaxed">
-                CNC was established in 2022 and headquartered in Westland's,
-                Nairobi...
+                Founded in 2018 and headquartered in Nairobi, Kenya, Zetu
+                Couriers started as a small logistics provider with a big
+                vision: to transform the courier and fulfillment landscape in
+                East Africa. From our humble beginnings, we’ve grown to serve
+                clients across Kenya, Uganda, and Tanzania, with branches in key
+                cities like Mombasa, Kisumu, and Nakuru.
               </p>
               <p className="text-lg leading-relaxed">
-                Our aim is to become a leading entity in the commodity trading
-                sector...
+                Our mission is to deliver fast, reliable, and affordable
+                solutions that empower businesses and individuals alike. Whether
+                it’s same-day express delivery, secure cash-on-delivery
+                services, or comprehensive warehousing, we’re here to connect
+                supply to demand with powerful logistics technology. With a plan
+                to expand across Africa, Zetu Couriers is committed to being
+                your trusted partner in every shipment.
               </p>
             </motion.div>
           </motion.div>
@@ -179,7 +188,9 @@ export default function About() {
                 Our Vision
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                To be the leading global derivatives brokerage firm...
+                To be the leading courier and fulfillment provider in Africa,
+                delivering unparalleled speed, reliability, and innovation to
+                every corner of the continent.
               </p>
             </motion.div>
 
@@ -195,8 +206,10 @@ export default function About() {
                 Our Mission
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                To empower clients with comprehensive and innovative trading
-                solutions...
+                To empower businesses and individuals with seamless logistics
+                solutions, offering fast deliveries, secure services, and
+                advanced technology that enhances customer satisfaction and
+                reduces turnaround time.
               </p>
             </motion.div>
           </motion.div>
@@ -213,18 +226,20 @@ export default function About() {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl font-bold text-white mb-6">
-            Ready to Start Trading?
+            Ready to Ship with Zetu?
           </h2>
           <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-            Join CNC Commodities and experience the future of commodity trading
+            Partner with Zetu Couriers and experience the future of logistics in
+            East Africa
           </p>
-          <motion.button
-            className="px-8 py-3 bg-yellow-500 text-gray-900 font-bold rounded-lg hover:bg-yellow-400 transition-colors duration-300"
+          <motion.a
+            href="/contact"
+            className="px-8 py-3 bg-green-500 text-gray-900 font-bold rounded-lg hover:bg-green-400 transition-colors duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Get Started
-          </motion.button>
+            Request a Quote
+          </motion.a>
         </motion.div>
       </section>
     </motion.div>

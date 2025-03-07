@@ -193,7 +193,7 @@ td span.active {
 }
 
 td span.pending {
-  @apply bg-yellow-400 text-gray-50 rounded-md p-2 font-extrabold;
+  @apply bg-green-400 text-gray-50 rounded-md p-2 font-extrabold;
 }
 
 /* Dashboard styling */

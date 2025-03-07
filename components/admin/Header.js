@@ -113,7 +113,7 @@ const Navbar = () => {
               <ul className="block space-y-4 pt-5">
                 <li
                   onClick={() => setOpen(false)}
-                  className="font-sm hover:text-orange-600 flex text-lg space-x-2 items-center "
+                  className="font-sm hover:text-green-600 flex text-lg space-x-2 items-center "
                 >
                   <FcHome />
                   <Link href="/admin">Home</Link>
@@ -121,7 +121,7 @@ const Navbar = () => {
 
                 <li
                   onClick={() => setOpen(false)}
-                  className="font-sm hover:text-orange-600 flex text-lg space-x-2 items-center"
+                  className="font-sm hover:text-green-600 flex text-lg space-x-2 items-center"
                 >
                   <FcMultipleInputs />
                   <Link href="/admin/products">Projects</Link>
@@ -130,7 +130,7 @@ const Navbar = () => {
                 {/* New Media Section */}
                 <li
                   onClick={() => setOpen(false)}
-                  className="font-sm hover:text-orange-600 flex text-lg space-x-2 items-center"
+                  className="font-sm hover:text-green-600 flex text-lg space-x-2 items-center"
                 >
                   <FcNews />
                   <Link href="/admin/media">Media</Link>
@@ -138,14 +138,14 @@ const Navbar = () => {
 
                 {/* <li
                   onClick={() => setOpen(false)}
-                  className="font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"
+                  className="font-sm cursor-pointer hover:text-green-600 flex text-xl space-x-2 items-center"
                 >
                   <FcEngineering />
                   <Link href="/admin/settings">Settings</Link>
                 </li> */}
                 <li
                   onClick={handleLogout}
-                  className="font-sm cursor-pointer hover:text-orange-600 flex text-xl space-x-2 items-center"
+                  className="font-sm cursor-pointer hover:text-green-600 flex text-xl space-x-2 items-center"
                 >
                   <IoMdLogOut />
                   <Link href="/admin">Logout</Link>

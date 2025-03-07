@@ -16,11 +16,11 @@ export default function Footer() {
         <div className="mb-6 md:mb-0">
           <h3 className="text-xl font-bold text-white mb-4">About Us</h3>
           <p className="text-gray-400 leading-relaxed">
-            CNC Commodities is a premier commodity trading platform,
-            specializing in agricultural products, derivatives, and
-            comprehensive trading solutions across East Africa. We connect
-            producers and buyers while ensuring market efficiency and
-            transparency.
+            Zetu Couriers is East Africa’s premier courier and fulfillment
+            service, delivering fast, reliable, and affordable solutions. From
+            express deliveries to warehousing, we connect businesses and
+            customers across Kenya, Uganda, and Tanzania with cutting-edge
+            logistics.
           </p>
         </div>
 
@@ -30,33 +30,32 @@ export default function Footer() {
           <ul className="space-y-2">
             <li>
               <a
-                href="/products"
-                className="hover:text-yellow-500 transition-colors duration-300"
+                href="/services"
+                className="hover:text-green-500 transition-colors duration-300"
               >
-                Trading Platform
+                Our Services
               </a>
             </li>
             <li>
               <a
-                href="/products"
-                className="hover:text-yellow-500 transition-colors duration-300"
+                href="/track"
+                className="hover:text-green-500 transition-colors duration-300"
               >
-                Market Insights
+                Track Your Package
               </a>
             </li>
             <li>
               <a
-                href="/products"
-                className="hover:text-yellow-500 transition-colors duration-300"
+                href="/about"
+                className="hover:text-green-500 transition-colors duration-300"
               >
-                Our Products
+                About Us
               </a>
             </li>
-            
             <li>
               <a
                 href="/contact"
-                className="hover:text-yellow-500 transition-colors duration-300"
+                className="hover:text-green-500 transition-colors duration-300"
               >
                 Contact Us
               </a>
@@ -70,28 +69,28 @@ export default function Footer() {
           <div className="flex space-x-6 justify-center lg:justify-start">
             <a
               href="#"
-              className="text-2xl text-gray-400 hover:text-yellow-500 transition duration-300"
+              className="text-2xl text-gray-400 hover:text-green-500 transition duration-300"
               aria-label="Facebook"
             >
               <FaFacebook />
             </a>
             <a
               href="#"
-              className="text-2xl text-gray-400 hover:text-yellow-500 transition duration-300"
+              className="text-2xl text-gray-400 hover:text-green-500 transition duration-300"
               aria-label="Twitter"
             >
               <FaTwitter />
             </a>
             <a
               href="#"
-              className="text-2xl text-gray-400 hover:text-yellow-500 transition duration-300"
+              className="text-2xl text-gray-400 hover:text-green-500 transition duration-300"
               aria-label="Instagram"
             >
               <FaInstagram />
             </a>
             <a
               href="#"
-              className="text-2xl text-gray-400 hover:text-yellow-500 transition duration-300"
+              className="text-2xl text-gray-400 hover:text-green-500 transition duration-300"
               aria-label="YouTube"
             >
               <FaYoutube />
@@ -103,31 +102,28 @@ export default function Footer() {
         <div>
           <h3 className="text-xl font-bold text-white mb-4">Contact Us</h3>
           <p className="text-gray-400 mb-4">
-            Get in touch for trading inquiries and support:
+            Reach out for shipping inquiries and support:
           </p>
           <ul className="space-y-3 text-gray-400">
             <li className="flex items-center">
-              <FaPhone className="mr-2 text-yellow-500" />
-              <span>+254 722 000 000</span>
+              <FaPhone className="mr-2 text-green-500" />
+              <span>+254 709 155 578</span>
             </li>
             <li className="flex items-center">
-              <FaEnvelope className="mr-2 text-yellow-500" />
-              <span>info@cnccommodities.com</span>
+              <FaEnvelope className="mr-2 text-green-500" />
+              <span>info@zetucouriers.co.ke</span>
             </li>
             <li className="flex items-center">
-              <FaMapMarkerAlt className="mr-2 text-yellow-500" />
-              <span>Westlands Business Center, Nairobi, Kenya</span>
+              <FaMapMarkerAlt className="mr-2 text-green-500" />
+              <span>Akshrap Godowns, JKIA Junction, Nairobi, Kenya</span>
             </li>
           </ul>
         </div>
       </div>
 
       {/* Copyright Section */}
-      <div className="border-t border-gray-700 mt-10 pt-6 text-center text-gray-500">
-        <p>
-          &copy; {new Date().getFullYear()} CNC Commodities. All rights
-          reserved.
-        </p>
+      <div className="border-t border-gray-700 mt-10 pt-6 pb-10 text-center text-gray-500">
+        <p>© {new Date().getFullYear()} Zetu Couriers. All rights reserved.</p>
       </div>
     </footer>
   );

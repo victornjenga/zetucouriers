@@ -34,11 +34,14 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-900 text-white shadow-lg z-10 ">
-      <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+      <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-around items-center">
         {/* Logo Section */}
         <div className="text-2xl font-bold">
-          <Link href="/">
+          {/* <Link href="/">
             <img className="h-[40px]" src="/logo.png" alt="/" />
+          </Link> */}
+          <Link href="/">
+            <h2 className="text-2xl font-bold">Zetu Couriers</h2>
           </Link>
         </div>
 
@@ -49,36 +52,44 @@ const Navbar = () => {
             className="focus:outline-none"
             aria-label="Toggle Menu"
           >
-            <FaBars className="w-8 h-8 text-gray-400 hover:text-yellow-500 transition" />
+            <FaBars className="w-8 h-8 text-gray-400 hover:text-green-500 transition" />
           </button>
         </div>
 
         {/* Nav Links (Hidden on Mobile) */}
         <div className="hidden items-center md:flex space-x-8">
           <a
-            href="/home"
-            className="hover:text-yellow-500 transition duration-300"
+            href="/"
+            className="hover:text-green-500 transition duration-300 text-lg font-medium"
           >
             Home
           </a>
           <a
             href="/about"
-            className="hover:text-yellow-500 transition duration-300"
+            className="hover:text-green-500 transition duration-300 text-lg font-medium"
           >
             About
           </a>
           <a
-            href="/products"
-            className="hover:text-yellow-500 transition duration-300"
+            href="/services"
+            className="hover:text-green-500 transition duration-300 text-lg font-medium"
           >
-            Products
+            Services
           </a>
           <a
             href="/contact"
-            className="hover:text-yellow-500 transition duration-300"
+            className="hover:text-green-500 transition duration-300 text-lg font-medium"
           >
             Contact
           </a>
+          <div className="flex items-center space-x-4">
+            <Link
+              href="tel:+2547012345678"
+              className="px-4 py-2 text-green-500 border border-green-500 rounded hover:bg-green-500 hover:text-white transition duration-300"
+            >
+              Call Now
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -90,29 +101,29 @@ const Navbar = () => {
       >
         <Link
           href="/"
-          className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
+          className="flex items-center space-x-2 hover:text-green-500 text-xl transition duration-300"
         >
           <FaHome />
           <span>Home</span>
         </Link>
 
         <Link
-          href="/products"
-          className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
+          href="/services"
+          className="flex items-center space-x-2 hover:text-green-500 text-xl transition duration-300"
         >
           <FaBriefcase />
-          <span>Products</span>
+          <span>Services</span>
         </Link>
         <Link
           href="/about"
-          className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
+          className="flex items-center space-x-2 hover:text-green-500 text-xl transition duration-300"
         >
           <FaNewspaper />
           <span>About</span>
         </Link>
         <Link
           href="/contact"
-          className="flex items-center space-x-2 hover:text-yellow-500 text-xl transition duration-300"
+          className="flex items-center space-x-2 hover:text-green-500 text-xl transition duration-300"
         >
           <FaPhone />
           <span>Contact</span>
@@ -134,32 +145,14 @@ const Navbar = () => {
                 className={
                   "mx-1 sm:mx-2 px-3 sm:px-4 py-2 flex flex-col items-center text-xs border-t-2 transition-all " +
                   (activeLink === "home"
-                    ? "  border-yellow-500 text-yellow-500"
+                    ? "  border-green-500 text-green-500"
                     : " border-transparent")
                 }
               >
                 <FaHome className="w-6 h-6" />
                 Home
               </LinkScroll>
-              <LinkScroll
-                activeClass="active"
-                to="products"
-                spy={true}
-                smooth={true}
-                duration={1000}
-                onSetActive={() => {
-                  setActiveLink("products");
-                }}
-                className={
-                  "mx-1 sm:mx-2 px-3 sm:px-4 py-2 flex flex-col items-center text-xs border-t-2 transition-all " +
-                  (activeLink === "products"
-                    ? "  border-yellow-500 text-yellow-500"
-                    : " border-transparent ")
-                }
-              >
-                <FaBriefcase className="w-6 h-6" />
-                Products
-              </LinkScroll>
+
               <LinkScroll
                 activeClass="active"
                 to="about"
@@ -172,12 +165,31 @@ const Navbar = () => {
                 className={
                   "mx-1 sm:mx-2 px-3 sm:px-4 py-2 flex flex-col items-center text-xs border-t-2 transition-all " +
                   (activeLink === "about"
-                    ? "  border-yellow-500 text-yellow-500"
+                    ? "  border-green-500 text-green-500"
                     : " border-transparent ")
                 }
               >
                 <AiFillMessage className="w-6 h-6" />
                 About
+              </LinkScroll>
+              <LinkScroll
+                activeClass="active"
+                to="services"
+                spy={true}
+                smooth={true}
+                duration={1000}
+                onSetActive={() => {
+                  setActiveLink("services");
+                }}
+                className={
+                  "mx-1 sm:mx-2 px-3 sm:px-4 py-2 flex flex-col items-center text-xs border-t-2 transition-all " +
+                  (activeLink === "services"
+                    ? "  border-green-500 text-green-500"
+                    : " border-transparent ")
+                }
+              >
+                <FaBriefcase className="w-6 h-6" />
+                Services
               </LinkScroll>
               <LinkScroll
                 activeClass="active"
@@ -191,7 +203,7 @@ const Navbar = () => {
                 className={
                   "mx-1 sm:mx-2 px-3 sm:px-4 py-2 flex flex-col items-center text-xs border-t-2 transition-all " +
                   (activeLink === "reviews"
-                    ? "  border-yellow-500 text-yellow-500"
+                    ? "  border-green-500 text-green-500"
                     : " border-transparent ")
                 }
               >
