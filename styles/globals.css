@@ -26,12 +26,6 @@
   -ms-overflow-x: hidden; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
-#services {
-  width: 100%;
-  padding: 8rem 0;
-
-  clip-path: polygon(0 0, 100% 10%, 100% 100%, 0% 90%);
-}
 
 .feedback-gradient {
   position: absolute;
