@@ -71,7 +71,7 @@ const Navbar = () => {
             About
           </a>
           <a
-            href="/services"
+            href="/products"
             className="hover:text-green-500 transition duration-300 text-lg font-medium"
           >
             Services
@@ -108,7 +108,7 @@ const Navbar = () => {
         </Link>
 
         <Link
-          href="/services"
+          href="/products"
           className="flex items-center space-x-2 hover:text-green-500 text-xl transition duration-300"
         >
           <FaBriefcase />
