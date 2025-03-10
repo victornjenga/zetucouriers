@@ -1,5 +1,9 @@
 import Head from "next/head";
 import { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper"; // Import Swiper modules
+import "swiper/css"; // Swiper core styles
+import "swiper/css/pagination"; // Pagination styles
 import {
   FaArrowDown,
   FaTruck,
@@ -11,24 +15,28 @@ import {
 } from "react-icons/fa";
 
 export default function Home() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
 
   const testimonials = [
     {
       text: "Zetu Couriers has revolutionized our e-commerce delivery process with their lightning-fast service and reliable tracking.",
       name: "Mary Kamau, E-commerce Store Owner",
+      image: "/mary-kamau.jpg", // Placeholder image
     },
     {
       text: "Their cash-on-delivery service has made transactions seamless for our customers across East Africa.",
       name: "John Mwangi, Retail Manager",
+      image: "/john-mwangi.jpg", // Placeholder image
     },
     {
       text: "Zetu’s warehousing and fulfillment solutions have saved us time and boosted customer satisfaction.",
       name: "Fatima Ali, Logistics Coordinator",
+      image: "/fatima-ali.jpg", // Placeholder image
     },
     {
       text: "The express courier service is a game-changer—same-day delivery has never been this easy!",
       name: "Peter Okoth, Small Business Owner",
+      image: "/peter-okoth.jpg", // Placeholder image
     },
   ];
 
@@ -77,11 +85,11 @@ export default function Home() {
     },
   ];
 
-  const nextSlide = () =>
-    setActiveIndex((activeIndex + 1) % testimonials.length);
-  const prevSlide = () =>
-    setActiveIndex(
-      (activeIndex - 1 + testimonials.length) % testimonials.length
+  const nextTestimonial = () =>
+    setTestimonialIndex((testimonialIndex + 1) % testimonials.length);
+  const prevTestimonial = () =>
+    setTestimonialIndex(
+      (testimonialIndex - 1 + testimonials.length) % testimonials.length
     );
 
   return (
@@ -90,55 +98,148 @@ export default function Home() {
         <title>Zetu Couriers | East Africa's Premier Courier Service</title>
       </Head>
 
-      {/* Hero Section with Parallax */}
-      <section
-        id="home"
-        className="relative bg-fixed bg-center bg-cover flex flex-col items-center justify-center text-center overflow-hidden"
-        style={{
-          backgroundImage: `url('/courier-hero.jpg')`,
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
-
-        <div className="absolute inset-0">
-          <div className="absolute top-10 left-10 w-32 h-32 border-2 border-green-500/20 rounded-full animate-spin-slow"></div>
-          <div className="absolute bottom-10 right-10 w-40 h-40 border-2 border-green-500/20 rounded-full animate-spin-slow-reverse"></div>
-          <div className="absolute top-1/3 right-1/4 w-24 h-24 border-2 border-green-500/20 rounded-full animate-pulse"></div>
-        </div>
-
-        <div className="relative z-10 container mx-auto px-4 space-y-8">
-          <div className="animate-fadeInDown">
-            <span className="inline-block px-4 py-1 bg-green-500 text-gray-900 text-sm font-bold rounded-full mb-4 transform hover:scale-105 transition-transform">
-              Welcome to Zetu Couriers
-            </span>
-          </div>
-
-          <h1 className="text-5xl md:text-7xl font-extrabold animate-fadeInDown text-transparent bg-clip-text bg-gradient-to-r from-white via-green-100 to-white leading-tight">
-            East Africa's Premier <br />
-            <span className="text-green-500">Courier Service</span>
-          </h1>
-
-          <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto animate-fadeInUp font-light">
-            Fast, reliable, and affordable courier and fulfillment solutions
-          </p>
-
-          <div className="flex flex-col sm:flex-row justify-center  gap-4 transform -translate-x-1/2 animate-bounce bottom-10">
-            <a
-              href="/about"
-              className="px-8 py-4 bg-transparent text-white border-2 border-white rounded-lg font-bold text-lg hover:bg-white/10 transform hover:scale-105 transition-all duration-300"
+      {/* Hero Section Slider with Swiper */}
+      <section id="home" className="relative  overflow-hidden">
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          pagination={{ clickable: true }}
+          loop={true}
+          className="h-full"
+        >
+          {/* Slide 1 */}
+          <SwiperSlide>
+            <div
+              className="relative bg-fixed bg-center bg-cover flex flex-col items-center justify-center text-center "
+              style={{ backgroundImage: `url('/courier-hero.jpg')` }}
             >
-              Learn More
-            </a>
-            <a
-              href="/track"
-              className="px-8 py-4 bg-green-500 text-gray-900 rounded-lg font-bold text-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-300"
-            >
-              Contact Us
-            </a>
-          </div>
+              <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
+              <div className="absolute inset-0">
+                <div className="absolute top-10 left-10 w-32 h-32 border-2 border-green-500/20 rounded-full animate-spin-slow"></div>
+                <div className="absolute bottom-10 right-10 w-40 h-40 border-2 border-green-500/20 rounded-full animate-spin-slow-reverse"></div>
+                <div className="absolute top-1/3 right-1/4 w-24 h-24 border-2 border-green-500/20 rounded-full animate-pulse"></div>
+              </div>
+              <div className="relative z-10 container mx-auto px-4 space-y-8">
+                <div className="animate-fadeInDown">
+                  <span className="inline-block px-4 py-1 bg-green-500 text-gray-900 text-sm font-bold rounded-full mb-4 transform hover:scale-105 transition-transform">
+                    Welcome to Zetu Couriers
+                  </span>
+                </div>
+                <h1 className="text-5xl md:text-7xl font-extrabold animate-fadeInDown text-transparent bg-clip-text bg-gradient-to-r from-white via-green-100 to-white leading-tight">
+                  East Africa's Premier <br />
+                  <span className="text-green-500">Courier Service</span>
+                </h1>
+                <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto animate-fadeInUp font-light">
+                  Fast, reliable, and affordable courier and fulfillment
+                  solutions
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4 transform animate-bounce">
+                  <a
+                    href="/about"
+                    className="px-8 py-4 bg-transparent text-white border-2 border-white rounded-lg font-bold text-lg hover:bg-white/10 transform hover:scale-105 transition-all duration-300"
+                  >
+                    Learn More
+                  </a>
+                  <a
+                    href="/track"
+                    className="px-8 py-4 bg-green-500 text-gray-900 rounded-lg font-bold text-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-300"
+                  >
+                    Contact Us
+                  </a>
+                </div>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-gray-50 to-transparent"></div>
+            </div>
+          </SwiperSlide>
 
-          <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-gray-50 to-transparent"></div>
-        </div>
+          {/* Slide 2 */}
+          <SwiperSlide>
+            <div
+              className="relative bg-fixed bg-center bg-cover flex flex-col items-center justify-center text-center "
+              style={{ backgroundImage: `url('/express-courier.jpg')` }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
+              <div className="absolute inset-0">
+                <div className="absolute top-10 left-10 w-32 h-32 border-2 border-green-500/20 rounded-full animate-spin-slow"></div>
+                <div className="absolute bottom-10 right-10 w-40 h-40 border-2 border-green-500/20 rounded-full animate-spin-slow-reverse"></div>
+                <div className="absolute top-1/3 right-1/4 w-24 h-24 border-2 border-green-500/20 rounded-full animate-pulse"></div>
+              </div>
+              <div className="relative z-10 container mx-auto px-4 space-y-8">
+                <div className="animate-fadeInDown">
+                  <span className="inline-block px-4 py-1 bg-green-500 text-gray-900 text-sm font-bold rounded-full mb-4 transform hover:scale-105 transition-transform">
+                    Lightning-Fast Delivery
+                  </span>
+                </div>
+                <h1 className="text-5xl md:text-7xl font-extrabold animate-fadeInDown text-transparent bg-clip-text bg-gradient-to-r from-white via-green-100 to-white leading-tight">
+                  Express Courier <br />
+                  <span className="text-green-500">Across East Africa</span>
+                </h1>
+                <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto animate-fadeInUp font-light">
+                  Same-day and overnight options for your urgent needs
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4 transform animate-bounce">
+                  <a
+                    href="/services"
+                    className="px-8 py-4 bg-transparent text-white border-2 border-white rounded-lg font-bold text-lg hover:bg-white/10 transform hover:scale-105 transition-all duration-300"
+                  >
+                    Explore Services
+                  </a>
+                  <a
+                    href="/contact"
+                    className="px-8 py-4 bg-green-500 text-gray-900 rounded-lg font-bold text-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-300"
+                  >
+                    Get a Quote
+                  </a>
+                </div>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-gray-50 to-transparent"></div>
+            </div>
+          </SwiperSlide>
+
+          {/* Slide 3 */}
+          <SwiperSlide>
+            <div
+              className="relative bg-fixed bg-center bg-cover flex flex-col items-center justify-center text-center "
+              style={{ backgroundImage: `url('/order-fulfillment.jpg')` }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
+              <div className="absolute inset-0">
+                <div className="absolute top-10 left-10 w-32 h-32 border-2 border-green-500/20 rounded-full animate-spin-slow"></div>
+                <div className="absolute bottom-10 right-10 w-40 h-40 border-2 border-green-500/20 rounded-full animate-spin-slow-reverse"></div>
+                <div className="absolute top-1/3 right-1/4 w-24 h-24 border-2 border-green-500/20 rounded-full animate-pulse"></div>
+              </div>
+              <div className="relative z-10 container mx-auto px-4 space-y-8">
+                <div className="animate-fadeInDown">
+                  <span className="inline-block px-4 py-1 bg-green-500 text-gray-900 text-sm font-bold rounded-full mb-4 transform hover:scale-105 transition-transform">
+                    Seamless Fulfillment
+                  </span>
+                </div>
+                <h1 className="text-5xl md:text-7xl font-extrabold animate-fadeInDown text-transparent bg-clip-text bg-gradient-to-r from-white via-green-100 to-white leading-tight">
+                  Order Fulfillment <br />
+                  <span className="text-green-500">Made Simple</span>
+                </h1>
+                <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto animate-fadeInUp font-light">
+                  From warehousing to delivery, we’ve got you covered
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4 transform animate-bounce">
+                  <a
+                    href="/services"
+                    className="px-8 py-4 bg-transparent text-white border-2 border-white rounded-lg font-bold text-lg hover:bg-white/10 transform hover:scale-105 transition-all duration-300"
+                  >
+                    Learn More
+                  </a>
+                  <a
+                    href="/contact"
+                    className="px-8 py-4 bg-green-500 text-gray-900 rounded-lg font-bold text-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-300"
+                  >
+                    Contact Us
+                  </a>
+                </div>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-gray-50 to-transparent"></div>
+            </div>
+          </SwiperSlide>
+        </Swiper>
       </section>
 
       {/* Why Choose Us Section */}
@@ -304,7 +405,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Testimonials Section with Profile Pics */}
       <section id="reviews" className="py-16">
         <div className="container mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12">
@@ -313,23 +414,28 @@ export default function Home() {
           <div className="relative">
             <div className="flex justify-center items-center space-x-4">
               <button
-                onClick={prevSlide}
+                onClick={prevTestimonial}
                 className="p-2 bg-green-500 rounded-full text-white hover:bg-green-600 transition-colors"
               >
                 ‹
               </button>
               <div className="w-2/3">
                 <div className="text-center p-8 bg-gray-50 shadow-lg rounded-lg">
+                  <img
+                    src={testimonials[testimonialIndex].image}
+                    alt={testimonials[testimonialIndex].name}
+                    className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                  />
                   <p className="text-lg text-gray-700 mb-4 italic">
-                    "{testimonials[activeIndex].text}"
+                    "{testimonials[testimonialIndex].text}"
                   </p>
                   <p className="text-lg font-semibold">
-                    - {testimonials[activeIndex].name}
+                    - {testimonials[testimonialIndex].name}
                   </p>
                 </div>
               </div>
               <button
-                onClick={nextSlide}
+                onClick={nextTestimonial}
                 className="p-2 bg-green-500 rounded-full text-white hover:bg-green-600 transition-colors"
               >
                 ›
