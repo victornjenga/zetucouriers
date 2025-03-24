@@ -29,7 +29,7 @@ export default function Home() {
       image: "/john-mwangi.jpg", // Placeholder image
     },
     {
-      text: "Zetu’s warehousing and fulfillment solutions have saved us time and boosted customer satisfaction.",
+      text: "Zetu's warehousing and fulfillment solutions have saved us time and boosted customer satisfaction.",
       name: "Fatima Ali, Logistics Coordinator",
       image: "/fatima-ali.jpg", // Placeholder image
     },
@@ -219,7 +219,7 @@ export default function Home() {
                   <span className="text-green-500">Made Simple</span>
                 </h1>
                 <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto animate-fadeInUp font-light">
-                  From warehousing to delivery, we’ve got you covered
+                  From warehousing to delivery, we've got you covered
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4 transform animate-bounce">
                   <a
@@ -328,6 +328,74 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Mission, Vision, and Values Section */}
+      <section className="py-20 px-4 sm:px-6 bg-white">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Mission & Vision */}
+            <div className="space-y-12">
+              {/* Mission */}
+              <div className="bg-gray-50 p-8 rounded-lg shadow-lg">
+                <h3 className="text-3xl font-bold text-gray-800 mb-4">Our Mission</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  At Zetu Courier, our mission is to redefine logistics and fulfillment in Kenya by offering fast, reliable, and cost-effective courier services designed to meet the evolving needs of businesses and individuals. We are dedicated to harnessing innovative technology, delivering exceptional customer experiences, and adopting sustainable practices to provide end-to-end solutions that drive efficiency and growth for our clients.
+                </p>
+              </div>
+              
+              {/* Vision */}
+              <div className="bg-gray-50 p-8 rounded-lg shadow-lg">
+                <h3 className="text-3xl font-bold text-gray-800 mb-4">Our Vision</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  To be the most trusted and innovative courier and fulfillment partner in Kenya, setting the standard for speed, reliability, and customer satisfaction. We envision a future where Zetu Courier empowers businesses and individuals to connect, grow, and succeed by providing seamless logistics solutions that bridge distances and create opportunities.
+                </p>
+              </div>
+            </div>
+
+            {/* Values */}
+            <div className="bg-gray-50 p-8 rounded-lg shadow-lg">
+              <h3 className="text-3xl font-bold text-gray-800 mb-6">Our Values</h3>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="bg-green-500 p-3 rounded-full">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-800 mb-2">Customer-Centricity</h4>
+                    <p className="text-gray-600">We prioritize our customers' needs above all else, delivering tailored solutions and exceptional service to build lasting relationships and trust.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="bg-green-500 p-3 rounded-full">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-800 mb-2">Reliability</h4>
+                    <p className="text-gray-600">We are committed to consistency and dependability in every delivery, ensuring that our clients can count on us to meet their logistics needs with precision and care.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="bg-green-500 p-3 rounded-full">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-800 mb-2">Innovation</h4>
+                    <p className="text-gray-600">We embrace technology and creative thinking to continuously improve our services, streamline operations, and stay ahead in a competitive industry.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
       <section
         id="services"
@@ -373,7 +441,7 @@ export default function Home() {
               Real-Time Package Tracking
             </h2>
             <p className="text-gray-400 text-lg">
-              Stay updated on your shipment’s journey
+              Stay updated on your shipment's journey
             </p>
           </div>
 

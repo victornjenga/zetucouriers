@@ -13,37 +13,37 @@ const services = [
   {
     name: "Express Courier",
     description:
-      "Same-day, scheduled, and overnight delivery services to meet your urgent needs with speed and reliability.",
+      "Fast, reliable delivery options including express, same-day, special, and next-day services. Perfect for time-sensitive documents, fragile items, or urgent shipments, with nationwide reach across Kenya, Tanzania, and Zambia.",
     href: "/services/express-courier",
   },
   {
     name: "Cash on Delivery",
     description:
-      "Secure and convenient payment collection upon delivery, widely used across East Africa.",
+      "Secure payment collection upon delivery with highly trained agents who act as brand ambassadors, offering sales support at the doorstep to enhance trust and grow your business across East Africa.",
     href: "/services/cash-on-delivery",
   },
   {
     name: "Order Fulfillment",
     description:
-      "From picking and packing to shipping, we ensure your orders reach customers accurately and on time.",
+      "End-to-end logistics including product handling, dropshipping, call center support, and custom packaging, ensuring accurate and timely delivery while reducing costs and complexity.",
     href: "/services/order-fulfillment",
   },
   {
     name: "Warehousing",
     description:
-      "Flexible short-term and long-term storage solutions with advanced warehouse management.",
+      "Secure, scalable storage with climate-controlled options and real-time inventory management, strategically located across Kenya, Tanzania, and Zambia to optimize your supply chain.",
     href: "/services/warehousing",
   },
   {
     name: "Medical Courier",
     description:
-      "Specialized transport for pharmaceuticals and medical items, adhering to strict regulations.",
+      "Specialized transport for medical supplies, lab samples, and temperature-sensitive items, adhering to strict healthcare standards with 24/7 availability for critical deliveries.",
     href: "/services/medical-courier",
   },
   {
     name: "Packaging Services",
     description:
-      "Comprehensive packaging solutions to ensure your items are secure and ready for transit.",
+      "Custom, secure, and eco-friendly packaging solutions for fragile, temperature-sensitive, or bulk items, designed to protect your products and reflect your brand’s identity.",
     href: "/services/packaging",
   },
 ];
@@ -162,12 +162,6 @@ export default function Services() {
                 </div>
                 <div className="p-6">
                   <p className="text-gray-600">{service.description}</p>
-                  <a
-                    href={service.href}
-                    className="mt-4 inline-block text-green-500 font-semibold hover:underline"
-                  >
-                    Learn More
-                  </a>
                 </div>
               </motion.div>
             ))}
