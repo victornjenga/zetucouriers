@@ -37,12 +37,12 @@ const Navbar = () => {
       <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-around items-center">
         {/* Logo Section */}
         <div className="text-2xl font-bold">
-          {/* <Link href="/">
-            <img className="h-[40px]" src="/logo.png" alt="/" />
-          </Link> */}
           <Link href="/">
-            <h2 className="text-2xl font-bold">Zetu Couriers</h2>
+            <img className="h-[40px]" src="/logo.png" alt="/" />
           </Link>
+          {/* <Link href="/">
+            <h2 className="text-2xl font-bold">Zetu Couriers</h2>
+          </Link> */}
         </div>
 
         {/* Mobile Menu Button */}

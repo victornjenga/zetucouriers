@@ -239,8 +239,98 @@ export default function Home() {
               <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-gray-50 to-transparent"></div>
             </div>
           </SwiperSlide>
+
+          {/* Slide 4 */}
+          <SwiperSlide>
+            <div
+              className="relative bg-fixed bg-center bg-cover flex flex-col items-center justify-center text-center "
+              style={{ backgroundImage: `url('/zambia.jpg')` }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
+              <div className="absolute inset-0">
+                <div className="absolute top-10 left-10 w-32 h-32 border-2 border-green-500/20 rounded-full animate-spin-slow"></div>
+                <div className="absolute bottom-10 right-10 w-40 h-40 border-2 border-green-500/20 rounded-full animate-spin-slow-reverse"></div>
+                <div className="absolute top-1/3 right-1/4 w-24 h-24 border-2 border-green-500/20 rounded-full animate-pulse"></div>
+              </div>
+              <div className="relative z-10 container mx-auto px-4 space-y-8">
+                <div className="animate-fadeInDown">
+                  <span className="inline-block px-4 py-1 bg-green-500 text-gray-900 text-sm font-bold rounded-full mb-4 transform hover:scale-105 transition-transform">
+                    Integrated Warehousing
+                  </span>
+                </div>
+                <h1 className="text-5xl md:text-7xl font-extrabold animate-fadeInDown text-transparent bg-clip-text bg-gradient-to-r from-white via-green-100 to-white leading-tight">
+                  Smart Storage <br />
+                  <span className="text-green-500">Across the Region</span>
+                </h1>
+                <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto animate-fadeInUp font-light">
+                  Climate-controlled warehouses and inventory management tailored for your business.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4 transform animate-bounce">
+                  <a
+                    href="/services"
+                    className="px-8 py-4 bg-transparent text-white border-2 border-white rounded-lg font-bold text-lg hover:bg-white/10 transform hover:scale-105 transition-all duration-300"
+                  >
+                    Warehouse Services
+                  </a>
+                  <a
+                    href="/contact"
+                    className="px-8 py-4 bg-green-500 text-gray-900 rounded-lg font-bold text-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-300"
+                  >
+                    Request Consultation
+                  </a>
+                </div>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-gray-50 to-transparent"></div>
+            </div>
+          </SwiperSlide>
+
+          {/* Slide 5 */}
+          <SwiperSlide>
+            <div
+              className="relative bg-fixed bg-center bg-cover flex flex-col items-center justify-center text-center "
+              style={{ backgroundImage: `url('/dodoma.jpg')` }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
+              <div className="absolute inset-0">
+                <div className="absolute top-10 left-10 w-32 h-32 border-2 border-green-500/20 rounded-full animate-spin-slow"></div>
+                <div className="absolute bottom-10 right-10 w-40 h-40 border-2 border-green-500/20 rounded-full animate-spin-slow-reverse"></div>
+                <div className="absolute top-1/3 right-1/4 w-24 h-24 border-2 border-green-500/20 rounded-full animate-pulse"></div>
+              </div>
+              <div className="relative z-10 container mx-auto px-4 space-y-8">
+                <div className="animate-fadeInDown">
+                  <span className="inline-block px-4 py-1 bg-green-500 text-gray-900 text-sm font-bold rounded-full mb-4 transform hover:scale-105 transition-transform">
+                    Real-Time Tracking
+                  </span>
+                </div>
+                <h1 className="text-5xl md:text-7xl font-extrabold animate-fadeInDown text-transparent bg-clip-text bg-gradient-to-r from-white via-green-100 to-white leading-tight">
+                  Visibility For <br />
+                  <span className="text-green-500">Every Delivery</span>
+                </h1>
+                <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto animate-fadeInUp font-light">
+                  Monitor shipments end-to-end with automated updates and proactive alerts.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4 transform animate-bounce">
+                  <a
+                    href="/track"
+                    className="px-8 py-4 bg-transparent text-white border-2 border-white rounded-lg font-bold text-lg hover:bg-white/10 transform hover:scale-105 transition-all duration-300"
+                  >
+                    Track Shipment
+                  </a>
+                  <a
+                    href="/contact"
+                    className="px-8 py-4 bg-green-500 text-gray-900 rounded-lg font-bold text-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-300"
+                  >
+                    Talk to Support
+                  </a>
+                </div>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-gray-50 to-transparent"></div>
+            </div>
+          </SwiperSlide>
         </Swiper>
       </section>
+
+      
 
       {/* Why Choose Us Section */}
       <section id="about" className="py-16 px-4 sm:px-6 bg-gray-50">
@@ -328,6 +418,36 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Branch Network Banner */}
+      <section className="bg-gray-900 text-white py-8">
+        <div className="container mx-auto px-4 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-10">
+          <div className="w-full lg:w-auto text-center lg:text-left space-y-3">
+            <p className="text-xs uppercase tracking-[0.4em] text-green-400 font-semibold">
+              Branch Network
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold">
+              Serving Kenya, Tanzania, and Zambia
+            </h2>
+            <p className="text-gray-300 text-sm md:text-base max-w-xl mx-auto lg:mx-0">
+              Strategic regional hubs ensure fast turnarounds, local expertise, and seamless cross-border logistics.
+            </p>
+          </div>
+          <div className="w-full lg:w-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+              <span className="px-4 py-3 bg-white/10 rounded-full backdrop-blur text-center">
+                Nairobi, Kenya
+              </span>
+              <span className="px-4 py-3 bg-white/10 rounded-full backdrop-blur text-center">
+                Dar es Salaam, Tanzania
+              </span>
+              <span className="px-4 py-3 bg-white/10 rounded-full backdrop-blur text-center">
+                Lusaka, Zambia
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+      
       {/* Mission, Vision, and Values Section */}
       <section className="py-20 px-4 sm:px-6 bg-white">
         <div className="container mx-auto">

@@ -107,7 +107,7 @@ export default function Footer() {
           <ul className="space-y-3 text-gray-400">
             <li className="flex items-center">
               <FaPhone className="mr-2 text-green-500" />
-              <span>+254 709 155 578</span>
+              <span>+254706118011</span>
             </li>
             <li className="flex items-center">
               <FaEnvelope className="mr-2 text-green-500" />
@@ -115,7 +115,7 @@ export default function Footer() {
             </li>
             <li className="flex items-center">
               <FaMapMarkerAlt className="mr-2 text-green-500" />
-              <span>Akshrap Godowns, JKIA Junction, Nairobi, Kenya</span>
+              <span>Ngara Nairobi, Kenya</span>
             </li>
           </ul>
         </div>
