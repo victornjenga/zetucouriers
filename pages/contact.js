@@ -74,7 +74,11 @@ export default function Contact() {
                 info: ["Monday - Saturday", "8:00 AM - 5:00 PM EAT"],
                 action: null,
               },
-            ].map((item, index) => (
+            ].map((item, index) => {
+              const infoLines = Array.isArray(item.info)
+                ? item.info
+                : [item.info];
+              return (
               <motion.div
                 key={index}
                 className="bg-gray-50 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
@@ -88,7 +92,7 @@ export default function Contact() {
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
                   {item.title}
                 </h3>
-                {item.info.map((line, i) => (
+                {infoLines.map((line, i) => (
                   <p key={i} className="text-gray-600">
                     {item.action ? (
                       <a href={item.action} className="hover:text-green-500">
@@ -100,7 +104,8 @@ export default function Contact() {
                   </p>
                 ))}
               </motion.div>
-            ))}
+            );
+            })}
           </div>
         </div>
       </section>
