@@ -53,7 +53,7 @@ export default function Contact() {
               {
                 icon: <FaPhoneAlt className="text-3xl" />,
                 title: "Phone",
-                info: ["+254 709 155 578", "+254 743 225 930"],
+                info: "+254706118011",
                 action: "tel:+254709155578",
               },
               {
