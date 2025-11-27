@@ -65,7 +65,7 @@ export default function Contact() {
               {
                 icon: <FaMapMarkerAlt className="text-3xl" />,
                 title: "Location",
-                info: ["Akshrap Godowns, JKIA Junction", "Nairobi, Kenya"],
+                info: [Ngara, Chambers road", "Nairobi, Kenya"],
                 action: "#map",
               },
               {
